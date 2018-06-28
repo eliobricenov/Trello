@@ -14,7 +14,7 @@ form.addEventListener('submit', e=>{
      title: 'Processing data..'
 	});
 	swal.showLoading();
-	fetch('http://localhost:8080/Trello/Login3', config)
+	fetch('http://localhost:8080/Trello/Login', config)
 	.then(response=>{
 		return response.json();
 	}).then(r=>{

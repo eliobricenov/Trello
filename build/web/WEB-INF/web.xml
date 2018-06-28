@@ -10,7 +10,7 @@
     </servlet>
     <servlet>
         <servlet-name>Login3</servlet-name>
-        <servlet-class>eebv.org.Login3</servlet-class>
+        <servlet-class>eebv.org.Login</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUp</servlet-name>

@@ -7,6 +7,12 @@ package eebv.org;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -14,10 +20,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 /**
  *
  * @author Mariela
@@ -36,10 +42,7 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-           
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,21 +71,37 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-       PrintWriter w = response.getWriter();
-       JSONObject r = new JSONObject();
+        JSONObject r = new JSONObject();
+        PrintWriter p = response.getWriter();
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            //se crea conexion a bbdd
-            DBManager db = new DBManager();
-            //se extraen datos del json
             String email = data.getString("email");
-            
-            String password = data.getString("password");
-            
+            String pass = data.getString("password");
+            DBManager db = new DBManager();
+            User u = db.getUser(email);
+            HttpSession ses = request.getSession(true);
+            if(db.userExists(email)){
+               if(db.checkPassword(email, pass)){
+                   r.put("status", 200);
+                   ses.setAttribute("user", u);
+               }else{
+                   r.put("status", 403);
+               }
+            }else{
+                 r.put("status", 409);
+                 ses.invalidate();
+            }
         } catch (Exception ex) {
+            try {
+                r.put("status", 500);
+                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JSONException ex1) {
+                
+                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             ex.printStackTrace();
         }
+        p.print(r);
     }
 
     /**
