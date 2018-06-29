@@ -4,17 +4,40 @@
     <title>Jellio Board</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="ASSETS/css/materialize.min.css">
+    <style type="text/css" media="screen">
+        .loader{
+            position: absolute;
+            top :0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="page"></div>
+    <div id="page">
+        <div class="preloader-wrapper big active loader" id="loader" >
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- MODALS -->
     <div id="modal1" class="modal">
         <div class="modal-content">
             <h1>My Modal</h1>
         </div>
     </div>
-
     <script src="ASSETS/js/jquery.min.js"></script>
     <script src="ASSETS/js/materialize.min.js"></script>
     <script src="ASSETS/js/customFetch.js"></script>
@@ -22,6 +45,7 @@
     <script>
         $(document).ready(function() {
             $('.modal').modal();
+            $('#loader').fadeOut(500, function(){ $('#loader').remove(); } );
         });
     </script>
 </body>

@@ -77,7 +77,7 @@ public class GetData extends HttpServlet {
         JSONObject r = new JSONObject();
         JSONObject data = new JSONObject();
         PrintWriter p = response.getWriter();
-        if (request.getSession(false) != null) {
+        if (request.getSession(true) != null) {
             User u = (User) request.getSession(false).getAttribute("user");
             try {
                 if (u != null) {
@@ -91,7 +91,7 @@ public class GetData extends HttpServlet {
                     data.put("timestamp", u.getTimestamp());
                     r.put("data", data);
                 } else {
-                    r.put("status", 404);
+                    r.put("status", 4032);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,7 +99,7 @@ public class GetData extends HttpServlet {
             }
         }else{
             try {
-                r.put("status", 404);
+                r.put("status", 4042);
             } catch (JSONException ex) {
                 Logger.getLogger(GetData.class.getName()).log(Level.SEVERE, null, ex);
             }
