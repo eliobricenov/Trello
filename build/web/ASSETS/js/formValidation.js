@@ -17,7 +17,7 @@
 				});
 		}
 		json["data"] = data;
-		return JSON.stringify(data);
+		return data;
 	}
 
 	$.fn.checkInputs = function(){

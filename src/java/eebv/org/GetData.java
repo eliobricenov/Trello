@@ -77,8 +77,8 @@ public class GetData extends HttpServlet {
         JSONObject r = new JSONObject();
         JSONObject data = new JSONObject();
         PrintWriter p = response.getWriter();
-        if (request.getSession(true) != null) {
-            User u = (User) request.getSession(false).getAttribute("user");
+        if (request.getSession()!= null) {
+            User u = (User) request.getSession().getAttribute("user");
             try {
                 if (u != null) {
                     r.put("status", 200);

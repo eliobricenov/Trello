@@ -79,7 +79,7 @@ public class Login extends HttpServlet {
             String pass = data.getString("password");
             DBManager db = new DBManager();
             User u = db.getUser(email);
-            HttpSession ses = request.getSession(true);
+            HttpSession ses = request.getSession();
             if(db.userExists(email)){
                if(db.checkPassword(email, pass)){
                    r.put("status", 200);

@@ -1,33 +1,16 @@
 let container = document.querySelector('div#page');
 
-// customFetch("", "POST", "http://localhost:8080/Trello/GetData")
-// .then(res=>{
-// 	if(res.status !== 200){
-// 		renderNavBar("default");
-// 		renderFloatingButton();
-// 	}else{
-// 		renderNavBar(res.data.name);
-// 		renderFloatingButton();
-// 	}
-// }).catch(err=>{console.log(err)});
-let data = "";
-let datajson = {
-	method: 'POST',
-	body: JSON.stringify(data),
-	withCredentials: true,
-	credentials: 'same-origin',
-	headers: {
-		"Content-Type" : "application/json"
+customFetch("", "POST", "http://localhost:8080/Trello/GetData")
+.then(res=>{
+	if(res.status !== 200){
+		renderNavBar("default");
+		renderFloatingButton();
+	}else{
+		renderNavBar(res.data.name);
+		renderFloatingButton();
 	}
-};
+}).catch(err=>{console.log(err)});
 
-fetch("http://localhost:8080/Trello/GetData", datajson)
-.then((res) => res.json())
-.then((data) => {
-	console.log(data);
-})
-.catch((err) => {
-});
 
 function renderNavBar(username) {
 	//tag creation (first in, first out)
@@ -47,7 +30,7 @@ function renderNavBar(username) {
 }
 
 function renderFloatingButton(){
-	//tag creation (first in, last out)
+	//tag creation 
 	let mainDiv = document.createElement("div"); 
 	let mainB = document.createElement("a");
 	let create_icon = document.createElement("i"); 
