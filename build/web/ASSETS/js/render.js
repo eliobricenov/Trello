@@ -1,28 +1,16 @@
 let container = document.querySelector('div#page');
-if(sessionStorage.email){
-	email = sessionStorage.email
-	let config = {
-		method : "POST",
-		headers: {
-			"Content-Type" : "application/json"
-		},
-		body : sessionStorage.email
-	};
-	fetch('http://localhost:8080/MySQL/GetData', config)
-	.then(r=>{
-		return r.json(r.name);
-	}).then(r=>{
-		sessionStorage.username = r.username;
-		sessionStorage.name = r.name;
-		renderNavBar(sessionStorage.username);
+
+customFetch("", "POST", "http://localhost:8080/Trello/GetData")
+.then(res=>{
+	if(res.status !== 200){
+		renderNavBar("default");
 		renderFloatingButton();
-	}).catch(e=>{
-		console.log(e);
-	});
-}else{
-	renderNavBar('Default');
-	renderFloatingButton();
-}
+	}else{
+		renderNavBar(res.data.name);
+		renderFloatingButton();
+	}
+}).catch(err=>{console.log(err)});
+
 
 function renderNavBar(username) {
 	//tag creation (first in, first out)

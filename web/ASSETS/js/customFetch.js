@@ -1,23 +1,26 @@
-function customFetch(data, method, url, cb) {
+
+//returns json from server
+function customFetch(data, method, url) {
     switch (method) {
-        case 'GET':
-            {
+        case 'GET': { 
+            return new Promise((resolve, reject)=>{
                 fetch(url, {
                     method: 'GET'
                 })
                 .then((res) => res.json())
-                .then((data) => {
-                    cb(data);
+                .then((d) => {
+                    resolve(d);
                 })
                 .catch((err) => {
-                    alert('Error while request...' + err.message);
+                    reject(err);
                 })
-                break;
-            }
-
+            })
+        }
+        break;
         case 'POST':
-            {
-                let datajson = {
+        {
+            return new Promise((resolve, reject)=>{
+              let datajson = {
                     method: 'POST',
                     body: JSON.stringify(data),
                     withCredentials: true,
@@ -25,17 +28,18 @@ function customFetch(data, method, url, cb) {
                     headers: {
                         "Content-Type" : "application/json"
                     }
-                };
+                };  
                 fetch(url, datajson)
                 .then((res) => res.json())
                 .then((data) => {
-                    cb(data);
+                    resolve(data)
                 })
                 .catch((err) => {
-                    console.log(err);
+                    reject(err);
                 })
-                break;
-            }
+            });   
+        } 
+        break;
     }
 
 }

@@ -44,7 +44,7 @@ public class GetData extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
+
         }
     }
 
@@ -74,27 +74,35 @@ public class GetData extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        JSONObject r= new JSONObject();
+        JSONObject r = new JSONObject();
         JSONObject data = new JSONObject();
         PrintWriter p = response.getWriter();
-        User u = (User) request.getSession(false).getAttribute("user");
-        try {
-           if(u != null){
-               r.put("status", 200);
-               data.put("name", u.getName());
-               data.put("last_name", u.getLastName());
-               data.put("type_id", u.getTypeId());
-               data.put("email", u.getEmail());
-               data.put("username", u.getUsername());
-               data.put("id", u.getId());
-               data.put("timestamp", u.getTimestamp());
-               r.put("data", data);
-           }else{
-               r.put("status", 404);
-           }
-        } catch (Exception ex) {
-            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+        if (request.getSession(false) != null) {
+            User u = (User) request.getSession(false).getAttribute("user");
+            try {
+                if (u != null) {
+                    r.put("status", 200);
+                    data.put("name", u.getName());
+                    data.put("last_name", u.getLastName());
+                    data.put("type_id", u.getTypeId());
+                    data.put("email", u.getEmail());
+                    data.put("username", u.getUsername());
+                    data.put("id", u.getId());
+                    data.put("timestamp", u.getTimestamp());
+                    r.put("data", data);
+                } else {
+                    r.put("status", 404);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+        }else{
+            try {
+                r.put("status", 404);
+            } catch (JSONException ex) {
+                Logger.getLogger(GetData.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         p.print(r);
     }
