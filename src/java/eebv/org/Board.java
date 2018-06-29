@@ -7,10 +7,15 @@ package eebv.org;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -35,7 +40,7 @@ public class Board extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Board</title>");            
+            out.println("<title>Servlet Board</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Board at " + request.getContextPath() + "</h1>");
@@ -71,7 +76,30 @@ public class Board extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBManager db = new DBManager();
-        
+        JSONObject r = new JSONObject();
+        PrintWriter p = response.getWriter();
+        try {
+            JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
+            if (request.getSession(false).getAttribute("user") != null) {
+                User u = (User) request.getSession().getAttribute("user");
+                if(db.registerBoard(data.getString("table_name"), Integer.parseInt(u.getId()))){
+                    r.put("status", 200);
+                }else{
+                    r.put("status", 404);
+                    r.put("query", db.registerBoardString(data.getString("name"), Integer.parseInt(u.getId())));
+                }
+            }else{
+                r.put("status", 500);
+            }
+        } catch (JSONException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+             try {
+                r.put("status", 456);
+            } catch (JSONException ex2) {
+                Logger.getLogger(GetData.class.getName()).log(Level.SEVERE, null, ex);
+            };
+        }
+        p.print(r);
     }
 
     /**

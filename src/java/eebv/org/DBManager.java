@@ -176,4 +176,79 @@ public class DBManager {
             return false;
         }
     }
+    
+    public boolean registerBoard(String name, int userId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("INSERT INTO boards VALUES(null, ?, ?, ?);");
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            stm.setString(1, name);
+            stm.setInt(2, userId);
+            stm.setString(3, t.toString());
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    
+    public String registerBoardString(String name, int userId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("INSERT INTO boards VALUES(null, ?, ?, ?);");
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            stm.setString(1, name);
+            stm.setInt(2, userId);
+            stm.setString(3, t.toString());
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return stm.toString();
+    }
+    
+    public String registerUserString(String name, String lastName, String username, String password,
+            String email){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("INSERT INTO users VALUES(null, ?, ?, ?, ?, ?, ?, ?);");
+            String hash_p = BCrypt.hashpw(password, BCrypt.gensalt());
+            Timestamp t = new Timestamp(System.currentTimeMillis());
+            stm.setInt(1, 1);
+            stm.setString(2, name);
+            stm.setString(3, username);
+            stm.setString(4, lastName);
+            stm.setString(5, email);
+            stm.setString(6, hash_p);
+            stm.setString(7, t.toString());
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return stm.toString();
+    }
 }

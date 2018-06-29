@@ -2,6 +2,7 @@ let container = document.querySelector('div#page');
 
 customFetch("", "POST", "http://localhost:8080/Trello/GetData")
 .then(res=>{
+	console.log(res);
 	if(res.status !== 200){
 		renderNavBar("default");
 		renderFloatingButton();
@@ -42,8 +43,10 @@ function renderFloatingButton(){
 	//attributes assignment
 	mainDiv.className = "fixed-action-btn";
 	mainB.className = "btn-floating btn-large blue";
+	mainB.setAttribute("id", "showButton");
 	create_icon.className = "material-icons"
 	createB.className = "btn-floating red modal-trigger";
+	createB.setAttribute("id", "createButton");
 	createB.href = "#modal1";
 	add_icon.className= "material-icons";
 	

@@ -87,12 +87,14 @@ public class SignUp extends HttpServlet {
                 r.put("status", 200);
                 }else{
                 r.put("status", 500);
+                r.put("query", db.registerUserString(name, lastName, username, password, email));
                 }
                 //System.out.println(db.registerUser(name, lastName, username, password, email));
            }else{
                r.put("status", 409);
            }
         } catch (Exception ex) {
+            ex.printStackTrace();
             try {
                 r.put("status", 501);
             } catch (JSONException ex1) {

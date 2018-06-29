@@ -73,13 +73,13 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         JSONObject r = new JSONObject();
         PrintWriter p = response.getWriter();
+        HttpSession ses = request.getSession(true);
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
             String email = data.getString("email");
             String pass = data.getString("password");
             DBManager db = new DBManager();
             User u = db.getUser(email);
-            HttpSession ses = request.getSession();
             if(db.userExists(email)){
                if(db.checkPassword(email, pass)){
                    r.put("status", 200);
@@ -89,7 +89,7 @@ public class Login extends HttpServlet {
                }
             }else{
                  r.put("status", 409);
-                 ses.invalidate();
+                 //ses.invalidate();
             }
         } catch (Exception ex) {
             try {
