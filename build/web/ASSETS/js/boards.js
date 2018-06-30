@@ -20,11 +20,15 @@ $('form#boardCreate').submit(function(e) {
 				swal({
 					title: "Board created successfully!",
 					type : "success",
-					timer: 3000
+					timer: 2500
 				});
 				$(this).closest('.modal.open').modal('close');
 			}else{
-				console.log(r);
+				swal({
+					title: "Board created successfully!",
+					type : "success",
+					timer: 2500
+				});
 			}})
 		.catch(err=>{console.log(err)});
 
