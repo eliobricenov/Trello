@@ -48,7 +48,7 @@ form.addEventListener('submit', e=>{
 			break;
 		}
 	})
-	.catch(err=>{cosole.log(err)});
+	.catch(err=>{console.log(err)});
 })
 
 

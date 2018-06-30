@@ -4,7 +4,9 @@
     <title>Jellio Board</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="ASSETS/css/materialize.min.css">
+     <link rel="stylesheet" href="ASSETS/css/materialize.min.css" media="screen,projection">
     <style type="text/css" media="screen">
+
         .loader {
             position: absolute;
             top: 0;
@@ -45,7 +47,7 @@
             <form action="" id="boardCreate">
                 <div class="row">
                     <div class="input-field col s12 ">
-                        <input class="include" id="table_name" name="table_name" type="text" required="" aria-required="true" placeholder="John" pattern="[A-Za-z]{3}"  />
+                        <input class="include" id="table_name" name="table_name" type="text" required="" aria-required="true" placeholder="John"/>
                         <label for="table_name">Table Name</label>
                     </div>
                 </div>
@@ -62,6 +64,7 @@
     <script src="ASSETS/js/jquery.min.js"></script>
     <script src="ASSETS/js/materialize.min.js"></script>
     <script src="ASSETS/js/jquery.validate.min.js"></script>
+    <script src="ASSETS/js/sweetalert2.all.min.js"></script>
     <!-- custom scripts -->
     <script src="ASSETS/js/formValidation.js"></script>
     <script src="ASSETS/js/customFetch.js"></script>
