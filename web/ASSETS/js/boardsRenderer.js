@@ -1,19 +1,4 @@
-let container = document.querySelector('div#page');
-
-customFetch("", "POST", "http://localhost:8080/Trello/GetData")
-.then(res=>{
-	console.log(res);
-	if(res.status !== 200){
-		renderNavBar("default");
-		renderFloatingButton();
-	}else{
-		renderNavBar(res.data.name);
-		renderFloatingButton();
-	}
-}).catch(err=>{console.log(err)});
-
-
-function renderNavBar(username) {
+function renderNavBar(username, container) {
 	//tag creation (first in, first out)
 	let nav = document.createElement("nav"); 
 	let navDiv = document.createElement("div"); 
@@ -30,7 +15,7 @@ function renderNavBar(username) {
 	navLink.appendChild(document.createTextNode(`${username}`));
 }
 
-function renderFloatingButton(){
+function renderFloatingButton(container){
 	//tag creation 
 	let mainDiv = document.createElement("div"); 
 	let mainB = document.createElement("a");
@@ -62,4 +47,11 @@ function renderFloatingButton(){
 	add_icon.appendChild(document.createTextNode("add"));
 }
 
-
+function renderBoard(container){
+	//tag creation
+	let collection = document.createElement("ul");
+	let collectionItem = document.createElement("li");
+	let avatar = document.createElement("i");
+	let title = document.createElement("a");
+	let description = document.createElement("p");
+}

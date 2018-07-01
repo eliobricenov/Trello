@@ -1,36 +1,17 @@
-$.validator.addMethod("lettersonlys", function(value, element) {
-	return this.optional(element) || /^[A-Za-z](([a-zA-Z])*[^#&<>\"~;$^%{}?]{1,20}?)*$/.test(value);
-}, "Invalid format. Example: MyBoard, MyBoard 1, My_Board_1");
+let container = document.querySelector('div#page');
+
+customFetch("", "POST", "http://localhost:8080/Trello/GetData")
+.then(res=>{
+	console.log(res);
+	if(res.status !== 200){
+		renderNavBar("default", container);
+		renderFloatingButton(container);
+	}else{
+		renderNavBar(res.data.name, container);
+		renderFloatingButton(container);
+	}
+}).catch(err=>{console.log(err)});
 
 
-$('form#boardCreate').submit(function(e) {
-	e.preventDefault();
-	let j = $(this).formToJSON();
-	$(this).customValidate({
-		table_name:{
-			required:true,
-			lettersonlys:true
-		}
-	})
-	.then(r=>{
-		swal.showLoading();
-		customFetch(j, "POST", "http://localhost:8080/Trello/Board")
-		.then(r=>{
-			if(r.status === 200){ 
-				swal({
-					title: "Board created successfully!",
-					type : "success",
-					timer: 2500
-				});
-				$(this).closest('.modal.open').modal('close');
-			}else{
-				swal({
-					title: "Board created successfully!",
-					type : "success",
-					timer: 2500
-				});
-			}})
-		.catch(err=>{console.log(err)});
 
-	})
-});
+

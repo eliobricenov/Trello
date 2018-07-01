@@ -21,6 +21,10 @@
         <servlet-class>eebv.org.Board</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Board_Creation</servlet-name>
+        <servlet-class>eebv.org.Board_Creation</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>GetData</servlet-name>
         <servlet-class>eebv.org.GetData</servlet-class>
     </servlet>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>Board</servlet-name>
         <url-pattern>/Board</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Board_Creation</servlet-name>
+        <url-pattern>/Board_Creation</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetData</servlet-name>

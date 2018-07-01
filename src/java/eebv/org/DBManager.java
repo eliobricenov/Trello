@@ -177,16 +177,17 @@ public class DBManager {
         }
     }
     
-    public boolean registerBoard(String name, int userId){
+    public boolean registerBoard(String name, int userId, String t, String color, String desc){
         PreparedStatement stm = null;
         int rs;
         boolean flag = false;
         try{
-            stm = con.prepareStatement("INSERT INTO boards VALUES(null, ?, ?, ?);");
-            Timestamp t = new Timestamp(System.currentTimeMillis());
+            stm = con.prepareStatement("INSERT INTO boards VALUES(null, ?, ?, ?, ?, ?);");
             stm.setString(1, name);
             stm.setInt(2, userId);
-            stm.setString(3, t.toString());
+            stm.setString(3, t);
+            stm.setString(4, color);
+            stm.setString(5, desc);
             rs = stm.executeUpdate();
             if(rs > 0){
                 flag = true;
@@ -250,5 +251,32 @@ public class DBManager {
             flag = false;
         }
        return stm.toString();
+    }
+    
+    public Board getBoard(String token, String value){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Board b = new Board();
+        try{
+            stm = con.prepareStatement("SELECT * FROM boards WHERE "+ token +" = ? LIMIT 1");
+            stm.setString(1, value);
+            rs = stm.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                while(rs.next()){
+                    b.setId(rs.getInt("board_id"));
+                    b.setName(rs.getString("board_name"));
+                    b.setUserId(rs.getInt("user_id"));
+                    b.setTimestamp(rs.getString("board_created_at"));
+                    b.setColor(rs.getString("board_color"));
+                    b.setDescription(rs.getString("board_description"));
+                }
+            }else{
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return b;
     }
 }

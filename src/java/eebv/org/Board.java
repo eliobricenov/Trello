@@ -5,111 +5,101 @@
  */
 package eebv.org;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  *
- * @author Elio
+ * @author JoseUrdaneta
  */
-public class Board extends HttpServlet {
+public class Board {
+    private int id;
+    private String name;
+    private int userId;
+    private String timestamp;
+    private String color;
+    private String description;
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @return the id
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Board</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Board at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    public int getId() {
+        return id;
     }
+    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @param id the id to set
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @return the name
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        DBManager db = new DBManager();
-        JSONObject r = new JSONObject();
-        PrintWriter p = response.getWriter();
-        try {
-            JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (request.getSession(false).getAttribute("user") != null) {
-                User u = (User) request.getSession().getAttribute("user");
-                if(db.registerBoard(data.getString("table_name"), Integer.parseInt(u.getId()))){
-                    r.put("status", 200);
-                }else{
-                    r.put("status", 404);
-                    r.put("query", db.registerBoardString(data.getString("name"), Integer.parseInt(u.getId())));
-                }
-            }else{
-                r.put("status", 500);
-            }
-        } catch (JSONException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-             try {
-                r.put("status", 456);
-            } catch (JSONException ex2) {
-                Logger.getLogger(GetData.class.getName()).log(Level.SEVERE, null, ex);
-            };
-        }
-        p.print(r);
+    public String getName() {
+        return name;
     }
 
     /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
+     * @param name the name to set
      */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    /**
+     * @return the userId
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId the userId to set
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * @return the timestamp
+     */
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * @param timestamp the timestamp to set
+     */
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    /**
+     * @return the color
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * @param color the color to set
+     */
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
 }

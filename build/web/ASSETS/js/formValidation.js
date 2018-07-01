@@ -37,7 +37,6 @@
 						.attr('data-error', error.text());
 					}
 				}
-
 				$(this).validate(params);
 
 				if($(this).valid()){
