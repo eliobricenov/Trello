@@ -1,6 +1,6 @@
 let container = document.querySelector('div#page');
-
-customFetch("", "POST", "http://localhost:8080/Trello/GetData")
+let b_container = document.querySelector("ul#board_container");
+customFetch("", "POST", "http://localhost:8080/Trello/GetUserData")
 .then(res=>{
 	console.log(res);
 	if(res.status !== 200){
@@ -9,6 +9,13 @@ customFetch("", "POST", "http://localhost:8080/Trello/GetData")
 	}else{
 		renderNavBar(res.data.name, container);
 		renderFloatingButton(container);
+		customFetch("", "POST", "http://localhost:8080/Trello/GetBoardsData")
+		.then(r=>{
+			console.log(r);
+			for (var i = 0; i < r.boards.length; i++) {
+				renderBoard(b_container, r.boards[i]);
+			}
+		}).catch(err=>{console.log(err);});
 	}
 }).catch(err=>{console.log(err)});
 

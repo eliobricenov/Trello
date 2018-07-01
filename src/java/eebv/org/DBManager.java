@@ -77,9 +77,8 @@ public class DBManager {
         ResultSet rs = null;
         List<User> users = new ArrayList<>();
         try{
-            stm = con.prepareStatement("SELECT * FROM users WHERE ? = ?");
+            stm = con.prepareStatement("SELECT * FROM users WHERE " + token + " = ?");
             stm.setString(1, param);
-            stm.setString(2, token);
             rs = stm.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -103,17 +102,34 @@ public class DBManager {
         }
         return users;
     }
-    
-    private int getRowCount(ResultSet rs){
-        int size = 0;
-        try {
-            while(rs.next()){
-                size++;
+ 
+     public List<Board> getBoards(String token, int param){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<Board> boards = new ArrayList<>();
+        try{
+            stm = con.prepareStatement("SELECT * FROM boards WHERE " + token + " = ?");
+            stm.setInt(1, param);
+            rs = stm.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                while(rs.next()){
+                    Board b = new Board();
+                    b.setId(Integer.parseInt(rs.getString("board_id")));
+                    b.setName(rs.getString("board_name"));
+                    b.setColor(rs.getString("board_color"));
+                    b.setDescription(rs.getString("board_description"));
+                    b.setTimestamp(rs.getString("board_created_at"));
+                    b.setUserId(Integer.parseInt(rs.getString("user_id")));
+                    boards.add(b);
+                }
+            }else{
+                throw new Exception("No results");
             }
-        } catch (SQLException ex) {
-            return 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return size;
+        return boards;
     }
     
     public boolean userExists(String email){

@@ -46,7 +46,7 @@
 				}
 			});
 		}else{
-			return new Error("Element is not a <form>");
+			return new Error("Element is not a form");
 		}
 		
 	}

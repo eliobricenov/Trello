@@ -95,9 +95,9 @@ public class Board_Creation extends HttpServlet {
                     d.put("board_id", b.getId());
                     d.put("board_name", b.getName());
                     d.put("user_id", b.getUserId());
-                    d.put("timestamp", b.getTimestamp());
-                    d.put("color", b.getColor());
-                    d.put("description", b.getDescription());
+                    d.put("board_created_at", b.getTimestamp());
+                    d.put("board_color", b.getColor());
+                    d.put("board_description", b.getDescription());
                     r.put("data", d);
                 }else{
                     r.put("status", 404);
@@ -111,7 +111,7 @@ public class Board_Creation extends HttpServlet {
              try {
                 r.put("status", 456);
             } catch (JSONException ex2) {
-                Logger.getLogger(GetData.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetUserData.class.getName()).log(Level.SEVERE, null, ex);
             };
         }
         p.print(r);

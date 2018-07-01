@@ -41,6 +41,9 @@
         </div>
     </div>
 
+    <div class="container">
+        <ul id="board_container" class="collection"></ul>
+    </div>
 
     <!-- MODALS -->
     <div id="modal1" class="modal">
@@ -60,17 +63,49 @@
                         <label for="board_name">Board Description</label>
                     </div>
                 </div>
-                <div class="row" id="colorpicker">
+                <div class="row" id="colorpicker-create">
                     <div class="input-field col s12 ">
-                        <div class="input-field col s12">
-                            <input type="text" class="colorpicker" value="#8fff00" name="board_color" required="" />
-                        </div>
+                        <input type="text" class=" include colorpicker-create" value="#8fff00" name="board_color" required="" />
                         <label for="board_name">Board Color</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                    </div>
+                </div>
+                <input type="text" name="id" hidden>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="edit_modal" class="modal">
+        <div class="modal-content">
+            <h3>Board Modification</h3>
+            <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+            <form id="edit_modal" novalidate>
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <input class="include" id="board_name" name="board_name" type="text" required="" aria-required="true" placeholder="My Table"/>
+                        <label for="board_name">Board Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <input class="include" id="board_description" name="board_description" type="text" required="" aria-required="true" placeholder="TODO Table"/>
+                        <label for="board_name">Board Description</label>
+                    </div>
+                </div>
+                <div class="row" id="colorpicker-update">
+                    <div class="input-field col s12 ">
+                        <input type="text" class=" include colorpicker-update" value="#8fff00" name="board_color" required="" />
+                        <label for="board_name">Board Color</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Update</button>
                     </div>
                 </div>
             </form>
@@ -92,13 +127,23 @@
     <script>
         $(document).ready(function() {
             $('.modal').modal({
-                dismissible: false
+                dismissible: false,
+                ready: function(modal, trigger) {
+                  modal.find('input[name="id"]').val(trigger.prev().text());
+                }
             });
+
             $('#loader').fadeOut(500, function() { $('#loader').remove(); });
 
-            $('.colorpicker').colorpicker({
-              'horizontal': true,
-              container: $('div#colorpicker'),
+            $('.colorpicker-create').colorpicker({
+              container: $('div#colorpicker-create'),
+              inline: true,
+              format: 'hex',
+            });
+            
+            $('.colorpicker-update').colorpicker({
+              container: $('div#colorpicker-update'),
+              inline: true,
               format: 'hex',
           });
         });

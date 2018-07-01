@@ -25,8 +25,8 @@
         <servlet-class>eebv.org.Board_Creation</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetData</servlet-name>
-        <servlet-class>eebv.org.GetData</servlet-class>
+        <servlet-name>GetUserData</servlet-name>
+        <servlet-class>eebv.org.GetUserData</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUp2</servlet-name>
@@ -39,6 +39,10 @@
     <servlet>
         <servlet-name>LogOut</servlet-name>
         <servlet-class>eebv.org.LogOut</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetBoardsData</servlet-name>
+        <servlet-class>eebv.org.GetBoardsData</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -65,8 +69,8 @@
         <url-pattern>/Board_Creation</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GetData</servlet-name>
-        <url-pattern>/GetData</url-pattern>
+        <servlet-name>GetUserData</servlet-name>
+        <url-pattern>/GetUserData</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignUp2</servlet-name>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/LogOut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetBoardsData</servlet-name>
+        <url-pattern>/GetBoardsData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

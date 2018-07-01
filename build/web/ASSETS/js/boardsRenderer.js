@@ -47,11 +47,48 @@ function renderFloatingButton(container){
 	add_icon.appendChild(document.createTextNode("add"));
 }
 
-function renderBoard(container){
+function renderBoard(container, data){
 	//tag creation
-	let collection = document.createElement("ul");
 	let collectionItem = document.createElement("li");
-	let avatar = document.createElement("i");
+	let avatarIcon = document.createElement("i");
 	let title = document.createElement("a");
 	let description = document.createElement("p");
+	let id = document.createElement("span");
+	let optionsLink = document.createElement("a");
+	let optionsIcon = document.createElement("i");
+
+	//attributes assignment 
+	collectionItem.className = "collection-item avatar";
+	avatarIcon.className = "material-icons circle";
+	avatarIcon.style.backgroundColor = data.board_color;
+	title.className = "title";
+	title.href = "#";
+	id.className= "id";
+	id.hidden = true;
+	optionsLink.className = "secondary-content modal-trigger";
+	optionsLink.href = "#edit_modal"
+	optionsIcon.className = "material-icons";
+
+	//appending
+	avatarIcon.appendChild(document.createTextNode("event_note"));
+	title.appendChild(document.createTextNode(data.board_name));
+	description.appendChild(document.createTextNode(data.board_description));
+	id.appendChild(document.createTextNode(data.board_id));
+	optionsIcon.appendChild(document.createTextNode("more_vert"));
+	optionsLink.appendChild(optionsIcon);
+
+	collectionItem.appendChild(avatarIcon);
+	collectionItem.appendChild(title);
+	collectionItem.appendChild(description);
+	collectionItem.appendChild(id);
+	collectionItem.appendChild(optionsLink);
+	container.appendChild(collectionItem);
+
+}
+
+
+function updateBoard(newData, parent){
+	console.log(parent.children('i.material-icons.circle'));
+	console.log(parent.children('a.title'));
+	console.log(parent.children('p.paragraph'));
 }

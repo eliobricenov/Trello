@@ -13,17 +13,17 @@
 
 <body>
     <div class="container">
-        <ul class="collection">
-            <li class="collection-item avatar">
+        <ul class="collection ">
+            <li class="collection-item avatar ">
                 <i class="material-icons circle" style="background-color:#21ee1d">event_note</i>
                 <a href="#" class="title">Title</a>
-                <p>First Line
-                    <br> Second Line
-                </p>
-                <span class="id" hidden>123</span>
+                <p class="paragraph">First Line</p>
+                <span class="id" hidden />232</span>
                 <a href="#modal1" class="secondary-content modal-trigger"><i class="material-icons">more_vert</i></a>
+                <br>
             </li>
         </ul>
+    </div>
 
 
 
@@ -43,6 +43,7 @@
                             <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
                         </div>
                     </div>
+                    <input type="text" name="id" hidden>
                 </form>
             </div>
         </div>
@@ -53,14 +54,18 @@
         <script src="ASSETS/js/sweetalert2.all.min.js"></script>
         <script src="ASSETS/js/bootstrap-colorpicker.min.js"></script>
         <!-- custom scripts -->
+        <script src="ASSETS/js/boardsRenderer.js"></script>
         <script>
         $(document).ready(function() {
             $('.modal').modal({
                 dismissible: false,
+                ready: function(modal, trigger) {
+                 updateBoard({}, trigger.parent());
+                }
             });
             $('a.secondary-content.modal-trigger').on('click', function() {
                 // console.log($(this).closest('span#table_id').text());
-                console.log($(this).prev().text());
+                // console.log($(this).prev().text());
             });
         });
         </script>
