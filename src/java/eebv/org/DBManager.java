@@ -295,4 +295,46 @@ public class DBManager {
         }
         return b;
     }
+    
+    public boolean updateBoard(int boardId, String name, String color, String description){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("UPDATE boards SET board_name = ?, board_color = ?, board_description = ? WHERE boards.board_id = ?");
+            stm.setString(1, name);
+            stm.setString(2, color);
+            stm.setString(3, description);
+            stm.setInt(4, boardId);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    public boolean deleteBoard(int boardId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("DELETE FROM boards WHERE boards.board_id = ?");
+            stm.setInt(1,boardId);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
 }

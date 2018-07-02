@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
     <style type="text/css" media="screen">
 
-    </style>
+</style>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
                 <a href="#" class="title">Title</a>
                 <p class="paragraph">First Line</p>
                 <span class="id" hidden />232</span>
-                <a href="#modal1" class="secondary-content modal-trigger"><i class="material-icons">more_vert</i></a>
+                <a href="#modal_update" class="secondary-content modal-trigger"><i class="material-icons">more_vert</i></a>
                 <br>
             </li>
         </ul>
@@ -27,46 +27,51 @@
 
 
 
-        <div id="modal1" class="modal">
-            <div class="modal-content">
-                <h3>Table Creation</h3>
-                <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
-                <form action="" id="boardCreate">
-                    <div class="row">
-                        <div class="input-field col s12 ">
-                            <input class="include" id="table_name" name="table_name" type="text" required="" aria-required="true" placeholder="John" />
-                            <label for="table_name">Table Name</label>
-                        </div>
+    <div id="modal_update" class="modal update">
+        <div class="modal-content">
+            <h3>Table Creation</h3>
+            <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+            <form action="" id="board_update">
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <input class="include" id="table_name" name="table_name" type="text" required="" aria-required="true" placeholder="John" value="ELio" />
+                        <label for="table_name">Table Name</label>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light" type="submit" name="update">Submit</button>
+                        <button class="btn waves-effect waves-light" type="submit" name="delete">Delete</button>
                     </div>
-                    <input type="text" name="id" hidden>
-                </form>
-            </div>
+                </div>
+                <input type="text" name="id" hidden>
+            </form>
         </div>
-        <!-- libraries -->
-        <script src="ASSETS/js/jquery.min.js"></script>
-        <script src="ASSETS/js/materialize.min.js"></script>
-        <script src="ASSETS/js/jquery.validate.min.js"></script>
-        <script src="ASSETS/js/sweetalert2.all.min.js"></script>
-        <script src="ASSETS/js/bootstrap-colorpicker.min.js"></script>
-        <!-- custom scripts -->
-        <script src="ASSETS/js/boardsRenderer.js"></script>
-        <script>
+    </div>
+    <!-- libraries -->
+    <script src="ASSETS/js/jquery.min.js"></script>
+    <script src="ASSETS/js/materialize.min.js"></script>
+    <script src="ASSETS/js/jquery.validate.min.js"></script>
+    <script src="ASSETS/js/sweetalert2.all.min.js"></script>
+    <script src="ASSETS/js/bootstrap-colorpicker.min.js"></script>
+    <!-- custom scripts -->
+    <script src="ASSETS/js/formValidation.js"></script>
+    <script src="ASSETS/js/boardsRenderer.js"></script>
+
+
+    <script>
         $(document).ready(function() {
-            $('.modal').modal({
+            $('.modal.update').modal({
                 dismissible: false,
                 ready: function(modal, trigger) {
-                 updateBoard({}, trigger.parent());
+                    let form = modal.children().children('form');
+                    updateBoard(form, trigger.parent());
                 }
             });
-            $('a.secondary-content.modal-trigger').on('click', function() {
-                // console.log($(this).closest('span#table_id').text());
-                // console.log($(this).prev().text());
-            });
+
+            $('form#board_update').submit(function (e){
+                e.preventDefault();
+            })
         });
-        </script>
+    </script>
 </body>

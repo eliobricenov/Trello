@@ -44,6 +44,14 @@
         <servlet-name>GetBoardsData</servlet-name>
         <servlet-class>eebv.org.GetBoardsData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Board_Update</servlet-name>
+        <servlet-class>eebv.org.Board_Update</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Board_Delete</servlet-name>
+        <servlet-class>eebv.org.Board_Delete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -87,6 +95,14 @@
     <servlet-mapping>
         <servlet-name>GetBoardsData</servlet-name>
         <url-pattern>/GetBoardsData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Board_Update</servlet-name>
+        <url-pattern>/Board_Update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Board_Delete</servlet-name>
+        <url-pattern>/Board_Delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

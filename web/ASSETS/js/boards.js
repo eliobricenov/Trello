@@ -2,7 +2,6 @@ let container = document.querySelector('div#page');
 let b_container = document.querySelector("ul#board_container");
 customFetch("", "POST", "http://localhost:8080/Trello/GetUserData")
 .then(res=>{
-	console.log(res);
 	if(res.status !== 200){
 		renderNavBar("default", container);
 		renderFloatingButton(container);
