@@ -76,7 +76,7 @@ public class Board_Delete extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBManager db = new DBManager();
-        JSONObject r = new JSONObject();
+        JSONObject r = new JSONObject();    
         PrintWriter p = response.getWriter();
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));

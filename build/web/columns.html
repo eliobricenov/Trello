@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>Jellio Board</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="ASSETS/css/materialize.min.css">
+    <link rel="stylesheet" href="ASSETS/css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" href="ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
+    <style type="text/css" media="screen">
+        
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="class-container">
+            
+        </div>
+        <div class="col m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Card Title</span>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Card Title</span>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Card Title</span>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+        </div>
+        <div class="col m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Card Title</span>
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- libraries -->
+    <script src="ASSETS/js/jquery.min.js"></script>
+    <script src="ASSETS/js/materialize.min.js"></script>
+    <script src="ASSETS/js/jquery.validate.min.js"></script>
+    <script src="ASSETS/js/sweetalert2.all.min.js"></script>
+    <script src="ASSETS/js/bootstrap-colorpicker.min.js"></script>
+    <!-- custom scripts -->
+    <script src="ASSETS/js/formValidation.js"></script>
+    <script src="ASSETS/js/customFetch.js"></script>
+    <script>
+    let myparams = new URLSearchParams(window.location.search);
+    let board_id = myparams.get("board_id");
+    console.log(board_id);
+    // customFetch("", "GET", "http://localhost:8080/Trello/GetColumnsData?board_id=" + board_id)
+    //     .then(r => { console.log(r); })
+    //     .catch(err => { console.log(err); })
+    </script>
+</body>

@@ -52,6 +52,14 @@
         <servlet-name>Board_Delete</servlet-name>
         <servlet-class>eebv.org.Board_Delete</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetColumnsData</servlet-name>
+        <servlet-class>eebv.org.GetColumnsData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Laputamadre</servlet-name>
+        <servlet-class>eebv.org.Laputamadre</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -103,6 +111,14 @@
     <servlet-mapping>
         <servlet-name>Board_Delete</servlet-name>
         <url-pattern>/Board_Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetColumnsData</servlet-name>
+        <url-pattern>/GetColumnsData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Laputamadre</servlet-name>
+        <url-pattern>/Laputamadre</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

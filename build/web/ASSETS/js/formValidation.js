@@ -1,5 +1,9 @@
 //jQuery Functions
 // requires jquery.validate.min.js
+$.validator.addMethod("lettersonlys", function(value, element) {
+	return this.optional(element) || /^[A-Za-z](([a-zA-Z])*[^#&<>\"~;$^%{}?]{1,20}?)*$/.test(value);
+}, "Invalid format. Example: MyBoard, MyBoard 1, My_Board_1");
+
 (function($){
 	
 	$.fn.formToJSON = function(){

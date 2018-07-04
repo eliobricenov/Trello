@@ -66,7 +66,7 @@ function renderBoard(container, data){
 	avatarIcon.className = "material-icons circle";
 	avatarIcon.style.backgroundColor = data.board_color;
 	title.className = "title";
-	title.href = "#";
+	title.href = "http://localhost:8080/Trello/columns.html?board_id=" + data.board_id;
 	description.className= "paragraph";
 	id.className= "id";
 	id.hidden = true;

@@ -132,6 +132,59 @@ public class DBManager {
         return boards;
     }
     
+     public List<Column> getColumns(int boardId){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<Column> columns = new ArrayList<>();
+        try{
+            stm = con.prepareStatement("SELECT * FROM columns WHERE board_id = ?");
+            stm.setInt(1, boardId);
+            rs = stm.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                while(rs.next()){
+                    Column c = new Column();
+                    c.setBoard_id(rs.getInt("board_id"));
+                    c.setColumn_id(rs.getInt("column_id"));
+                    c.setColumn_name(rs.getString("column_name"));
+                    columns.add(c);
+                }
+            }else{
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return columns;
+    }
+    public List<Card> getCards(int columnId){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<Card> cards = new ArrayList<>();
+        try{
+            stm = con.prepareStatement("SELECT * FROM cards WHERE column_id = ?");
+            stm.setInt(1, columnId);
+            rs = stm.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                while(rs.next()){
+                    Card c = new Card();
+                    c.setCard_id(rs.getInt("card_id"));
+                    c.setColumnId(rs.getInt("column_id"));
+                    c.setUserId(rs.getInt("user_id"));
+                    c.setCard_name(rs.getString("card_name"));
+                    c.setCard_description(rs.getString("card_description"));
+                    cards.add(c);
+                }
+            }else{
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return cards;
+    }
+    
     public boolean userExists(String email){
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -325,6 +378,132 @@ public class DBManager {
         try{
             stm = con.prepareStatement("DELETE FROM boards WHERE boards.board_id = ?");
             stm.setInt(1,boardId);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    
+    public boolean registerColumn(String name, int boardId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("INSERT INTO columns (column_id, board_id, column_name) VALUES (NULL, ?,  ? );");
+            stm.setInt(1, boardId);
+            stm.setString(2, name);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    
+     public boolean deleteColumn(int columnId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("DELETE FROM columns WHERE columns.column_id = ?");
+            stm.setInt(1, columnId);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    
+     public boolean updateColumn(int columnId, String newName){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("UPDATE columns SET column_name = ? WHERE columns.column_id = ?");
+            stm.setString(1, newName);
+            stm.setInt(2, columnId);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+     public boolean registerCard(String name, int columnId, String description, int userId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("INSERT INTO cards (card_id, column_id, user_id, card_name, card_description) VALUES (NULL, ? , ? ,  ? , ?);");
+            stm.setInt(1, columnId);
+            stm.setInt(2, userId);
+            stm.setString(3, name);
+            stm.setString(4, description);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    
+     public boolean deleteCard(int cardId){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("DELETE FROM cards WHERE cards.card_id = ?");
+            stm.setInt(1, cardId);
+            rs = stm.executeUpdate();
+            if(rs > 0){
+                flag = true;
+            }else{
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+       return flag;
+    }
+    
+     public boolean updateCard(int cardId, String newName, String newDes){
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try{
+            stm = con.prepareStatement("UPDATE cards SET card_name = ?, card_description = ? WHERE cards.card_id = ?");
+            stm.setString(1, newName);
+            stm.setString(2, newDes);
+            stm.setInt(3, cardId);
             rs = stm.executeUpdate();
             if(rs > 0){
                 flag = true;
