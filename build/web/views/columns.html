@@ -1,0 +1,179 @@
+<html>
+
+<head>
+    <title>Jellio Board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
+    <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
+    <style type="text/css" media="screen">
+
+</style>
+</head>
+
+<body>
+    <div id="page">
+        <!-- MODALS -->
+        <div class="nav-container"></div>
+        <div class="container flex-content"></div>
+
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h3>Colum Creation</h3>
+                <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <form id="column_create" novalidate>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="column_name" name="column_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <label for="column_name">Column Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                        </div>
+                    </div>
+                    <input type="text" name="id" hidden>
+                </form>
+            </div>
+        </div>
+
+        <div id="modal2" class="modal card-create">
+            <div class="modal-content">
+                <h3>Card Creation</h3>
+                <a href="#modal2" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <form id="card_create" class="no-submit"  novalidate>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <label for="card_name">Card Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <label for="card_description">Card Description</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                        </div>
+                    </div>
+                    <input type="text" name="id" hidden>
+                </form>
+            </div>
+        </div>
+
+        <div id="modal_update" class="modal column-update">
+            <div class="modal-content">
+                <h3>Column Modification</h3>
+                <a class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <form class="no-submit" id="column_update" novalidate>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="column_name" name="column_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <label for="column_name">Column Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="column_description" name="column_description" type="text" required="" aria-required="true" placeholder="TODO Table" />
+                            <label for="column_name">Column Description</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light" type="submit" name="update">Submit</button>
+                            <button class="btn waves-effect waves-light" type="submit" name="delete">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="card_update" class="modal card-update">
+            <div class="modal-content">
+                <h3>Card Modification</h3>
+                <a class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <form class="no-submit" id="card_update" novalidate>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <label for="card_name">Card Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table" />
+                            <label for="card_name">Card Description</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light" type="submit" name="update">Submit</button>
+                            <button class="btn waves-effect waves-light" type="submit" name="delete">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- libraries -->
+    <script src="../ASSETS/js/dev/jquery.min.js"></script>
+    <script src="../ASSETS/js/dev/materialize.min.js"></script>
+    <script src="../ASSETS/js/dev/jquery.validate.min.js"></script>
+    <script src="../ASSETS/js/dev/sweetalert2.all.min.js"></script>
+    <script src="../ASSETS/js/dev/bootstrap-colorpicker.min.js"></script>
+    <script src="../ASSETS/js/dev/formValidation.js"></script>
+    <script src="../ASSETS/js/dev/customFetch.js"></script>
+    <!-- controllers -->
+    <script src="../ASSETS/js/controllers/boards/boardsRenderer.js"></script>
+    <script src="../ASSETS/js/controllers/columns/columnCreator.js"></script>
+    <script src="../ASSETS/js/controllers/columns/columnRenderer.js"></script>
+    <script src="../ASSETS/js/controllers/columns/columns.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal').modal({
+                dismissible: false,
+            });
+            $('.modal.card-create').modal({
+                dismissible: false,
+                ready: function(modal, trigger) {
+                    let form = modal.children().children('form');
+                    let container = trigger.parent().parent().find('div.collection');
+                    createCard(form, container);
+                }
+            });
+
+            $('.modal.column-update').modal({
+                dismissible: false,
+                ready: function(modal, trigger) {
+                    let form = modal.children().children('form');
+                    let data = {};
+                    data.column_id = trigger.data('column_id');
+                    data.board_id = trigger.data('board_id');
+                    updateColumn(form, data, trigger.parent());
+                    form[0].reset();
+                }
+            });
+
+            $('.modal.card-update').modal({
+                dismissible: false,
+                ready: function(modal, trigger) {
+                    let form = modal.children().children('form');
+                    let data = {};
+                    data.card_id = parseInt(trigger.children('span.card_id').text());
+                    updateCard(form, data, trigger);
+                    form[0].reset();
+                }
+            });
+
+            $('form').submit(function (e){
+                e.preventDefault();
+            })
+        });
+    </script>
+</body>

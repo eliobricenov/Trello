@@ -185,6 +185,32 @@ public class DBManager {
         return cards;
     }
     
+    public Card getCard(int cardId){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Card card = new Card();
+        try{
+            stm = con.prepareStatement("SELECT * FROM cards WHERE card_id = ? LIMIT 1");
+            stm.setInt(1, cardId);
+            rs = stm.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                while(rs.next()){
+                    card.setCard_id(rs.getInt("card_id"));
+                    card.setColumnId(rs.getInt("column_id"));
+                    card.setUserId(rs.getInt("user_id"));
+                    card.setCard_name(rs.getString("card_name"));
+                    card.setCard_description(rs.getString("card_description"));
+                }
+            }else{
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return card;
+    }
+    
     public boolean userExists(String email){
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -348,6 +374,29 @@ public class DBManager {
         }
         return b;
     }
+    public Column getColumn(String column_id, int value){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Column c = new Column();
+        try{
+            stm = con.prepareStatement("SELECT * FROM columns WHERE column_id = ? LIMIT 1");
+            stm.setInt(1, value);
+            rs = stm.executeQuery();
+            if(rs.next()){
+                rs.beforeFirst();
+                while(rs.next()){
+                   c.setBoard_id(rs.getInt("board_id"));
+                   c.setColumn_id(rs.getInt("column_id"));
+                   c.setColumn_name(rs.getString("column_name"));
+                }
+            }else{
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return c;
+    }
     
     public boolean updateBoard(int boardId, String name, String color, String description){
         PreparedStatement stm = null;
@@ -452,27 +501,47 @@ public class DBManager {
         }
        return flag;
     }
-     public boolean registerCard(String name, int columnId, String description, int userId){
+     public int registerCard(String name, int columnId, String description, int userId){
         PreparedStatement stm = null;
         int rs;
-        boolean flag = false;
+        int result = 0;
         try{
-            stm = con.prepareStatement("INSERT INTO cards (card_id, column_id, user_id, card_name, card_description) VALUES (NULL, ? , ? ,  ? , ?);");
+            stm = con.prepareStatement("INSERT INTO cards (card_id, column_id, user_id, card_name, card_description) VALUES (NULL, ? , ? ,  ? , ?);", 
+                    Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, columnId);
             stm.setInt(2, userId);
             stm.setString(3, name);
             stm.setString(4, description);
             rs = stm.executeUpdate();
+            ResultSet keys = stm.getGeneratedKeys();
             if(rs > 0){
-                flag = true;
-            }else{
-                flag = false;
+                keys.next();
+                result = keys.getInt(1);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            flag = false;
         }
-       return flag;
+       return result;
+    }
+    public int registerColumn(int boardId, String name){
+        PreparedStatement stm = null;
+        int rs;
+        int result = 0;
+        try{
+            stm = con.prepareStatement("INSERT INTO columns (column_id, board_id, column_name) VALUES (NULL, ?,  ? );", 
+                    Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, boardId);
+            stm.setString(2, name);
+            rs = stm.executeUpdate();
+            ResultSet keys = stm.getGeneratedKeys();
+            if(rs > 0){
+                keys.next();
+                result = keys.getInt(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+       return result;
     }
     
      public boolean deleteCard(int cardId){

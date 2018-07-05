@@ -60,6 +60,30 @@
         <servlet-name>Laputamadre</servlet-name>
         <servlet-class>eebv.org.Laputamadre</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Column_Creation</servlet-name>
+        <servlet-class>eebv.org.Column_Creation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Column_Update</servlet-name>
+        <servlet-class>eebv.org.Column_Update</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Column_Delete</servlet-name>
+        <servlet-class>eebv.org.Column_Delete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Card_Creation</servlet-name>
+        <servlet-class>eebv.org.Card_Creation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Card_Update</servlet-name>
+        <servlet-class>eebv.org.Card_Update</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Card_Delete</servlet-name>
+        <servlet-class>eebv.org.Card_Delete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -119,6 +143,30 @@
     <servlet-mapping>
         <servlet-name>Laputamadre</servlet-name>
         <url-pattern>/Laputamadre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Column_Creation</servlet-name>
+        <url-pattern>/Column_Creation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Column_Update</servlet-name>
+        <url-pattern>/Column_Update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Column_Delete</servlet-name>
+        <url-pattern>/Column_Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Card_Creation</servlet-name>
+        <url-pattern>/Card_Creation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Card_Update</servlet-name>
+        <url-pattern>/Card_Update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Card_Delete</servlet-name>
+        <url-pattern>/Card_Delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

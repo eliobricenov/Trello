@@ -1,0 +1,45 @@
+
+//returns json from server
+function customFetch(data, method, url) {
+    switch (method) {
+        case 'GET': { 
+            return new Promise((resolve, reject)=>{
+                fetch(url, {
+                    method: 'GET'
+                })
+                .then((res) => res.json())
+                .then((d) => {
+                    resolve(d);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+            })
+        }
+        break;
+        case 'POST':
+        {
+            return new Promise((resolve, reject)=>{
+              let datajson = {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    withCredentials: true,
+                    credentials: 'same-origin',
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                };  
+                fetch(url, datajson)
+                .then((res) => res.json())
+                .then((data) => {
+                    resolve(data)
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+            });   
+        } 
+        break;
+    }
+
+}
