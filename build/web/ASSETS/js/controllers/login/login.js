@@ -7,7 +7,7 @@ form.addEventListener('submit', e=>{
 		title: 'Processing data..'
 	});
 	swal.showLoading();
-	customFetch(fd, "POST", "http://localhost:8080/Trello/Login")
+	customFetch(fd, "POST", "http://localhost:8080/Trello/LoginServlet")
 	.then(r=>{
 		switch(r["status"]){
 			case 200:

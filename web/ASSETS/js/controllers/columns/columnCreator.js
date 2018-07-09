@@ -1,4 +1,4 @@
-let c_container = document.querySelector('div.container');
+let c_container = document.querySelector('div#container');
 
 $('form#column_create').submit(function(e) {
 	e.preventDefault();
@@ -10,10 +10,10 @@ $('form#column_create').submit(function(e) {
 		}
 	}).then(r=>{
 			let j = form.formToJSON();
-			j.board_id = new URLSearchParams(window.location.search).get("board_id");
+			j.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
 			console.log(j);
 		swal.showLoading();
-		customFetch(j, "POST", "http://localhost:8080/Trello/Column_Creation")
+		customFetch(j, "POST", "http://localhost:8080/Trello/ColumnServlet")
 		.then(r=>{
 			console.log(r);
 			if(r.status === 200){ 

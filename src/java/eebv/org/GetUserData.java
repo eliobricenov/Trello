@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package eebv.org;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -99,7 +98,7 @@ public class GetUserData extends HttpServlet {
             }
         }else{
             try {
-                r.put("status", 404);
+                r.put("status", 500);
             } catch (JSONException ex) {
                 Logger.getLogger(GetUserData.class.getName()).log(Level.SEVERE, null, ex);
             }

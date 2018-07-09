@@ -86,7 +86,7 @@ public class Card_Creation extends HttpServlet {
             System.out.println("TRY");
             int column_id = Integer.parseInt(data.getString("column_id"));
             int id = db.registerCard(data.getString("card_name"), column_id
-                        , data.getString("card_description"), Integer.parseInt(u.getId()));
+                        , data.getString("card_description"), (u.getId()));
             System.out.println(id);    
             if(id>0){
                     r.put("status", 200);

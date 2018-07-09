@@ -59,7 +59,9 @@ function renderBoard(container, data){
 	let description = document.createElement("p");
 	let id = document.createElement("span");
 	let optionsLink = document.createElement("a");
+	let deleteLink = document.createElement("a");
 	let optionsIcon = document.createElement("i");
+	let deleteIcon = document.createElement("i");
 
 	//attributes assignment 
 	collectionItem.className = "collection-item avatar";
@@ -71,16 +73,21 @@ function renderBoard(container, data){
 	id.className= "id";
 	id.hidden = true;
 	optionsLink.className = "secondary-content modal-trigger";
-	optionsLink.href = "#modal_update"
+	deleteLink.className = "secondary-content modal-trigger";
+	optionsLink.href = "#modal_update";
+	deleteLink.href = "#";
 	optionsIcon.className = "material-icons";
+	deleteIcon.className = "material-icons";
 
 	//appending
 	avatarIcon.appendChild(document.createTextNode("event_note"));
 	title.appendChild(document.createTextNode(data.board_name));
 	description.appendChild(document.createTextNode(data.board_description));
 	id.appendChild(document.createTextNode(data.board_id));
-	optionsIcon.appendChild(document.createTextNode("more_vert"));
+	optionsIcon.appendChild(document.createTextNode("edit"));
+	deleteIcon.appendChild(document.createTextNode("delete"));
 	optionsLink.appendChild(optionsIcon);
+	deleteLink.appendChild(deleteIcon);
 
 	collectionItem.appendChild(avatarIcon);
 	collectionItem.appendChild(title);
@@ -92,87 +99,3 @@ function renderBoard(container, data){
 }
 
 
-function updateBoard(form, board){
-
-	form.find('button[type="submit"][name="update"]').unbind().click(function(){
-		form.customValidate({
-			table_name:{
-				required:true,
-			}
-		})
-		.then(r=>{
-			let json = form.formToJSON();
-			json.board_id = board.find('span.id').text();
-			swal.showLoading();
-			customFetch(json, "POST", "http://localhost:8080/Trello/Board_Update")
-			.then(r=>{
-				if(r.status === 200){
-					swal({
-						title: "Board Updated successfully!",
-						type : "success",
-						showConfirmButton: false,
-						timer: 2500
-					});
-					board.children('i.material-icons.circle').css("background-color", json.board_color);
-					board.children('a.title').text(json.board_name);
-					board.children('p.paragraph').text(json.board_description);
-					form.closest('.modal.open').modal('close');
-				}else{
-					swal({
-						title: "Oppss!",
-						type : "error",
-						text: "Seems there was a problem, try again later.",
-						timer: 2500
-					});
-				}
-			})
-		})
-	});
-
-	form.find('button[type="submit"][name="delete"]').click(function(){
-		swal({
-			title: 'Are you sure?',
-			text: "You won't be able to revert this!",
-			type: 'warning',
-			showCancelButton: true,
-			cancelButtonColor: '#d33',
-			confirmButtonColor: '#3085d6',
-			confirmButtonText: 'Yes, delete it!'
-		}).then((result) => {
-			if (result.value) {
-				let json = form.formToJSON();
-				json.board_id = board.find('span.id').text();
-				swal.showLoading();
-				customFetch(json, "POST", "http://localhost:8080/Trello/Board_Delete")
-				.then(r=>{
-					if(r.status === 200){
-						swal({
-							title: "Board deleted successfully!",
-							type : "success",
-							showConfirmButton: false,
-							timer: 2500
-						});
-						board.remove();
-						form.closest('.modal.open').modal('close');
-					}else{
-						swal({
-							title: "Oppss!",
-							type : "error",
-							text: "Seems there was a problem, try again later.",
-							timer: 2500
-						});
-					}
-				})
-				.catch(err=>{console.log(err);})
-			}else if( result.dismiss === swal.DismissReason.cancel){
-				swal({
-					title: "Cancelled!",
-					type : "error",
-					text: "Your boards are safe",
-					timer: 2500
-				});
-			}
-		})
-		.catch(err=>{console.log(err);})
-	})
-}

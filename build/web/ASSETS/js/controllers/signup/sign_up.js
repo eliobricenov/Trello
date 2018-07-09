@@ -44,12 +44,7 @@ $('form').submit(function(e) {
                             title: "Suspicious..",
                             text: "Seems like you're already registered..",
                             type: "error"
-                        }).then((ok) => {
-                            if (ok) {
-                                window.location.href = "http://localhost:8080/Trello/index.html";
-                            }
                         })
-                        break;
 
                     case 500:
                         swal({

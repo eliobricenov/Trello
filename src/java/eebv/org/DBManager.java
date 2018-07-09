@@ -24,8 +24,8 @@ public class DBManager {
                 rs.beforeFirst();
                 while(rs.next()){
                     User u = new User();
-                    u.setId(rs.getString("user_id"));
-                    u.setTypeId(rs.getString("type_id"));
+                    u.setId(rs.getInt("user_id"));
+                    u.setTypeId(rs.getInt("type_id"));
                     u.setName(rs.getString("user_name"));
                     u.setLastName(rs.getString("user_last_name"));
                     u.setUsername(rs.getString("user_username"));
@@ -55,8 +55,8 @@ public class DBManager {
             if(rs.next()){
                 rs.beforeFirst();
                 while(rs.next()){
-                    u.setId(rs.getString("user_id"));
-                    u.setTypeId(rs.getString("type_id"));
+                    u.setId(rs.getInt("user_id"));
+                    u.setTypeId(rs.getInt("type_id"));
                     u.setName(rs.getString("user_name"));
                     u.setLastName(rs.getString("user_last_name"));
                     u.setUsername(rs.getString("user_username"));
@@ -84,8 +84,8 @@ public class DBManager {
                 rs.beforeFirst();
                 while(rs.next()){
                     User u = new User();
-                    u.setId(rs.getString("user_id"));
-                    u.setTypeId(rs.getString("type_id"));
+                    u.setId(rs.getInt("user_id"));
+                    u.setTypeId(rs.getInt("type_id"));
                     u.setName(rs.getString("user_name"));
                     u.setLastName(rs.getString("user_last_name"));
                     u.setUsername(rs.getString("user_username"));

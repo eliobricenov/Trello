@@ -57,10 +57,6 @@
         <servlet-class>eebv.org.GetColumnsData</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Laputamadre</servlet-name>
-        <servlet-class>eebv.org.Laputamadre</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Column_Creation</servlet-name>
         <servlet-class>eebv.org.Column_Creation</servlet-class>
     </servlet>
@@ -83,6 +79,26 @@
     <servlet>
         <servlet-name>Card_Delete</servlet-name>
         <servlet-class>eebv.org.Card_Delete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BoardServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.BoardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CardServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.CardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ColumnServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.ColumnServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -141,10 +157,6 @@
         <url-pattern>/GetColumnsData</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Laputamadre</servlet-name>
-        <url-pattern>/Laputamadre</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Column_Creation</servlet-name>
         <url-pattern>/Column_Creation</url-pattern>
     </servlet-mapping>
@@ -167,6 +179,26 @@
     <servlet-mapping>
         <servlet-name>Card_Delete</servlet-name>
         <url-pattern>/Card_Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BoardServlet</servlet-name>
+        <url-pattern>/BoardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CardServlet</servlet-name>
+        <url-pattern>/CardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ColumnServlet</servlet-name>
+        <url-pattern>/ColumnServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/UserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

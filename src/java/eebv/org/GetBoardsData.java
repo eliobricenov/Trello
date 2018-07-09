@@ -82,7 +82,7 @@ public class GetBoardsData extends HttpServlet {
         PrintWriter p = response.getWriter();
         if (request.getSession(false)!= null) {
             User u = (User) request.getSession(false).getAttribute("user");
-            List<Board> boards = db.getBoards("user_id", Integer.parseInt(u.getId()));
+            List<Board> boards = db.getBoards("user_id", (u.getId()));
             try {
                 if (boards != null) {
                     r.put("status", 200);

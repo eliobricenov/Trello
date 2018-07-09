@@ -4,9 +4,15 @@ function customFetch(data, method, url) {
     switch (method) {
         case 'GET': { 
             return new Promise((resolve, reject)=>{
-                fetch(url, {
-                    method: 'GET'
-                })
+                let datajson = {
+                    method: 'GET',
+                    withCredentials: true,
+                    credentials: 'same-origin',
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                }; 
+                fetch(url, datajson)
                 .then((res) => res.json())
                 .then((d) => {
                     resolve(d);
@@ -22,6 +28,52 @@ function customFetch(data, method, url) {
             return new Promise((resolve, reject)=>{
               let datajson = {
                     method: 'POST',
+                    body: JSON.stringify(data),
+                    withCredentials: true,
+                    credentials: 'same-origin',
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                };  
+                fetch(url, datajson)
+                .then((res) => res.json())
+                .then((data) => {
+                    resolve(data)
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+            });   
+        } 
+        break;
+        case 'DELETE':
+        {
+            return new Promise((resolve, reject)=>{
+              let datajson = {
+                    method: 'DELETE',
+                    body: JSON.stringify(data),
+                    withCredentials: true,
+                    credentials: 'same-origin',
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                };  
+                fetch(url, datajson)
+                .then((res) => res.json())
+                .then((data) => {
+                    resolve(data)
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+            });   
+        } 
+        break;
+        case 'PUT':
+        {
+            return new Promise((resolve, reject)=>{
+              let datajson = {
+                    method: 'PUT',
                     body: JSON.stringify(data),
                     withCredentials: true,
                     credentials: 'same-origin',

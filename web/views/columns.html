@@ -16,7 +16,7 @@
     <div id="page">
         <!-- MODALS -->
         <div class="nav-container"></div>
-        <div class="container flex-content"></div>
+        <div id="container" class="row flex-content"></div>
 
         <div id="modal1" class="modal">
             <div class="modal-content">
@@ -131,7 +131,11 @@
     <script src="../ASSETS/js/dev/customFetch.js"></script>
     <!-- controllers -->
     <script src="../ASSETS/js/controllers/boards/boardsRenderer.js"></script>
+    <script src="../ASSETS/js/controllers/cards/cardController.js"></script>
+    <script src="../ASSETS/js/controllers/cards/cardCreator.js"></script>
+    <script src="../ASSETS/js/controllers/cards/cardUpdater.js"></script>
     <script src="../ASSETS/js/controllers/columns/columnCreator.js"></script>
+    <script src="../ASSETS/js/controllers/columns/columnUpdater.js"></script>
     <script src="../ASSETS/js/controllers/columns/columnRenderer.js"></script>
     <script src="../ASSETS/js/controllers/columns/columns.js"></script>
     <script>
@@ -143,8 +147,10 @@
                 dismissible: false,
                 ready: function(modal, trigger) {
                     let form = modal.children().children('form');
-                    let container = trigger.parent().parent().find('div.collection');
-                    createCard(form, container);
+                    let data = {};
+                    let container = trigger.parent().parent().find('div.card-content');
+                    data.column_id = parseInt(container.find('span.column_id').text());
+                    createCard(form, data, container);
                 }
             });
 
@@ -155,7 +161,7 @@
                     let data = {};
                     data.column_id = trigger.data('column_id');
                     data.board_id = trigger.data('board_id');
-                    updateColumn(form, data, trigger.parent());
+                    updateColumn(form, data, trigger.parent().parent());
                     form[0].reset();
                 }
             });

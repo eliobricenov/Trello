@@ -84,6 +84,7 @@ public class Login extends HttpServlet {
                if(db.checkPassword(email, pass)){
                    r.put("status", 200);
                    ses.setAttribute("user", u);
+                   System.out.println(ses.getAttribute("user").toString());
                }else{
                    r.put("status", 403);
                }

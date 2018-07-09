@@ -28,23 +28,23 @@ public class User {
     /**
      * @return the typeId
      */
-    public String getTypeId() {
+    public int getTypeId() {
         return typeId;
     }
 
     /**
      * @param typeId the typeId to set
      */
-    public void setTypeId(String typeId) {
+    public void setTypeId(int typeId) {
         this.typeId = typeId;
     }
     private String username;
     private String password;
-    private String id;
+    private int id;
     private String email;
     private String name;
     private String lastName;
-    private String typeId;
+    private int typeId;
     private String timestamp;
     /**
      * @return the username
@@ -77,14 +77,14 @@ public class User {
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

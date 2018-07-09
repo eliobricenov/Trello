@@ -24,7 +24,7 @@ $('form#boardCreate').submit(function(e) {
 	.then(r=>{
 		let j = form.formToJSON();
 		swal.showLoading();
-		customFetch(j, "POST", "http://localhost:8080/Trello/Board_Creation")
+		customFetch(j, "POST", "http://localhost:8080/Trello/BoardServlet")
 		.then(r=>{
 			if(r.status === 200){ 
 				swal({

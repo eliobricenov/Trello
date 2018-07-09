@@ -84,11 +84,12 @@ public class Board_Creation extends HttpServlet {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String time = sdf.format(t);
+        
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
             if (request.getSession(false).getAttribute("user") != null) {
                 User u = (User) request.getSession().getAttribute("user");
-                if(db.registerBoard(data.getString("board_name"), Integer.parseInt(u.getId()), 
+                if(db.registerBoard(data.getString("board_name"), (u.getId()), 
                         time, data.getString("board_color"), data.getString("board_description"))){
                     r.put("status", 200);
                     Board b = db.getBoard("board_created_at", time);
@@ -101,7 +102,7 @@ public class Board_Creation extends HttpServlet {
                     r.put("data", d);
                 }else{
                     r.put("status", 404);
-                    r.put("query", db.registerBoardString(data.getString("name"), Integer.parseInt(u.getId())));
+                    r.put("query", db.registerBoardString(data.getString("name"), (u.getId())));
                 }
             }else{
                 r.put("status", 500);
@@ -109,7 +110,7 @@ public class Board_Creation extends HttpServlet {
         } catch (JSONException ex) {
             Logger.getLogger(Board_Creation.class.getName()).log(Level.SEVERE, null, ex);
              try {
-                r.put("status", 456);
+                r.put("status", 500);
             } catch (JSONException ex2) {
                 Logger.getLogger(GetUserData.class.getName()).log(Level.SEVERE, null, ex);
             };
