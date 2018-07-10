@@ -55,13 +55,13 @@ public class DBManager {
         return users;
     }
     
-    public User getUser(String email){
+    public User getUser(String username){
         PreparedStatement stm = null;
         ResultSet rs = null;
         User u = new User();
         try{
-            stm = con.prepareStatement("SELECT * FROM users WHERE user_email = ? LIMIT 1");
-            stm.setString(1, email);
+            stm = con.prepareStatement("SELECT * FROM users WHERE user_username = ? LIMIT 1");
+            stm.setString(1, username);
             rs = stm.executeQuery();
             if(rs.next()){
                 rs.beforeFirst();
@@ -222,22 +222,25 @@ public class DBManager {
         return card;
     }
     
-    public boolean userExists(String email){
+    public boolean userExists(String username){
         PreparedStatement stm = null;
+        boolean flag = true;
         ResultSet rs = null;
         try{
-            String q = "SELECT * FROM users WHERE user_email = ? LIMIT 1";
+            String q = "SELECT * FROM users WHERE user_username = ? LIMIT 1";
             stm = con.prepareStatement(q);
-            stm.setString(1, email);
+            stm.setString(1, username);
             rs = stm.executeQuery();
             if(rs.next()){
-                return true;
+                flag = true;
             }else{
-                throw new Exception("No existe el usuario");
+                flag = false;
             }
         } catch (Exception ex) {
             return false;
         }
+        
+        return flag;
     }
     
     public boolean registerUser(String name, String lastName, String username, String password,
@@ -269,10 +272,10 @@ public class DBManager {
        return flag;
     }
     
-    public boolean checkPassword(String email, String pass){
+    public boolean checkPassword(String username, String pass){
         try {
-            PreparedStatement stm = con.prepareStatement("SELECT user_password FROM users WHERE user_email = ?");
-            stm.setString(1, email);
+            PreparedStatement stm = con.prepareStatement("SELECT user_password FROM users WHERE user_username = ?");
+            stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
             rs.next();
             String hash_pass = rs.getString("user_password");

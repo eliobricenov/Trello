@@ -82,16 +82,16 @@ public class SignUp extends HttpServlet {
             String email = data.getString("email");
             String username = data.getString("username");
             String password = data.getString("password");
-            if(!db.userExists(email)){
+            if(db.userExists(username)){
+               r.put("status", 409);
+                //System.out.println(db.registerUser(name, lastName, username, password, email));
+           }else{
                if(db.registerUser(name, lastName, username, password, email)){
                 r.put("status", 200);
                 }else{
                 r.put("status", 500);
                 r.put("query", db.registerUserString(name, lastName, username, password, email));
                 }
-                //System.out.println(db.registerUser(name, lastName, username, password, email));
-           }else{
-               r.put("status", 409);
            }
         } catch (Exception ex) {
             ex.printStackTrace();

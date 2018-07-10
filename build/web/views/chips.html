@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+    #toast-container {
+        top: auto !important;
+        right: auto !important;
+        bottom: 10%;
+        left: 7%;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="chips"></div>
+    <!-- Compiled and minified JavaScript -->
+    <script src="../ASSETS/js/dev/jquery.min.js"></script>
+    <script src="../ASSETS/js/dev/jquery.validate.min.js"></script>
+    <script src="../ASSETS/js/dev/materialize.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        let myData = {};
+        let autocompleteData = {};
+
+        let datajson = {
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'same-origin',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        fetch("http://localhost:8080/Trello/ChipsServlet", datajson)
+            .then((res) => res.json())
+            .then((data) => {
+                myData = data.tagData;
+                autocompleteData = data.autocompleteData;
+
+                $('.chips').material_chip({
+                    autocompleteOptions: {
+                        data: autocompleteData,
+                        limit: Infinity,
+                        minLength: 1
+                    }
+                });
+
+                $('.chips').on('chip.add', function(e, chip) {
+                    // you have the added chip here
+
+                    $.each(myData, function(index, tag) {
+                        if (chip.tag == tag.username) {
+                            chip.id = tag.id;
+                        }
+                    });
+
+                    let data1 = $('.chips').material_chip('data');
+
+                    if (chip.id == undefined) {
+                        data1.splice(data1.length - 1, 1);
+                        Materialize.toast('You can only select registered users!', 4000);
+                    }
+
+                    $('.chips').material_chip({
+                        data: data1,
+                        autocompleteOptions: {
+                            data: autocompleteData,
+                            limit: Infinity,
+                            minLength: 1
+                        }
+                    });
+                });
+
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+        // let myData = [{
+        //         name: 'Apple',
+        //         id: 1
+        //     },
+        //     {
+        //         name: 'Android',
+        //         id: 2
+        //     }
+        // ]
+
+        // let autocompleteData = {
+        //     'Apple': null,
+        //     'Android': null,
+        // }
+
+        // let lala = {
+        //     'Apple': null,
+        //     'Android': null,
+        // }
+
+
+    })
+    </script>
+</body>
+
+</html>

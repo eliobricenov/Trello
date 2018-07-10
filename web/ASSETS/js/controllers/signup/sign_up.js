@@ -24,9 +24,11 @@ $('form').submit(function(e) {
         }
     }).then(r => {
         let fd = $(this).formToJSON();
+        console.log(fd);
         swal.showLoading();
-        customFetch(fd, "POST", "http://localhost:8080/Trello/SignUp")
+        customFetch(fd, "POST", "http://localhost:8080/Trello/SignUpServlet")
             .then(r => {
+                console.log(r);
                 switch (r["status"]) {
                     case 200:
                         swal({
@@ -42,7 +44,7 @@ $('form').submit(function(e) {
                     case 409:
                         swal({
                             title: "Suspicious..",
-                            text: "Seems like you're already registered..",
+                            text: "Seems like you're already registered under that username..",
                             type: "error"
                         })
 
@@ -64,5 +66,5 @@ $('form').submit(function(e) {
                 }
             })
             .catch(err => { console.log(err); })
-    }).catch(err => { console.log(err) })
+        }).catch(err => { console.log(err) })
 });
