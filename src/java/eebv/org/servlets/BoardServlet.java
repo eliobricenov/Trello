@@ -71,6 +71,7 @@ public class BoardServlet extends HttpServlet {
         DBManager db = new DBManager();
         JSONObject r = new JSONObject();
         JSONArray jarray = new JSONArray();
+        JSONArray collabs = new JSONArray();
         PrintWriter p = response.getWriter();
         if (request.getSession(false) != null) {
             User u = (User) request.getSession(false).getAttribute("user");
@@ -130,7 +131,8 @@ public class BoardServlet extends HttpServlet {
             if (request.getSession(false).getAttribute("user") != null) {
                 User u = (User) request.getSession().getAttribute("user");
                 if (db.registerBoard(data.getString("board_name"), (u.getId()),
-                        time, data.getString("board_color"), data.getString("board_description"))) {
+                        time, data.getString("board_color"), data.getString("board_description"),
+                        data.getJSONArray("board_collaborators"))) {
                     r.put("status", 200);
                     Board b = db.getBoard("board_created_at", time);
                     d.put("board_id", b.getId());
@@ -139,6 +141,7 @@ public class BoardServlet extends HttpServlet {
                     d.put("board_created_at", b.getTimestamp());
                     d.put("board_color", b.getColor());
                     d.put("board_description", b.getDescription());
+                    d.put("board_collaborators", data.getJSONArray("board_collaborators"));
                     r.put("data", d);
                 } else {
                     r.put("status", 404);
@@ -179,7 +182,7 @@ public class BoardServlet extends HttpServlet {
             if (db.userOwns(u.getId(), data.getInt("board_id"))) {
                 if (db.updateBoard((data.getInt("board_id")),
                         data.getString("board_name"), data.getString("board_color"),
-                        data.getString("board_description"))) {
+                        data.getString("board_description"), data.getJSONArray("board_collaborators"))){
                     r.put("status", 200);
                     r.put("data", d);
                 } else {

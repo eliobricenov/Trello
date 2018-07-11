@@ -28,7 +28,7 @@ $('form').submit(function(e) {
         swal.showLoading();
         customFetch(fd, "POST", "http://localhost:8080/Trello/SignUpServlet")
             .then(r => {
-                console.log(r);
+                console.log(r.status);
                 switch (r["status"]) {
                     case 200:
                         swal({
@@ -40,14 +40,13 @@ $('form').submit(function(e) {
                             }
                         })
                         break;
-
                     case 409:
                         swal({
                             title: "Suspicious..",
-                            text: "Seems like you're already registered under that username..",
+                            text: "Seems like you're already registered under that username or email",
                             type: "error"
                         })
-
+                    break;
                     case 500:
                         swal({
                             title: "Oops!",

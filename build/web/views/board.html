@@ -2,7 +2,7 @@
 
 <head>
     <title>Jellio Board</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
@@ -73,6 +73,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="input-field col s12 ">
+                        <div class="chips"></div>
+                        <label for="board_collabs">Board Colaborators</label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s12">
                         <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
                     </div>
@@ -133,6 +139,29 @@
     <script src="../ASSETS/js/controllers/boards/boards.js"></script>
     <script>
         $(document).ready(function() {
+
+            customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
+            .then(data => {
+                let myData = data.tagData;
+                let autocompleteData = data.autocompleteData;
+
+
+                $('.chips').customChips(myData, autocompleteData);
+            })
+            .catch(err => {
+                console.log(err);
+                swal({
+                    title: "Oops!",
+                    text: "Mistakes were made",
+                    type: "error",
+                    showConfirmButton: false,
+                    timer: 4000
+                })
+
+                window.location.href = "http://localhost:8080/Trello/views/index.html"
+
+            })
+
             $('.modal').modal({
                 dismissible: false,
             });
@@ -143,19 +172,20 @@
               container: $('div#colorpicker-create'),
               inline: true,
               format: 'hex',
-            });
+          });
             
             $('.colorpicker-update').colorpicker({
               container: $('div#colorpicker-update'),
               inline: true,
               format: 'hex',
-            });
+          });
 
             $('.modal.update').modal({
                 dismissible: false,
                 ready: function(modal, trigger) {
                     let form = modal.children().children('form');
-                    updateBoard(form, trigger.parent());
+
+                    updateBoard(form, {}, trigger.parent());
                 }
             });
 

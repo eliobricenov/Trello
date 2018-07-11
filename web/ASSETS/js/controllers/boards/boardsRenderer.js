@@ -58,6 +58,7 @@ function renderBoard(container, data){
 	let title = document.createElement("a");
 	let description = document.createElement("p");
 	let id = document.createElement("span");
+	let collabs = document.createElement("span");
 	let optionsLink = document.createElement("a");
 	let deleteLink = document.createElement("a");
 	let optionsIcon = document.createElement("i");
@@ -72,6 +73,8 @@ function renderBoard(container, data){
 	description.className= "paragraph";
 	id.className= "id";
 	id.hidden = true;
+	collabs.className= "collabs";
+	collabs.hidden = true;
 	optionsLink.className = "secondary-content modal-trigger";
 	deleteLink.className = "secondary-content modal-trigger";
 	optionsLink.href = "#modal_update";
@@ -88,11 +91,13 @@ function renderBoard(container, data){
 	deleteIcon.appendChild(document.createTextNode("delete"));
 	optionsLink.appendChild(optionsIcon);
 	deleteLink.appendChild(deleteIcon);
+	collabs.appendChild(document.createTextNode(JSON.stringify(data.board_collaborators)));
 
 	collectionItem.appendChild(avatarIcon);
 	collectionItem.appendChild(title);
 	collectionItem.appendChild(description);
 	collectionItem.appendChild(id);
+	collectionItem.appendChild(collabs);
 	collectionItem.appendChild(optionsLink);
 	container.appendChild(collectionItem);
 

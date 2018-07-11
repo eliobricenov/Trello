@@ -1,4 +1,4 @@
-function updateBoard(form, board){
+function updateBoard(form, data, board){
 
 	form.find('button[type="submit"][name="update"]').unbind().click(function(){
 		form.customValidate({
@@ -9,6 +9,7 @@ function updateBoard(form, board){
 		.then(r=>{
 			let json = form.formToJSON();
 			json.board_id = parseInt(board.find('span.id').text());
+			json.board_collaborators = form.find('.chips').material_chip('data');
 			swal.showLoading();
 			customFetch(json, "PUT", "http://localhost:8080/Trello/BoardServlet")
 			.then(r=>{

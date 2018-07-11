@@ -87,7 +87,7 @@ public class LoginServlet extends HttpServlet {
             String pass = data.getString("password");
             DBManager db = new DBManager();
             User u = db.getUser(username);
-            if(db.userExists(username)){
+            if(db.usernameExists(username)){
                if(db.checkPassword(username, pass)){
                    r.put("status", 200);
                    ses.setAttribute("user", u);

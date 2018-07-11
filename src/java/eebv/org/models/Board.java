@@ -6,6 +6,7 @@
 package eebv.org.models;
 
 import eebv.org.*;
+import org.json.*;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Board {
     private String timestamp;
     private String color;
     private String description;
+    private JSONArray collaborators;
 
     /**
      * @return the id
@@ -102,6 +104,20 @@ public class Board {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the collaborators
+     */
+    public JSONArray getCollaborators() {
+        return collaborators;
+    }
+
+    /**
+     * @param collaborators the collaborators to set
+     */
+    public void setCollaborators(JSONArray collaborators) {
+        this.collaborators = collaborators;
     }
     
 }

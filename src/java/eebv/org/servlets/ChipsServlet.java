@@ -68,14 +68,17 @@ public class ChipsServlet extends HttpServlet {
         JSONArray tagData = new JSONArray();
         JSONObject autocompleteData = new JSONObject();
         PrintWriter p = response.getWriter();
+        User user = (User) request.getSession(false).getAttribute("user");
         List<User> users = db.getUsers();
         try {
             for (User u : users) {
-                JSONObject obj = new JSONObject();
-                obj.put("username", u.getUsername());
-                obj.put("id", u.getId());
-                autocompleteData.put(u.getUsername(), JSONObject.NULL);
-                tagData.put(obj);
+                if (u.getId() != user.getId()) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("user_username", u.getUsername());
+                    obj.put("user_id", u.getId());
+                    autocompleteData.put(u.getUsername(), JSONObject.NULL);
+                    tagData.put(obj);
+                }
             }
             r.put("tagData", tagData);
             r.put("autocompleteData", autocompleteData);

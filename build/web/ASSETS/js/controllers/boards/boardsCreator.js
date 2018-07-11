@@ -19,10 +19,12 @@ $('form#boardCreate').submit(function(e) {
 		},
 		board_color:{
 			required:true
-		}
+		},
+		ignore: ".chips"
 	})
 	.then(r=>{
 		let j = form.formToJSON();
+		j.board_collaborators = $(this).find('.chips').material_chip('data');
 		swal.showLoading();
 		customFetch(j, "POST", "http://localhost:8080/Trello/BoardServlet")
 		.then(r=>{

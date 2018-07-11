@@ -5,7 +5,6 @@
  */
 package eebv.org.models;
 
-import eebv.org.*;
 
 /**
  *
@@ -48,6 +47,8 @@ public class User {
     private String lastName;
     private int typeId;
     private String timestamp;
+    private int credential;
+    private int boardId;
     /**
      * @return the username
      */
@@ -140,5 +141,33 @@ public class User {
         System.out.println(this.getEmail());
         System.out.println(this.getUsername());
         System.out.println(this.getPassword());
+    }
+
+    /**
+     * @return the credential
+     */
+    public int getCredential() {
+        return credential;
+    }
+
+    /**
+     * @param credential the credential to set
+     */
+    public void setCredential(int credential) {
+        this.credential = credential;
+    }
+
+    /**
+     * @return the boardId
+     */
+    public int getBoardId() {
+        return boardId;
+    }
+
+    /**
+     * @param boardId the boardId to set
+     */
+    public void setBoardId(int boardId) {
+        this.boardId = boardId;
     }
 }

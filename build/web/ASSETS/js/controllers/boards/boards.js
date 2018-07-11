@@ -17,6 +17,7 @@ customFetch("", "GET", "http://localhost:8080/Trello/UserServlet")
 			b_container.innerHTML = title;
 			for (var i = 0; i < r.boards.length; i++) {
 				renderBoard(b_container, r.boards[i]);
+				console.log(r.boards[i]);
 			}
 		}).catch(err=>{console.log(err);});
 	}
