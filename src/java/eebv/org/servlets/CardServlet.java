@@ -42,7 +42,7 @@ public class CardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CardServelt</title>");            
+            out.println("<title>Servlet CardServelt</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CardServelt at " + request.getContextPath() + "</h1>");
@@ -82,25 +82,30 @@ public class CardServlet extends HttpServlet {
         JSONObject d = new JSONObject();
         PrintWriter p = response.getWriter();
         User u = (User) request.getSession(false).getAttribute("user");
-        System.out.println(u.getId());
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            int column_id = data.getInt("column_id");
-            int id = db.registerCard(data.getString("card_name"), column_id
-                        , data.getString("card_description"), (u.getId())); 
-            if(id>0){
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))
+                    || db.isColumnOwner(u.getId(), data.getInt("column_id"))) {
+                int column_id = data.getInt("column_id");
+                int id = db.registerCard(data.getString("card_name"), column_id,
+                        data.getString("card_description"), (u.getId()));
+                if (id > 0) {
                     r.put("status", 200);
                     d.put("card_name", data.getString("card_name"));
                     d.put("column_id", data.getInt("column_id"));
                     d.put("card_description", data.getString("card_description"));
-                    d.put("card_id", id); 
+                    d.put("card_id", id);
                     r.put("data", d);
-                }else{
-                    r.put("status", 404);                }
+                } else {
+                    r.put("status", 404);
+                }
+            } else {
+                r.put("status", 403);
+            }
         } catch (JSONException ex) {
             ex.printStackTrace();
             Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-             try {
+            try {
                 r.put("status", 500);
             } catch (JSONException ex2) {
                 Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,7 +113,7 @@ public class CardServlet extends HttpServlet {
         }
         p.print(r);
     }
-    
+
     /**
      * Handles the HTTP <code>DELETE</code> method.
      *
@@ -120,19 +125,25 @@ public class CardServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                 DBManager db = new DBManager();
-        JSONObject r = new JSONObject();    
+        DBManager db = new DBManager();
+        JSONObject r = new JSONObject();
         PrintWriter p = response.getWriter();
+        User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-                if(db.deleteCard(data.getInt("card_id"))){
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))
+                    || db.isCardOwner(u.getId(), data.getInt("card_id"))) {
+                if (db.deleteCard(data.getInt("card_id"))) {
                     r.put("status", 200);
-                }else{
+                } else {
                     r.put("status", 404);
                 }
+            } else {
+                r.put("status", 403);
+            }
         } catch (JSONException ex) {
             Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-             try {
+            try {
                 r.put("status", 500);
             } catch (JSONException ex2) {
                 Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,18 +167,24 @@ public class CardServlet extends HttpServlet {
         JSONObject r = new JSONObject();
         JSONObject d = new JSONObject();
         PrintWriter p = response.getWriter();
+        User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-                if(db.updateCard(data.getInt("card_id"), data.getString("card_name"),
-                        data.getString("card_description"))){
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))
+                    || db.isCardOwner(u.getId(), data.getInt("card_id"))) {
+                if (db.updateCard(data.getInt("card_id"), data.getString("card_name"),
+                        data.getString("card_description"))) {
                     r.put("status", 200);
                     r.put("data", d);
-                }else{
+                } else {
                     r.put("status", 404);
                 }
+            } else {
+                r.put("status", 403);
+            }
         } catch (JSONException ex) {
             Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-             try {
+            try {
                 r.put("status", 500);
             } catch (JSONException ex2) {
                 Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -15,6 +15,7 @@ import java.util.List;
 public class Column {
     private int column_id;
     private int board_id;
+    private int user_id;
     private String column_name;
     private List<Card> column_cards;
     /**
@@ -71,5 +72,19 @@ public class Column {
      */
     public void setColumn_cards(List<Card> column_cards) {
         this.column_cards = column_cards;
+    }
+
+    /**
+     * @return the user_id
+     */
+    public int getUser_id() {
+        return user_id;
+    }
+
+    /**
+     * @param user_id the user_id to set
+     */
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }

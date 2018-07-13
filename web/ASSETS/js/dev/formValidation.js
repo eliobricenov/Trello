@@ -55,9 +55,10 @@ $.validator.addMethod("lettersonlys", function(value, element) {
 	}
 
 
-	$.fn.customChips = function(data, completitionData){
+	$.fn.customChips = function(initialData, data, completitionData){
 		
 		$(this).material_chip({
+			data:initialData,
 			autocompleteOptions: {
 				data: completitionData,
 				limit: Infinity,
@@ -90,7 +91,7 @@ $.validator.addMethod("lettersonlys", function(value, element) {
 		});
 	}
 
-
+	
 
 })(jQuery);
 
@@ -110,38 +111,14 @@ function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function collabsToChips(collabs){
+		let chips = [];
+		for (var i = collabs.length - 1; i >= 0; i--) {
+			let chip = {};
+			chip.id = collabs[i].user_id;
+			chip.tag = collabs[i].user_username;
+			chips.push(chip);
+		}
 
-// function prepareChips(chips, data, completitionData) {
-// 	chips.material_chip({
-// 		autocompleteOptions: {
-// 			data: completitionData,
-// 			limit: Infinity,
-// 			minLength: 1
-// 		}
-// 	});
-
-// 	chips.on('chip.add', function(e, chip) {
-// 		$.each(data, function(index, tag) {
-// 			if (chip.tag == tag.username) {
-// 				chip.id = tag.id;
-// 			}
-// 		});
-
-// 		let data1 = chips.material_chip('data');
-
-// 		if (chip.id == undefined) {
-// 			data1.splice(data1.length - 1, 1);
-// 			Materialize.toast('You can only select registered users!', 4000);
-// 		}
-
-// 		chips.material_chip({
-// 			data: data1,
-// 			autocompleteOptions: {
-// 				data: completitionData,
-// 				limit: Infinity,
-// 				minLength: 1
-// 			}
-// 		});
-// 	});
-
-// }
+		return chips;
+}

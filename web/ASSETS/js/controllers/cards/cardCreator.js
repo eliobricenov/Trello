@@ -17,10 +17,8 @@ function createCard(form, data, container){
 			j.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
 			j.column_id = data.column_id;
 			swal.showLoading();
-			console.log(j);
 			customFetch(j, "POST", "http://localhost:8080/Trello/CardServlet")
 			.then(r=>{
-				console.log(r);
 				if(r.status === 200){ 
 					swal({
 						title: "Card created successfully!",
@@ -29,10 +27,18 @@ function createCard(form, data, container){
 						timer: 1500
 					});
 					$(this).closest('.modal.open').modal('close');
-					console.log(container.find('div.collection.with-header'));
 					renderCard(r.data, container.find('div.collection.with-header').get(0));
 					form[0].reset();
-				}else{
+				}else if(r.status === 403){
+					swal({
+						title: "Acces Denied",
+						text: "You can only edit elements if you're the board master or the element's creator!",
+						type: "error",
+						showConfirmButton: true,
+					})
+					$(this).closest('.modal.open').modal('close');
+				}
+				else{
 					form[0].reset();
 					swal({
 						title: "Oppss!",

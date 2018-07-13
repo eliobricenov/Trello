@@ -14,11 +14,9 @@ function updateCard(form, data, card){
 			let json = form.formToJSON();
 			json.card_id = data.card_id;
 			json.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
-			console.log(json);
 			swal.showLoading();
 			customFetch(json, "PUT", "http://localhost:8080/Trello/CardServlet")
 			.then(r=>{
-				console.log(r);
 				if(r.status === 200){
 					swal({
 						title: "Card Updated successfully!",
@@ -34,7 +32,16 @@ function updateCard(form, data, card){
 					card.get(0).appendChild(cardId);
 					form.closest('.modal.open').modal('close');
 					form[0].reset();
-				}else{
+				}else if(r.status === 403){
+					swal({
+						title: "Acces Denied",
+						text: "You can only edit elements if you're the board master or the element's creator!",
+						type: "error",
+						showConfirmButton: true,
+					})
+					$(this).closest('.modal.open').modal('close');
+				}
+				else{
 					swal({
 						title: "Oppss!",
 						type : "error",
@@ -59,7 +66,7 @@ function updateCard(form, data, card){
 			if (result.value) {
 				let json = form.formToJSON();
 				json.card_id = data.card_id;
-				console.log(json);
+				json.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
 				swal.showLoading();
 				customFetch(json, "DELETE", "http://localhost:8080/Trello/CardServlet")
 				.then(r=>{
@@ -73,6 +80,13 @@ function updateCard(form, data, card){
 						card.remove();
 						form.closest('.modal.open').modal('close');
 						form[0].reset();
+					}else if(r.status === 403){
+					swal({
+						title: "Acces Denied",
+						text: "You can only edit elements if you're the board master or the element's creator!",
+						type: "error",
+						showConfirmButton: true,
+					})
 					}else{
 						swal({
 							title: "Oppss!",

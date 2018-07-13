@@ -150,7 +150,9 @@
                     let data = {};
                     let container = trigger.parent().parent().find('div.card-content');
                     data.column_id = parseInt(container.find('span.column_id').text());
+                    console.log(data.column_id);
                     createCard(form, data, container);
+                    form[0].reset();
                 }
             });
 

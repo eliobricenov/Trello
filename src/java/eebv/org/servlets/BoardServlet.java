@@ -78,7 +78,6 @@ public class BoardServlet extends HttpServlet {
             List<Board> boards = db.getBoards("user_id", (u.getId()));
             try {
                 if (boards != null) {
-                    r.put("status", 200);
                     for (Board b : boards) {
                         JSONObject j = new JSONObject();
                         j.put("board_id", b.getId());
@@ -87,13 +86,34 @@ public class BoardServlet extends HttpServlet {
                         j.put("board_description", b.getDescription());
                         j.put("user_id", b.getUserId());
                         j.put("board_created_at", b.getTimestamp());
+                        List<User> collab = db.getCollabs(b.getId());
+                        if (collab != null) {
+                            JSONArray collabs_inner = new JSONArray();
+                            for (User c : collab) {
+                                JSONObject c_json = new JSONObject();
+                                c_json.put("user_id", c.getId());
+                                c_json.put("board_id", b.getId());
+                                c_json.put("user_username", c.getName());
+                                c_json.put("type_board_user_id", c.getCredential());
+                                collabs_inner.put(c_json);
+                            }
+                            j.put("board_collaborators", collabs_inner);
+                        }else{
+                            j.put("board_collaborators", new JSONArray());
+                        }
                         jarray.put(j);
                     }
                     r.put("boards", jarray);
+                    r.put("status", 200);
                 } else {
                     r.put("status", 404);
                 }
             } catch (Exception ex) {
+                try {
+                    r.put("status", 500);
+                } catch (JSONException ex1) {
+                    Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex1);
+                }
                 Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
@@ -125,7 +145,7 @@ public class BoardServlet extends HttpServlet {
         Timestamp t = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String time = sdf.format(t);
-
+        JSONArray collabs = new JSONArray();
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
             if (request.getSession(false).getAttribute("user") != null) {
@@ -141,7 +161,18 @@ public class BoardServlet extends HttpServlet {
                     d.put("board_created_at", b.getTimestamp());
                     d.put("board_color", b.getColor());
                     d.put("board_description", b.getDescription());
-                    d.put("board_collaborators", data.getJSONArray("board_collaborators"));
+                    List<User> collab = db.getCollabs(b.getId());
+                    if (collab != null) {
+                        for (User c : collab) {
+                            JSONObject c_json = new JSONObject();
+                            c_json.put("user_id", c.getId());
+                            c_json.put("user_username", c.getName());
+                            c_json.put("board_id", b.getId());
+                            c_json.put("type_board_user_id", c.getCredential());
+                            collabs.put(c_json);
+                        }
+                    }
+                    d.put("board_collaborators", collabs);
                     r.put("data", d);
                 } else {
                     r.put("status", 404);
@@ -179,10 +210,25 @@ public class BoardServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.userOwns(u.getId(), data.getInt("board_id"))) {
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))) {
                 if (db.updateBoard((data.getInt("board_id")),
                         data.getString("board_name"), data.getString("board_color"),
-                        data.getString("board_description"), data.getJSONArray("board_collaborators"))){
+                        data.getString("board_description"), data.getJSONArray("board_collaborators"))) {
+                    List<User> collab = db.getCollabs((data.getInt("board_id")));
+                        if (collab != null) {
+                            JSONArray collabs_inner = new JSONArray();
+                            for (User c : collab) {
+                                JSONObject c_json = new JSONObject();
+                                c_json.put("user_id", c.getId());
+                                c_json.put("board_id",(data.getInt("board_id")));
+                                c_json.put("user_username", c.getName());
+                                c_json.put("type_board_user_id", c.getCredential());
+                                collabs_inner.put(c_json);
+                            }
+                            r.put("board_collaborators", collabs_inner);
+                        }else{
+                            r.put("board_collaborators", new JSONArray());
+                        }
                     r.put("status", 200);
                     r.put("data", d);
                 } else {

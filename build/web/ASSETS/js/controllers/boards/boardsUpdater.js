@@ -8,7 +8,7 @@ function updateBoard(form, data, board){
 		})
 		.then(r=>{
 			let json = form.formToJSON();
-			json.board_id = parseInt(board.find('span.id').text());
+			json.board_id = data.board_id;
 			json.board_collaborators = form.find('.chips').material_chip('data');
 			swal.showLoading();
 			customFetch(json, "PUT", "http://localhost:8080/Trello/BoardServlet")
@@ -24,7 +24,9 @@ function updateBoard(form, data, board){
 					board.children('i.material-icons.circle').css("background-color", json.board_color);
 					board.children('a.title').text(json.board_name);
 					board.children('p.paragraph').text(json.board_description);
+					board.find('span.collabs').text(JSON.stringify(r.board_collaborators));
 					form.closest('.modal.open').modal('close');
+					form.get(0).reset();
 					break;
 					case 403:
 					swal({

@@ -1,12 +1,8 @@
-// $.validator.addMethod("lettersonlys", function(value, element) {
-// 	return this.optional(element) || /^[A-Za-z](([a-zA-Z])*[^#&<>\"~;$^%{}?]{1,20}?)*$/.test(value);
-// }, "Invalid format. Example: MyBoard, MyBoard 1, My_Board_1");
 
 let board_container = document.querySelector("ul#board_container");
 
 $('form#boardCreate').submit(function(e) {
 	e.preventDefault();
-	console.log("HI");
 	let form = $(this);
 	$(this).customValidate({
 		table_name:{
@@ -37,6 +33,7 @@ $('form#boardCreate').submit(function(e) {
 				});
 				$(this).closest('.modal.open').modal('close');
 				renderBoard(board_container, r.data);
+				form.get(0).reset();
 			}else{
 				swal({
 					title: "Oppss!",

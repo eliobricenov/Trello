@@ -77,6 +77,7 @@ public class ColumnServlet extends HttpServlet {
                 for (Column c : columns) {
                     JSONObject column_json = new JSONObject();
                     column_json.put("column_id", c.getColumn_id());
+                    column_json.put("user_id", c.getUser_id());
                     column_json.put("board_id", c.getBoard_id());
                     column_json.put("column_name", c.getColumn_name());
                     List<Card> cards = db.getCards(c.getColumn_id());
@@ -84,6 +85,7 @@ public class ColumnServlet extends HttpServlet {
                     for (Card card : cards) {
                         JSONObject card_json = new JSONObject();
                         card_json.put("card_id", card.getCard_id());
+                        card_json.put("user_id", card.getUserId());
                         card_json.put("column_id", card.getColumnId());
                         card_json.put("card_name", card.getCard_name());
                         card_json.put("card_description", card.getCard_description());
@@ -130,12 +132,14 @@ public class ColumnServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.userOwns(u.getId(), data.getInt("board_id"))) {
-                int result = db.registerColumn(data.getInt("board_id"),
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id")) || 
+                    db.isCollab(u.getId(), data.getInt("board_id"))) {
+                int result = db.registerColumn(data.getInt("board_id"), u.getId(),
                         data.getString("column_name"));
                 if (result > 0) {
                     r.put("status", 200);
                     d.put("column_id", result);
+                    d.put("user_id", u.getId());
                     d.put("board_id", data.getInt("board_id"));
                     d.put("column_name", data.getString("column_name"));
                     r.put("data", d);
@@ -174,7 +178,8 @@ public class ColumnServlet extends HttpServlet {
         PrintWriter p = response.getWriter();
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.userOwns(u.getId(), data.getInt("board_id"))) {
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id")) || 
+                    db.isColumnOwner(u.getId(), data.getInt("column_id"))) {
                 if (db.updateColumn(data.getInt("column_id"), data.getString("column_name"))) {
                     r.put("status", 200);
                     r.put("data", d);
@@ -212,7 +217,8 @@ public class ColumnServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.userOwns(u.getId(), data.getInt("board_id"))) {
+            if (db.isBoardMaster(u.getId(), data.getInt("board_id")) || 
+                    db.isColumnOwner(u.getId(), data.getInt("column_id"))) {
                 if (db.deleteColumn(data.getInt("column_id"))) {
                     r.put("status", 200);
                 } else {

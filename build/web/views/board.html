@@ -2,7 +2,7 @@
 
 <head>
     <title>Jellio Board</title>
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
@@ -113,6 +113,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="input-field col s12 ">
+                        <div class="chips"></div>
+                        <label for="board_collabs">Board Colaborators</label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="input-field col s12">
                         <button class="btn waves-effect waves-light" type="submit" name="update">Submit</button>
                         <button class="btn waves-effect waves-light" type="submit" name="delete">Delete</button>
@@ -143,24 +149,9 @@
             customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
             .then(data => {
                 let myData = data.tagData;
+                console.log(myData);
                 let autocompleteData = data.autocompleteData;
-
-
-                $('.chips').customChips(myData, autocompleteData);
-            })
-            .catch(err => {
-                console.log(err);
-                swal({
-                    title: "Oops!",
-                    text: "Mistakes were made",
-                    type: "error",
-                    showConfirmButton: false,
-                    timer: 4000
-                })
-
-                window.location.href = "http://localhost:8080/Trello/views/index.html"
-
-            })
+                $('.chips').customChips({}, myData, autocompleteData);
 
             $('.modal').modal({
                 dismissible: false,
@@ -183,14 +174,42 @@
             $('.modal.update').modal({
                 dismissible: false,
                 ready: function(modal, trigger) {
+                    let element = trigger.parent();
                     let form = modal.children().children('form');
+                    let data = {};
+                    
+                    //getting data from element
+                    data.board_name = element.find('a.title').text();
+                    data.board_description = element.find('p.paragraph').text();
+                    data.board_id = parseInt(element.find('span.id').text());
+                    data.collabs = collabsToChips(JSON.parse(element.find('span.collabs').text()));
+                    //putting data inside the modal 
+                    form.find('input[name="board_name"]').val(data.board_name);
+                    form.find('input[name="board_description"]').val(data.board_description);
+                    form.find('div.chips').customChips(data.collabs,
+                        myData, autocompleteData);
 
-                    updateBoard(form, {}, trigger.parent());
+                    //update method from
+                    updateBoard(form, data, trigger.parent());
                 }
             });
 
             $('form#edit_modal').submit(function (e){
                 e.preventDefault();
+            })
+            })
+            .catch(err => {
+                console.log(err);
+                swal({
+                    title: "Oops!",
+                    text: "Mistakes were made",
+                    type: "error",
+                    showConfirmButton: false,
+                    timer: 4000
+                })
+
+                window.location.href = "http://localhost:8080/Trello/views/index.html"
+
             })
         });
     </script>

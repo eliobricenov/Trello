@@ -14,7 +14,6 @@ function updateColumn(form, data, column){
 			let json = form.formToJSON();
 			json.column_id = parseInt(data.column_id);
 			json.board_id = parseInt(data.board_id);
-			console.log(json);
 			swal.showLoading();
 			customFetch(json, "PUT", "http://localhost:8080/Trello/ColumnServlet")
 			.then(r=>{
@@ -44,10 +43,9 @@ function updateColumn(form, data, column){
 					case 403:
 					swal({
 						title: "Acces Denied",
-						text: "Only owner and colaborators can edit elements",
+						text: "You can only edit elements if you're the board master or the element's creator!",
 						type: "error",
-						showConfirmButton: false,
-						timer: 2500
+						showConfirmButton: true,
 					})
 					break;
 
@@ -86,6 +84,7 @@ function updateColumn(form, data, column){
 			if (result.value) {
 				let json = form.formToJSON();
 				json.column_id = data.column_id;
+				json.board_id = parseInt(data.board_id);
 				swal.showLoading();
 				customFetch(json, "DELETE", "http://localhost:8080/Trello/ColumnServlet")
 				.then(r=>{
@@ -99,6 +98,13 @@ function updateColumn(form, data, column){
 						column.parent().parent().remove();
 						form.closest('.modal.open').modal('close');
 						form[0].reset();
+					}else if(r.status === 403){
+						swal({
+						title: "Acces Denied",
+						text: "You can only edit elements if you're the board master or the element's creator!",
+						type: "error",
+						showConfirmButton: true,
+					})
 					}else{
 						swal({
 							title: "Oppss!",

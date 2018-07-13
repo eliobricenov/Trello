@@ -11,6 +11,7 @@ function renderColumn(data, container) {
 	let columnLink = document.createElement("a");
 	let cardContainer = document.createElement("div");
 	let boardId = document.createElement("span");
+	let userId = document.createElement("span");
 	let columnId = document.createElement("span");
 	let columnDivA = document.createElement("a");
 	let columnDivI = document.createElement("i");
@@ -27,6 +28,8 @@ function renderColumn(data, container) {
 	columnLink.href = "#modal2"
 	boardId.className= "board_id";
 	boardId.hidden = true;
+	userId.className= "user_id";
+	userId.hidden = true;
 	columnId.className= "column_id";
 	columnId.hidden = true;
 	columnDivI.className = "material-icons right";
@@ -38,12 +41,14 @@ function renderColumn(data, container) {
 	//appending
 	columnId.appendChild(document.createTextNode(data.column_id));
 	boardId.appendChild(document.createTextNode(data.board_id));
+	userId.appendChild(document.createTextNode(data.userId_id));
 	columnDivCol.appendChild(columnDivH);
 	columnDivCol.appendChild(columnDivH);
 	columnDivH.appendChild(columnDivS);
 	columnDivS.appendChild(columnDivC);
 	columnDivS.appendChild(columnDivAc);
 	columnDivC.appendChild(boardId);
+	columnDivC.appendChild(userId);
 	columnDivC.appendChild(columnId);
 	columnDivA.appendChild(columnDivI);
 	columnDivI.appendChild(document.createTextNode("more_vert"));

@@ -27,14 +27,15 @@ public class DBManager {
 
     private final Connection con = DataBaseConnection.getInstance().getConnection();
 
-    public boolean registerAdmin(int userId, int boardId) {
+    public boolean registerCollab(int userId, int boardId, int memberType) {
         PreparedStatement stm = null;
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("INSERT INTO user_board (board_id, user_id, type_board_user_id) VALUES (?, ?, 1)");
+            stm = con.prepareStatement("INSERT INTO user_board (board_id, user_id, type_board_user_id) VALUES (?, ?, ?)");
             stm.setInt(1, boardId);
             stm.setInt(2, userId);
+            stm.setInt(3, memberType);
             rs = stm.executeUpdate();
             if (rs > 0) {
                 flag = true;
@@ -48,7 +49,7 @@ public class DBManager {
         return flag;
     }
 
-    public boolean deleteAdmin(int userId, int boardId) {
+    public boolean deleteCollab(int userId, int boardId) {
         PreparedStatement stm = null;
         int rs;
         boolean flag = false;
@@ -73,74 +74,65 @@ public class DBManager {
         boolean flag = false;
         ResultSet rs = null;
         DBManager db = new DBManager();
-        List<User> admins = db.getAdmins(boardId);
+        List<User> admins = db.getCollabs(boardId);
         try {
-            //Check if users in new admin set are already admins
-            for (int i = 0; i < collabs.length(); i++) {
-                boolean found = false;
-                for (User admin : admins) {
-                    if (collabs.getJSONObject(i).getInt("user_id") == admin.getId()) {
-                        found = true;
-                    }
-                }
-                if (!found) {
-                    if (db.registerAdmin(collabs.getJSONObject(i).getInt("user_id"), boardId)) {
-                        flag = true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-
-            admins = db.getAdmins(boardId);
-            for (User admin : admins) {
-                boolean found = false;
+            //if there are collabs
+            if (collabs.length() > 0) {
+                //Check if users in new admin set are already admins
                 for (int i = 0; i < collabs.length(); i++) {
-                    if (admin.getId() == collabs.getJSONObject(i).getInt("user_id")) {
-                        found = true;
+                    boolean found = false;
+                    if (admins != null) {
+                        for (User admin : admins) {
+                            if (collabs.getJSONObject(i).getInt("id") == admin.getId()) {
+                                found = true;
+                            }
+                        }
+                    }
+                    // if not, add him/her
+                    if (!found) {
+                        if (db.registerCollab(collabs.getJSONObject(i).getInt("id"), boardId, 2)) {
+                            flag = true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
-                if (!found) {
-                    if (db.deleteAdmin(admin.getId(), boardId)) {
-                        flag = true;
-                    } else {
-                        return false;
+
+                //Check if collabs in database are in new collabs set
+                //Deleting all old data
+                admins = db.getCollabs(boardId);
+                for (User admin : admins) {
+                    boolean found = false;
+                    for (int i = 0; i < collabs.length(); i++) {
+                        if (admin.getId() == collabs.getJSONObject(i).getInt("id")) {
+                            found = true;
+                        }
                     }
+                    if (!found) {
+                        if (db.deleteCollab(admin.getId(), boardId)) {
+                            flag = true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+                flag = true;
+            } else {
+                //if not, it means they were all deleted so we delete them
+                // from the DB
+                if (admins.size() > 0) {
+                    for (User a : admins) {
+                        flag = db.deleteCollab(a.getId(), boardId);
+                    }
+                } else {
+                    flag = true;
                 }
             }
-            flag = true;
         } catch (Exception e) {
             e.printStackTrace();
             flag = false;
         }
         return flag;
-    }
-    
-    public List<User> getAdmins(int boardId) {
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        List<User> users = new ArrayList<>();
-        try {
-            stm = con.prepareStatement("SELECT * FROM user_board WHERE board_id = ?");
-            stm.setInt(1, boardId);
-            rs = stm.executeQuery();
-            if (rs.next()) {
-                rs.beforeFirst();
-                while (rs.next()) {
-                    User u = new User();
-                    u.setId(rs.getInt("user_id"));
-                    u.setBoardId(rs.getInt("board_id"));
-                    u.setCredential(rs.getInt("type_board_user_id"));
-                    users.add(u);
-                }
-            } else {
-                throw new Exception("No results");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return users;
     }
 
     public List<User> getUsers() {
@@ -174,18 +166,20 @@ public class DBManager {
         return users;
     }
 
-    public List<User> getAdmins() {
-        Statement stm = null;
+    public List<User> getCollabs(int boardId) {
+        PreparedStatement stm = null;
         ResultSet rs = null;
         List<User> users = new ArrayList<>();
         try {
-            stm = con.createStatement();
-            rs = stm.executeQuery("SELECT * FROM user_board WHERE type_board_user_id = 1");
+            stm = con.prepareStatement("SELECT users.user_username AS user_username, user_board.board_id AS board_id, user_board.user_id AS user_id, user_board.type_board_user_id AS type_board_user_id FROM user_board INNER JOIN users ON users.user_id = user_board.user_id WHERE user_board.board_id = ? AND user_board.type_board_user_id = 2");
+            stm.setInt(1, boardId);
+            rs = stm.executeQuery();
             if (rs.next()) {
                 rs.beforeFirst();
                 while (rs.next()) {
                     User u = new User();
                     u.setId(rs.getInt("user_id"));
+                    u.setName(rs.getString("user_username"));
                     u.setBoardId(rs.getInt("board_id"));
                     u.setCredential(rs.getInt("type_board_user_id"));
                     users.add(u);
@@ -194,7 +188,6 @@ public class DBManager {
                 throw new Exception("No results");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             return null;
         }
         return users;
@@ -302,6 +295,7 @@ public class DBManager {
                 while (rs.next()) {
                     Column c = new Column();
                     c.setBoard_id(rs.getInt("board_id"));
+                    c.setUser_id(rs.getInt("user_id"));
                     c.setColumn_id(rs.getInt("column_id"));
                     c.setColumn_name(rs.getString("column_name"));
                     columns.add(c);
@@ -572,11 +566,7 @@ public class DBManager {
             stm.setInt(4, boardId);
             rs = stm.executeUpdate();
             if (rs > 0) {
-              if(collabs.length() > 0){
-                  flag = db.updateCollabs(collabs, boardId);
-              }else{
-                 flag = true; 
-              }
+                flag = db.updateCollabs(collabs, boardId);
             } else {
                 flag = false;
             }
@@ -594,27 +584,6 @@ public class DBManager {
         try {
             stm = con.prepareStatement("DELETE FROM boards WHERE boards.board_id = ?");
             stm.setInt(1, boardId);
-            rs = stm.executeUpdate();
-            if (rs > 0) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            flag = false;
-        }
-        return flag;
-    }
-
-    public boolean registerColumn(String name, int boardId) {
-        PreparedStatement stm = null;
-        int rs;
-        boolean flag = false;
-        try {
-            stm = con.prepareStatement("INSERT INTO columns (column_id, board_id, column_name) VALUES (NULL, ?,  ? );");
-            stm.setInt(1, boardId);
-            stm.setString(2, name);
             rs = stm.executeUpdate();
             if (rs > 0) {
                 flag = true;
@@ -692,15 +661,16 @@ public class DBManager {
         return result;
     }
 
-    public int registerColumn(int boardId, String name) {
+    public int registerColumn(int boardId, int userId, String name) {
         PreparedStatement stm = null;
         int rs;
         int result = 0;
         try {
-            stm = con.prepareStatement("INSERT INTO columns (column_id, board_id, column_name) VALUES (NULL, ?,  ? );",
+            stm = con.prepareStatement("INSERT INTO columns (column_id, board_id, user_id, column_name) VALUES (NULL, ?, ?, ?);",
                     Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, boardId);
-            stm.setString(2, name);
+            stm.setInt(2, userId);
+            stm.setString(3, name);
             rs = stm.executeUpdate();
             ResultSet keys = stm.getGeneratedKeys();
             if (rs > 0) {
@@ -755,7 +725,7 @@ public class DBManager {
         return flag;
     }
 
-    public boolean userOwns(int userId, int boardId) {
+    public boolean isBoardMaster(int userId, int boardId) {
         boolean flag = false;
         try {
             PreparedStatement stm = con.prepareStatement("SELECT type_board_user_id FROM user_board WHERE user_id = ? AND board_id = ? LIMIT 1");
@@ -795,20 +765,28 @@ public class DBManager {
             keys.next();
             int generatedId = keys.getInt(1);
             if (rs > 0) {
-                if (collabs.length() > 0) {
-                    for (int i = 0; i < collabs.length(); i++) {
+                stm2.setInt(1, generatedId);
+                stm2.setInt(2, userId);
+                stm2.setInt(3, 1);
+                rs = stm2.executeUpdate();
+                if (rs > 0) {
+                    if (collabs.length() > 0) {
+                        for (int i = 0; i < collabs.length(); i++) {
+                            stm2.setInt(1, generatedId);
+                            stm2.setInt(2, collabs.getJSONObject(i).getInt("id"));
+                            stm2.setInt(3, 2);
+                            rs = stm2.executeUpdate();
+                            flag = (rs > 0);
+                        }
+                    } else {
                         stm2.setInt(1, generatedId);
-                        stm2.setInt(2, collabs.getJSONObject(i).getInt("id"));
+                        stm2.setInt(2, userId);
                         stm2.setInt(3, 1);
                         rs = stm2.executeUpdate();
                         flag = (rs > 0);
                     }
                 } else {
-                    stm2.setInt(1, generatedId);
-                    stm2.setInt(2, userId);
-                    stm2.setInt(3, 1);
-                    rs = stm2.executeUpdate();
-                    flag = (rs > 0);
+                    flag = false;
                 }
             } else {
                 flag = false;
@@ -819,4 +797,61 @@ public class DBManager {
         }
         return flag;
     }
+    
+    public boolean isColumnOwner(int userId, int columnId){
+         boolean flag = false;
+        try {
+            PreparedStatement stm = con.prepareStatement("SELECT user_id FROM columns WHERE column_id = ? LIMIT 1");
+            stm.setInt(1, columnId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int columnUserId = rs.getInt("user_id");
+                flag = columnUserId == userId;
+            } else {
+                flag = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return flag;
+    }
+    
+    public boolean isCardOwner(int userId, int cardId){
+         boolean flag = false;
+        try {
+            PreparedStatement stm = con.prepareStatement("SELECT user_id FROM cards WHERE card_id = ? LIMIT 1");
+            stm.setInt(1, cardId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int cardUserId = rs.getInt("user_id");
+                flag = cardUserId == userId;
+            } else {
+                flag = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return flag;
+    }
+    
+    public boolean isCollab(int userId, int boardId) {
+        boolean flag = false;
+        try {
+            PreparedStatement stm = con.prepareStatement("SELECT type_board_user_id FROM user_board WHERE user_id = ? AND board_id = ? LIMIT 1");
+            stm.setInt(1, userId);
+            stm.setInt(2, boardId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int typeId = rs.getInt("type_board_user_id");
+                flag = typeId == 2;
+            } else {
+                flag = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return flag;
+    }
+
 }
