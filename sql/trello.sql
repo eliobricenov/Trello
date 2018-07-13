@@ -1,280 +1,372 @@
--- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1    Database: trello
--- ------------------------------------------------------
--- Server version	5.5.5-10.1.33-MariaDB
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 13-07-2018 a las 13:11:49
+-- Versión del servidor: 10.1.21-MariaDB
+-- Versión de PHP: 5.6.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `boards`
+-- Base de datos: `trello`
 --
 
-DROP TABLE IF EXISTS `boards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `boards`
+--
+
 CREATE TABLE `boards` (
-  `board_id` int(11) NOT NULL AUTO_INCREMENT,
+  `board_id` int(11) NOT NULL,
   `board_name` varchar(30) NOT NULL,
   `user_id` int(11) NOT NULL,
   `board_created_at` datetime NOT NULL,
-  PRIMARY KEY (`board_id`),
-  KEY `users_boards_fk` (`user_id`),
-  CONSTRAINT `users_boards_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `board_color` varchar(10) NOT NULL,
+  `board_description` varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `boards`
+-- Volcado de datos para la tabla `boards`
 --
 
-LOCK TABLES `boards` WRITE;
-/*!40000 ALTER TABLE `boards` DISABLE KEYS */;
-INSERT INTO `boards` VALUES (1,'Prueba',5,'2018-06-26 22:56:50');
-/*!40000 ALTER TABLE `boards` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `boards` (`board_id`, `board_name`, `user_id`, `board_created_at`, `board_color`, `board_description`) VALUES
+(55, 'Prueba Tablero', 5, '2018-07-08 04:09:26', '#8fff00', 'This is my first description.'),
+(64, 'tabla 4', 5, '2018-07-12 07:13:37', '#8fff00', 'asdas');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `cards`
+-- Estructura de tabla para la tabla `cards`
 --
 
-DROP TABLE IF EXISTS `cards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cards` (
-  `card_id` int(11) NOT NULL AUTO_INCREMENT,
+  `card_id` int(11) NOT NULL,
   `column_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `card_name` varchar(25) NOT NULL,
-  `card_description` varchar(252) NOT NULL,
-  PRIMARY KEY (`card_id`),
-  KEY `users_cards_fk` (`user_id`),
-  KEY `columns_cards_fk` (`column_id`),
-  CONSTRAINT `columns_cards_fk` FOREIGN KEY (`column_id`) REFERENCES `columns` (`column_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `users_cards_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `card_description` varchar(252) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cards`
+-- Volcado de datos para la tabla `cards`
 --
 
-LOCK TABLES `cards` WRITE;
-/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `cards` (`card_id`, `column_id`, `user_id`, `card_name`, `card_description`) VALUES
+(8, 86, 10, 'card 1', 'dasdasdasd'),
+(9, 86, 10, 'egfefv', 'dasdasd');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `columns`
+-- Estructura de tabla para la tabla `columns`
 --
 
-DROP TABLE IF EXISTS `columns`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `columns` (
-  `column_id` int(11) NOT NULL AUTO_INCREMENT,
+  `column_id` int(11) NOT NULL,
   `board_id` int(11) NOT NULL,
-  `column_name` varchar(25) NOT NULL,
-  PRIMARY KEY (`column_id`),
-  KEY `boards_columns_fk` (`board_id`),
-  CONSTRAINT `boards_columns_fk` FOREIGN KEY (`board_id`) REFERENCES `boards` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `user_id` int(11) NOT NULL,
+  `column_name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `columns`
+-- Volcado de datos para la tabla `columns`
 --
 
-LOCK TABLES `columns` WRITE;
-/*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-/*!40000 ALTER TABLE `columns` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `columns` (`column_id`, `board_id`, `user_id`, `column_name`) VALUES
+(82, 55, 5, 'dios mio'),
+(86, 55, 10, 'column 4'),
+(87, 55, 10, 'column 4');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
+-- Estructura de tabla para la tabla `comments`
 --
 
-DROP TABLE IF EXISTS `comments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
-  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_id` int(11) NOT NULL,
   `card_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `comment_text` varchar(250) NOT NULL,
-  `comment_created_at` datetime NOT NULL,
-  PRIMARY KEY (`comment_id`),
-  KEY `users_comments_fk` (`user_id`),
-  KEY `cards_comments_fk` (`card_id`),
-  CONSTRAINT `cards_comments_fk` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `users_comments_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `comment_created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `comments`
+-- Estructura de tabla para la tabla `files`
 --
 
-LOCK TABLES `comments` WRITE;
-/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `files`
---
-
-DROP TABLE IF EXISTS `files`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `files` (
-  `file_id` int(11) NOT NULL AUTO_INCREMENT,
+  `file_id` int(11) NOT NULL,
   `card_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `file_url` varchar(250) NOT NULL,
   `file_uploaded_at` datetime NOT NULL,
-  `file_name` varchar(25) NOT NULL,
-  PRIMARY KEY (`file_id`),
-  KEY `users_files_fk` (`user_id`),
-  KEY `cards_files_fk` (`card_id`),
-  CONSTRAINT `cards_files_fk` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `users_files_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `file_name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `files`
+-- Estructura de tabla para la tabla `type_board_user`
 --
 
-LOCK TABLES `files` WRITE;
-/*!40000 ALTER TABLE `files` DISABLE KEYS */;
-/*!40000 ALTER TABLE `files` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `type_board_user`
---
-
-DROP TABLE IF EXISTS `type_board_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `type_board_user` (
-  `type_board_user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_board_user_desccription` varchar(20) NOT NULL,
-  PRIMARY KEY (`type_board_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `type_board_user`
---
-
-LOCK TABLES `type_board_user` WRITE;
-/*!40000 ALTER TABLE `type_board_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `type_board_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `type_user`
---
-
-DROP TABLE IF EXISTS `type_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `type_user` (
-  `type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_des` varchar(20) NOT NULL,
-  PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `type_user`
---
-
-LOCK TABLES `type_user` WRITE;
-/*!40000 ALTER TABLE `type_user` DISABLE KEYS */;
-INSERT INTO `type_user` VALUES (1,'Normal User');
-/*!40000 ALTER TABLE `type_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_board`
---
-
-DROP TABLE IF EXISTS `user_board`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_board` (
-  `board_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `type_board_user_id` int(11) NOT NULL,
-  KEY `type_board_user_user_board_fk` (`type_board_user_id`),
-  KEY `users_user_board_fk` (`user_id`),
-  KEY `boards_user_board_fk` (`board_id`),
-  CONSTRAINT `boards_user_board_fk` FOREIGN KEY (`board_id`) REFERENCES `boards` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `type_board_user_user_board_fk` FOREIGN KEY (`type_board_user_id`) REFERENCES `type_board_user` (`type_board_user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `users_user_board_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `type_board_user_description` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_board`
+-- Volcado de datos para la tabla `type_board_user`
 --
 
-LOCK TABLES `user_board` WRITE;
-/*!40000 ALTER TABLE `user_board` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_board` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `type_board_user` (`type_board_user_id`, `type_board_user_description`) VALUES
+(1, 'Board Master'),
+(2, 'Collaborator');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `type_user`
 --
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `type_user` (
+  `type_id` int(11) NOT NULL,
+  `type_des` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `type_user`
+--
+
+INSERT INTO `type_user` (`type_id`, `type_des`) VALUES
+(1, 'Normal User');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
   `user_name` varchar(20) NOT NULL,
   `user_username` varchar(25) NOT NULL,
   `user_last_name` varchar(30) NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_password` varchar(60) NOT NULL,
-  `user_created_at` datetime NOT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `type_user_users_fk` (`type_id`),
-  CONSTRAINT `type_user_users_fk` FOREIGN KEY (`type_id`) REFERENCES `type_user` (`type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `user_created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Volcado de datos para la tabla `users`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,1,'Jesus','ggsus','Urdaneta','ggsus@gmail.com','$2a$10$OOFXOks/p79mqxZUwxlZweA/V','2018-06-26 22:56:50'),(4,1,'Darianna','dariplinares','Linares','dariplinares@gmail.com','$2a$10$7soJGPMbkQRJLKZqsxEaOe9EhkFS13ZUcam8WhZm88yld1ms2EMzC','2018-06-27 01:25:33'),(5,1,'Elio','eliobricenov','Briceno','eliobricenov@gmail.com','$2a$10$XvT/3/Yr9BiNvoXWgRt9muVSl.bHcEAd4CLct6jK48AKMVykq8jZ2','2018-06-27 01:43:59');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `users` (`user_id`, `type_id`, `user_name`, `user_username`, `user_last_name`, `user_email`, `user_password`, `user_created_at`) VALUES
+(2, 1, 'Jesus', 'ggsus', 'Urdaneta', 'ggsus@gmail.com', '$2a$10$OOFXOks/p79mqxZUwxlZweA/V', '2018-06-26 22:56:50'),
+(4, 1, 'Darianna', 'dariplinares', 'Linares', 'dariplinares@gmail.com', '$2a$10$7soJGPMbkQRJLKZqsxEaOe9EhkFS13ZUcam8WhZm88yld1ms2EMzC', '2018-06-27 01:25:33'),
+(5, 1, 'Elio', 'eliobricenov', 'Briceno', 'eliobricenov@gmail.com', '$2a$10$XvT/3/Yr9BiNvoXWgRt9muVSl.bHcEAd4CLct6jK48AKMVykq8jZ2', '2018-06-27 01:43:59'),
+(6, 1, 'Mabelis', 'mabevillalobos', 'Villalobos', 'mabevillalobos@gmail.com', '$2a$10$wJ7/AXAUuPVcjH1AVBUdBOfaaOD2eaW5U45dK8d1EZk53knm23lbC', '2018-06-30 17:15:23'),
+(7, 1, 'Mariela', 'villalobosm25', 'Villalobos', 'villalobosm25@hotmail.com', '$2a$10$yAIOkZed6mRKXxN3PnUYRefZhjCWX9NLczY9FPMNHLDTcqasSzFGS', '2018-07-01 18:34:00'),
+(8, 1, 'Nestor', 'elsir', 'Burgos', 'elsir@gmail.com', '$2a$10$bis46tN6iaWNoOQXeT6MSuB9zRaqOm2t0lUaV5kumhxSe5zPE6RSm', '2018-07-02 13:27:48'),
+(9, 1, 'Paola', 'paolabricenov', 'Briceno', 'paolabricenov@gmail.com', '$2a$10$3F1g61HUzMTzVSgnMXw4DuM5ljR74xUmmCP3ZL31/Ywm1iggxMm7i', '2018-07-03 21:24:20'),
+(10, 1, 'Jose', 'joropeza', 'Oropeza', 'joropeza@gmail.com', '$2a$10$fbYXDXh7ZCDbKAsDkaK12usrSP476YT3u57z.BQeiBedIqL5iTvKm', '2018-07-04 11:05:23');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_board`
+--
+
+CREATE TABLE `user_board` (
+  `board_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `type_board_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `user_board`
+--
+
+INSERT INTO `user_board` (`board_id`, `user_id`, `type_board_user_id`) VALUES
+(55, 5, 1),
+(64, 5, 1),
+(64, 4, 2),
+(64, 8, 2),
+(55, 10, 2);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `boards`
+--
+ALTER TABLE `boards`
+  ADD PRIMARY KEY (`board_id`),
+  ADD KEY `users_boards_fk` (`user_id`);
+
+--
+-- Indices de la tabla `cards`
+--
+ALTER TABLE `cards`
+  ADD PRIMARY KEY (`card_id`),
+  ADD KEY `users_cards_fk` (`user_id`),
+  ADD KEY `columns_cards_fk` (`column_id`);
+
+--
+-- Indices de la tabla `columns`
+--
+ALTER TABLE `columns`
+  ADD PRIMARY KEY (`column_id`),
+  ADD KEY `boards_columns_fk` (`board_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indices de la tabla `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `users_comments_fk` (`user_id`),
+  ADD KEY `cards_comments_fk` (`card_id`);
+
+--
+-- Indices de la tabla `files`
+--
+ALTER TABLE `files`
+  ADD PRIMARY KEY (`file_id`),
+  ADD KEY `users_files_fk` (`user_id`),
+  ADD KEY `cards_files_fk` (`card_id`);
+
+--
+-- Indices de la tabla `type_board_user`
+--
+ALTER TABLE `type_board_user`
+  ADD PRIMARY KEY (`type_board_user_id`);
+
+--
+-- Indices de la tabla `type_user`
+--
+ALTER TABLE `type_user`
+  ADD PRIMARY KEY (`type_id`);
+
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `type_user_users_fk` (`type_id`);
+
+--
+-- Indices de la tabla `user_board`
+--
+ALTER TABLE `user_board`
+  ADD KEY `type_board_user_user_board_fk` (`type_board_user_id`),
+  ADD KEY `users_user_board_fk` (`user_id`),
+  ADD KEY `boards_user_board_fk` (`board_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `boards`
+--
+ALTER TABLE `boards`
+  MODIFY `board_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+--
+-- AUTO_INCREMENT de la tabla `cards`
+--
+ALTER TABLE `cards`
+  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `columns`
+--
+ALTER TABLE `columns`
+  MODIFY `column_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+--
+-- AUTO_INCREMENT de la tabla `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `files`
+--
+ALTER TABLE `files`
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `type_board_user`
+--
+ALTER TABLE `type_board_user`
+  MODIFY `type_board_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `type_user`
+--
+ALTER TABLE `type_user`
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `cards`
+--
+ALTER TABLE `cards`
+  ADD CONSTRAINT `columns_cards_fk` FOREIGN KEY (`column_id`) REFERENCES `columns` (`column_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_cards_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `columns`
+--
+ALTER TABLE `columns`
+  ADD CONSTRAINT `boards_columns_fk` FOREIGN KEY (`board_id`) REFERENCES `boards` (`board_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `columns_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `cards_comments_fk` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_comments_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `files`
+--
+ALTER TABLE `files`
+  ADD CONSTRAINT `cards_files_fk` FOREIGN KEY (`card_id`) REFERENCES `cards` (`card_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_files_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `type_user_users_fk` FOREIGN KEY (`type_id`) REFERENCES `type_user` (`type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `user_board`
+--
+ALTER TABLE `user_board`
+  ADD CONSTRAINT `boards_user_board_fk` FOREIGN KEY (`board_id`) REFERENCES `boards` (`board_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `type_board_user_user_board_fk` FOREIGN KEY (`type_board_user_id`) REFERENCES `type_board_user` (`type_board_user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_user_board_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-06-28 20:05:01
