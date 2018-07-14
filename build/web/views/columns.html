@@ -3,7 +3,7 @@
 <head>
     <title>Jellio Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
@@ -138,8 +138,25 @@
     <script src="../ASSETS/js/controllers/columns/columnUpdater.js"></script>
     <script src="../ASSETS/js/controllers/columns/columnRenderer.js"></script>
     <script src="../ASSETS/js/controllers/columns/columns.js"></script>
+    <script src="../ASSETS/js/controllers/login/logout.js"></script>
     <script>
         $(document).ready(function() {
+            
+            document.getElementById("close").addEventListener("click", function(e){
+                document.getElementById("search").value = "";
+                console.log('delete');
+            });
+
+            let search = document.getElementById("search");
+
+            search.addEventListener("keyup" , function(e){
+                e.preventDefault();
+                if(e.keyCode == 13 && search.value !== "") {
+                    console.log("accion");
+                }
+            });
+
+            //Modal initializers 
             $('.modal').modal({
                 dismissible: false,
             });
@@ -149,8 +166,8 @@
                     let form = modal.children().children('form');
                     let data = {};
                     let container = trigger.parent().parent().find('div.card-content');
+                    data.cardContainer = container.find('div.collection.with-header').get(0);
                     data.column_id = parseInt(container.find('span.column_id').text());
-                    console.log(data.column_id);
                     createCard(form, data, container);
                     form[0].reset();
                 }

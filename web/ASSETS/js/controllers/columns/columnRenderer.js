@@ -38,10 +38,11 @@ function renderColumn(data, container) {
 	columnDivA.setAttribute("data-column_id", data.column_id);
 	columnDivA.setAttribute("data-board_id", data.board_id);
 
+
 	//appending
 	columnId.appendChild(document.createTextNode(data.column_id));
 	boardId.appendChild(document.createTextNode(data.board_id));
-	userId.appendChild(document.createTextNode(data.userId_id));
+	userId.appendChild(document.createTextNode(data.user_id));
 	columnDivCol.appendChild(columnDivH);
 	columnDivCol.appendChild(columnDivH);
 	columnDivH.appendChild(columnDivS);

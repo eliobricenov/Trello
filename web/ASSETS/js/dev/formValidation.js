@@ -66,7 +66,7 @@ $.validator.addMethod("lettersonlys", function(value, element) {
 			}
 		});
 
-		$(this).on('chip.add', function(e, chip) {
+		$(this).unbind().on('chip.add', function(e, chip) {
 			$.each(data, function(index, tag) {
 				if (chip.tag == tag.user_username) {
 					chip.id = tag.user_id;

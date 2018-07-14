@@ -46,7 +46,8 @@
     <div class="container">
         <ul id="board_container" class="collection with-header"></ul>
     </div>
-
+    <br>
+    <button onclick="logout()">Log out</button>
     <!-- MODALS -->
 
     <div id="modal1" class="modal">
@@ -143,46 +144,62 @@
     <script src="../ASSETS/js/controllers/boards/boardsRenderer.js"></script>
     <script src="../ASSETS/js/controllers/boards/boardsUpdater.js"></script>
     <script src="../ASSETS/js/controllers/boards/boards.js"></script>
+    <script src="../ASSETS/js/controllers/login/logout.js"></script>
     <script>
         $(document).ready(function() {
+
+
+            document.getElementById("close").addEventListener("click", function(e){
+                document.getElementById("search").value = "";
+            });
+
+
+            $('form#searchForm').unbind('submit').submit(function(e){
+                e.preventDefault();
+                let token = $(this).find('input#search').val()
+                if(token != ""){
+                    window.location.href = "http://localhost:8080/Trello/views/search.html?token=" + token;
+                }
+            });
 
             customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
             .then(data => {
                 let myData = data.tagData;
                 console.log(myData);
                 let autocompleteData = data.autocompleteData;
-                $('.chips').customChips({}, myData, autocompleteData);
+                $('.chips').unbind().customChips({}, myData, autocompleteData);
 
-            $('.modal').modal({
-                dismissible: false,
-            });
+                $('.modal').modal({
+                    dismissible: false,
+                });
 
-            $('#loader').fadeOut(500, function() { $('#loader').remove(); });
+                $('#loader').fadeOut(500, function() { $('#loader').remove(); });
 
-            $('.colorpicker-create').colorpicker({
-              container: $('div#colorpicker-create'),
-              inline: true,
-              format: 'hex',
-          });
-            
-            $('.colorpicker-update').colorpicker({
-              container: $('div#colorpicker-update'),
-              inline: true,
-              format: 'hex',
-          });
+                $('.colorpicker-create').colorpicker({
+                  container: $('div#colorpicker-create'),
+                  inline: true,
+                  format: 'hex',
+              });
 
-            $('.modal.update').modal({
-                dismissible: false,
-                ready: function(modal, trigger) {
-                    let element = trigger.parent();
-                    let form = modal.children().children('form');
-                    let data = {};
-                    
+                $('.colorpicker-update').colorpicker({
+                  container: $('div#colorpicker-update'),
+                  inline: true,
+                  format: 'hex',
+              });
+
+                $('.modal.update').modal({
+                    dismissible: false,
+                    ready: function(modal, trigger) {
+                        let element = trigger.parent();
+                        let form = modal.children().children('form');
+                        let data = {};
+
                     //getting data from element
                     data.board_name = element.find('a.title').text();
                     data.board_description = element.find('p.paragraph').text();
                     data.board_id = parseInt(element.find('span.id').text());
                     data.collabs = collabsToChips(JSON.parse(element.find('span.collabs').text()));
+
                     //putting data inside the modal 
                     form.find('input[name="board_name"]').val(data.board_name);
                     form.find('input[name="board_description"]').val(data.board_description);
@@ -194,9 +211,9 @@
                 }
             });
 
-            $('form#edit_modal').submit(function (e){
-                e.preventDefault();
-            })
+                $('form#edit_modal').submit(function (e){
+                    e.preventDefault();
+                })
             })
             .catch(err => {
                 console.log(err);

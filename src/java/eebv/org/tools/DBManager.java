@@ -48,7 +48,7 @@ public class DBManager {
         }
         return flag;
     }
-
+    
     public boolean deleteCollab(int userId, int boardId) {
         PreparedStatement stm = null;
         int rs;
@@ -120,9 +120,14 @@ public class DBManager {
             } else {
                 //if not, it means they were all deleted so we delete them
                 // from the DB
-                if (admins.size() > 0) {
-                    for (User a : admins) {
-                        flag = db.deleteCollab(a.getId(), boardId);
+
+                if (admins != null) {
+                    if (admins.size() > 0) {
+                        for (User a : admins) {
+                            flag = db.deleteCollab(a.getId(), boardId);
+                        }
+                    } else {
+                        flag = true;
                     }
                 } else {
                     flag = true;
@@ -275,6 +280,35 @@ public class DBManager {
                 }
             } else {
                 throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return boards;
+    }
+    
+    public List<Board> searchBoards(String param) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<Board> boards = new ArrayList<>();
+        try {
+            stm = con.prepareStatement("SELECT * FROM boards WHERE board_name LIKE ?");
+            stm.setString(1, param + "%");
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    Board b = new Board();
+                    b.setId(Integer.parseInt(rs.getString("board_id")));
+                    b.setName(rs.getString("board_name"));
+                    b.setColor(rs.getString("board_color"));
+                    b.setDescription(rs.getString("board_description"));
+                    b.setTimestamp(rs.getString("board_created_at"));
+                    b.setUserId(Integer.parseInt(rs.getString("user_id")));
+                    boards.add(b);
+                }
+            } else {
+                boards = null;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -797,9 +831,9 @@ public class DBManager {
         }
         return flag;
     }
-    
-    public boolean isColumnOwner(int userId, int columnId){
-         boolean flag = false;
+
+    public boolean isColumnOwner(int userId, int columnId) {
+        boolean flag = false;
         try {
             PreparedStatement stm = con.prepareStatement("SELECT user_id FROM columns WHERE column_id = ? LIMIT 1");
             stm.setInt(1, columnId);
@@ -815,9 +849,9 @@ public class DBManager {
         }
         return flag;
     }
-    
-    public boolean isCardOwner(int userId, int cardId){
-         boolean flag = false;
+
+    public boolean isCardOwner(int userId, int cardId) {
+        boolean flag = false;
         try {
             PreparedStatement stm = con.prepareStatement("SELECT user_id FROM cards WHERE card_id = ? LIMIT 1");
             stm.setInt(1, cardId);
@@ -833,7 +867,7 @@ public class DBManager {
         }
         return flag;
     }
-    
+
     public boolean isCollab(int userId, int boardId) {
         boolean flag = false;
         try {
@@ -853,5 +887,6 @@ public class DBManager {
 
         return flag;
     }
+    
 
 }

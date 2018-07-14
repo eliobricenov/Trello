@@ -112,6 +112,14 @@
         <servlet-name>SignUpServlet</servlet-name>
         <servlet-class>eebv.org.servlets.SignUpServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BoardSearchServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.BoardSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -223,6 +231,14 @@
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
         <url-pattern>/SignUpServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BoardSearchServlet</servlet-name>
+        <url-pattern>/BoardSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

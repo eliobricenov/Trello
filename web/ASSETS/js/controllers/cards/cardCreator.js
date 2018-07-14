@@ -1,5 +1,5 @@
 function createCard(form, data, container){
-	form.submit(function(e) {
+	form.unbind('submit').submit(function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
 		let form = $(this);
@@ -27,7 +27,7 @@ function createCard(form, data, container){
 						timer: 1500
 					});
 					$(this).closest('.modal.open').modal('close');
-					renderCard(r.data, container.find('div.collection.with-header').get(0));
+					renderCard(r.data, data.cardContainer);
 					form[0].reset();
 				}else if(r.status === 403){
 					swal({
