@@ -42,7 +42,7 @@
         <div id="modal2" class="modal card-create">
             <div class="modal-content">
                 <h3>Card Creation</h3>
-                <a href="#modal2" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <a data-target="modal2" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
                 <form id="card_create" class="no-submit"  novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
@@ -69,7 +69,7 @@
         <div id="modal_update" class="modal column-update">
             <div class="modal-content">
                 <h3>Column Modification</h3>
-                <a class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <a data-target="modal_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
                 <form class="no-submit" id="column_update" novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
@@ -96,7 +96,7 @@
         <div id="card_update" class="modal card-update">
             <div class="modal-content">
                 <h3>Card Modification</h3>
-                <a class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <a data-target="card_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
                 <form class="no-submit" id="card_update" novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
@@ -142,19 +142,19 @@
     <script>
         $(document).ready(function() {
             
-            document.getElementById("close").addEventListener("click", function(e){
-                document.getElementById("search").value = "";
-                console.log('delete');
-            });
+            // document.getElementById("close").addEventListener("click", function(e){
+            //     document.getElementById("search").value = "";
+            //     console.log('delete');
+            // });
 
-            let search = document.getElementById("search");
+            // let search = document.getElementById("search");
 
-            search.addEventListener("keyup" , function(e){
-                e.preventDefault();
-                if(e.keyCode == 13 && search.value !== "") {
-                    console.log("accion");
-                }
-            });
+            // search.addEventListener("keyup" , function(e){
+            //     e.preventDefault();
+            //     if(e.keyCode == 13 && search.value !== "") {
+            //         console.log("accion");
+            //     }
+            // });
 
             //Modal initializers 
             $('.modal').modal({

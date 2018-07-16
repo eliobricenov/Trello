@@ -6,6 +6,7 @@
 package eebv.org.tools;
 
 import eebv.org.models.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.*;
 import org.mindrot.jbcrypt.BCrypt;
+import java.util.Properties;
 
 /**
  *
@@ -26,13 +28,28 @@ import org.mindrot.jbcrypt.BCrypt;
 public class DBManager {
 
     private final Connection con = DataBaseConnection.getInstance().getConnection();
+    
+    private Properties user_p = new Properties();
+    private Properties board_p = new Properties();
+    private Properties card_p = new Properties();
+    private Properties column_p = new Properties();
+    public DBManager(){
+        try {
+            this.user_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/UserQueries.properties"));
+            this.card_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/CardQueries.properties"));
+            this.column_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/ColumnQueries.properties"));
+            this.board_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/BoardQueries.properties"));
+        } catch (IOException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public boolean registerCollab(int userId, int boardId, int memberType) {
         PreparedStatement stm = null;
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("INSERT INTO user_board (board_id, user_id, type_board_user_id) VALUES (?, ?, ?)");
+            stm = con.prepareStatement(user_p.getProperty("registerCollab"));
             stm.setInt(1, boardId);
             stm.setInt(2, userId);
             stm.setInt(3, memberType);
@@ -54,7 +71,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("DELETE FROM user_board WHERE board_id = ? AND user_id = ?");
+            stm = con.prepareStatement(user_p.getProperty("deleteCollab"));
             stm.setInt(1, boardId);
             stm.setInt(2, userId);
             rs = stm.executeUpdate();
@@ -176,7 +193,7 @@ public class DBManager {
         ResultSet rs = null;
         List<User> users = new ArrayList<>();
         try {
-            stm = con.prepareStatement("SELECT users.user_username AS user_username, user_board.board_id AS board_id, user_board.user_id AS user_id, user_board.type_board_user_id AS type_board_user_id FROM user_board INNER JOIN users ON users.user_id = user_board.user_id WHERE user_board.board_id = ? AND user_board.type_board_user_id = 2");
+            stm = con.prepareStatement(user_p.getProperty("getCollabs"));
             stm.setInt(1, boardId);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -203,7 +220,7 @@ public class DBManager {
         ResultSet rs = null;
         User u = new User();
         try {
-            stm = con.prepareStatement("SELECT * FROM users WHERE user_username = ? LIMIT 1");
+            stm = con.prepareStatement(user_p.getProperty("getUser"));
             stm.setString(1, username);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -292,7 +309,7 @@ public class DBManager {
         ResultSet rs = null;
         List<Board> boards = new ArrayList<>();
         try {
-            stm = con.prepareStatement("SELECT * FROM boards WHERE board_name LIKE ?");
+            stm = con.prepareStatement(board_p.getProperty("searchBoards"));
             stm.setString(1, param + "%");
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -321,7 +338,7 @@ public class DBManager {
         ResultSet rs = null;
         List<Column> columns = new ArrayList<>();
         try {
-            stm = con.prepareStatement("SELECT * FROM columns WHERE board_id = ?");
+            stm = con.prepareStatement(column_p.getProperty("getColumns"));
             stm.setInt(1, boardId);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -348,7 +365,7 @@ public class DBManager {
         ResultSet rs = null;
         List<Card> cards = new ArrayList<>();
         try {
-            stm = con.prepareStatement("SELECT * FROM cards WHERE column_id = ?");
+            stm = con.prepareStatement(card_p.getProperty("getCards"));
             stm.setInt(1, columnId);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -376,7 +393,7 @@ public class DBManager {
         ResultSet rs = null;
         Card card = new Card();
         try {
-            stm = con.prepareStatement("SELECT * FROM cards WHERE card_id = ? LIMIT 1");
+            stm = con.prepareStatement(card_p.getProperty("getCard"));
             stm.setInt(1, cardId);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -402,7 +419,7 @@ public class DBManager {
         boolean flag = true;
         ResultSet rs = null;
         try {
-            String q = "SELECT * FROM users WHERE user_username = ? LIMIT 1";
+            String q = this.user_p.getProperty("checkUsername");
             stm = con.prepareStatement(q);
             stm.setString(1, username);
             rs = stm.executeQuery();
@@ -423,7 +440,7 @@ public class DBManager {
         boolean flag = true;
         ResultSet rs = null;
         try {
-            String q = "SELECT * FROM users WHERE user_email = ? LIMIT 1";
+            String q = user_p.getProperty("checkEmail");
             stm = con.prepareStatement(q);
             stm.setString(1, email);
             rs = stm.executeQuery();
@@ -445,7 +462,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("INSERT INTO users VALUES(null, ?, ?, ?, ?, ?, ?, ?);");
+            stm = con.prepareStatement(user_p.getProperty("registerUser"));
             String hash_p = BCrypt.hashpw(password, BCrypt.gensalt());
             Timestamp t = new Timestamp(System.currentTimeMillis());
             stm.setInt(1, 1);
@@ -470,7 +487,7 @@ public class DBManager {
 
     public boolean checkPassword(String username, String pass) {
         try {
-            PreparedStatement stm = con.prepareStatement("SELECT user_password FROM users WHERE user_username = ?");
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("getPassword"));
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
             rs.next();
@@ -480,59 +497,6 @@ public class DBManager {
             ex.printStackTrace();
             return false;
         }
-    }
-
-    public String registerBoardString(String name, int userId) {
-        PreparedStatement stm = null;
-        PreparedStatement stm2 = null;
-        int rs;
-        boolean flag = false;
-        try {
-            stm = con.prepareStatement("INSERT INTO boards VALUES(null, ?, ?, ?);");
-            Timestamp t = new Timestamp(System.currentTimeMillis());
-            stm.setString(1, name);
-            stm.setInt(2, userId);
-            stm.setString(3, t.toString());
-            rs = stm.executeUpdate();
-            if (rs > 0) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            flag = false;
-        }
-        return stm.toString();
-    }
-
-    public String registerUserString(String name, String lastName, String username, String password,
-            String email) {
-        PreparedStatement stm = null;
-        int rs;
-        boolean flag = false;
-        try {
-            stm = con.prepareStatement("INSERT INTO users VALUES(null, ?, ?, ?, ?, ?, ?, ?);");
-            String hash_p = BCrypt.hashpw(password, BCrypt.gensalt());
-            Timestamp t = new Timestamp(System.currentTimeMillis());
-            stm.setInt(1, 1);
-            stm.setString(2, name);
-            stm.setString(3, username);
-            stm.setString(4, lastName);
-            stm.setString(5, email);
-            stm.setString(6, hash_p);
-            stm.setString(7, t.toString());
-            rs = stm.executeUpdate();
-            if (rs > 0) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            flag = false;
-        }
-        return stm.toString();
     }
 
     public Board getBoard(String token, String value) {
@@ -567,7 +531,7 @@ public class DBManager {
         ResultSet rs = null;
         Column c = new Column();
         try {
-            stm = con.prepareStatement("SELECT * FROM columns WHERE column_id = ? LIMIT 1");
+            stm = con.prepareStatement(column_p.getProperty("getColumn"));
             stm.setInt(1, value);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -593,7 +557,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("UPDATE boards SET board_name = ?, board_color = ?, board_description = ? WHERE boards.board_id = ?");
+            stm = con.prepareStatement(board_p.getProperty("updateBoard"));
             stm.setString(1, name);
             stm.setString(2, color);
             stm.setString(3, description);
@@ -616,7 +580,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("DELETE FROM boards WHERE boards.board_id = ?");
+            stm = con.prepareStatement(board_p.getProperty("deleteBoard"));
             stm.setInt(1, boardId);
             rs = stm.executeUpdate();
             if (rs > 0) {
@@ -636,7 +600,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("DELETE FROM columns WHERE columns.column_id = ?");
+            stm = con.prepareStatement(column_p.getProperty("deleteColumn"));
             stm.setInt(1, columnId);
             rs = stm.executeUpdate();
             if (rs > 0) {
@@ -656,7 +620,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("UPDATE columns SET column_name = ? WHERE columns.column_id = ?");
+            stm = con.prepareStatement(column_p.getProperty("updateColumn"));
             stm.setString(1, newName);
             stm.setInt(2, columnId);
             rs = stm.executeUpdate();
@@ -677,7 +641,7 @@ public class DBManager {
         int rs;
         int result = 0;
         try {
-            stm = con.prepareStatement("INSERT INTO cards (card_id, column_id, user_id, card_name, card_description) VALUES (NULL, ? , ? ,  ? , ?);",
+            stm = con.prepareStatement(card_p.getProperty("registerCard"),
                     Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, columnId);
             stm.setInt(2, userId);
@@ -700,7 +664,7 @@ public class DBManager {
         int rs;
         int result = 0;
         try {
-            stm = con.prepareStatement("INSERT INTO columns (column_id, board_id, user_id, column_name) VALUES (NULL, ?, ?, ?);",
+            stm = con.prepareStatement(column_p.getProperty("registerColumn"),
                     Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, boardId);
             stm.setInt(2, userId);
@@ -722,7 +686,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("DELETE FROM cards WHERE cards.card_id = ?");
+            stm = con.prepareStatement(card_p.getProperty("deleteCard"));
             stm.setInt(1, cardId);
             rs = stm.executeUpdate();
             if (rs > 0) {
@@ -742,7 +706,7 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("UPDATE cards SET card_name = ?, card_description = ? WHERE cards.card_id = ?");
+            stm = con.prepareStatement(card_p.getProperty("updateCard"));
             stm.setString(1, newName);
             stm.setString(2, newDes);
             stm.setInt(3, cardId);
@@ -762,7 +726,7 @@ public class DBManager {
     public boolean isBoardMaster(int userId, int boardId) {
         boolean flag = false;
         try {
-            PreparedStatement stm = con.prepareStatement("SELECT type_board_user_id FROM user_board WHERE user_id = ? AND board_id = ? LIMIT 1");
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("isBoardMaster"));
             stm.setInt(1, userId);
             stm.setInt(2, boardId);
             ResultSet rs = stm.executeQuery();
@@ -786,9 +750,9 @@ public class DBManager {
         int rs;
         boolean flag = false;
         try {
-            stm = con.prepareStatement("INSERT INTO boards VALUES(null, ?, ?, ?, ?, ?);",
+            stm = con.prepareStatement(board_p.getProperty("registerBoard"),
                     Statement.RETURN_GENERATED_KEYS);
-            stm2 = con.prepareStatement("INSERT INTO user_board (board_id, user_id, type_board_user_id) VALUES(?, ?, ?)");
+            stm2 = con.prepareStatement(user_p.getProperty("registerCollab"));
             stm.setString(1, name);
             stm.setInt(2, userId);
             stm.setString(3, t);
@@ -835,7 +799,7 @@ public class DBManager {
     public boolean isColumnOwner(int userId, int columnId) {
         boolean flag = false;
         try {
-            PreparedStatement stm = con.prepareStatement("SELECT user_id FROM columns WHERE column_id = ? LIMIT 1");
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("isColumnOwner"));
             stm.setInt(1, columnId);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
@@ -853,7 +817,7 @@ public class DBManager {
     public boolean isCardOwner(int userId, int cardId) {
         boolean flag = false;
         try {
-            PreparedStatement stm = con.prepareStatement("SELECT user_id FROM cards WHERE card_id = ? LIMIT 1");
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("isCardOwner"));
             stm.setInt(1, cardId);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
@@ -871,7 +835,7 @@ public class DBManager {
     public boolean isCollab(int userId, int boardId) {
         boolean flag = false;
         try {
-            PreparedStatement stm = con.prepareStatement("SELECT type_board_user_id FROM user_board WHERE user_id = ? AND board_id = ? LIMIT 1");
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("isCollab"));
             stm.setInt(1, userId);
             stm.setInt(2, boardId);
             ResultSet rs = stm.executeQuery();

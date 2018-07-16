@@ -93,7 +93,7 @@ public class SignUpServlet extends HttpServlet {
                     r.put("status", 200);
                 }else{
                 r.put("status", 500);
-                r.put("query", db.registerUserString(name, lastName, username, password, email));
+               
                 }
            }
         } catch (Exception ex) {

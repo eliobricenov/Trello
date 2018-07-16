@@ -53,7 +53,7 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
             <h3>Board Creation</h3>
-            <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+            <a data-target="modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
             <form id="boardCreate" novalidate>
                 <div class="row">
                     <div class="input-field col s12 ">
@@ -93,7 +93,7 @@
     <div id="modal_update" class="modal update">
         <div class="modal-content">
             <h3>Board Modification</h3>
-            <a class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+            <a data-target="modal_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
             <form id="edit_modal" novalidate>
                 <div class="row">
                     <div class="input-field col s12 ">
@@ -147,20 +147,20 @@
     <script src="../ASSETS/js/controllers/login/logout.js"></script>
     <script>
         $(document).ready(function() {
+            $('#loader').fadeOut(500, function() { $('#loader').remove(); });
+
+            // document.getElementById("close").addEventListener("click", function(e){
+            //     document.getElementById("search").value = "";
+            // });
 
 
-            document.getElementById("close").addEventListener("click", function(e){
-                document.getElementById("search").value = "";
-            });
-
-
-            $('form#searchForm').unbind('submit').submit(function(e){
-                e.preventDefault();
-                let token = $(this).find('input#search').val()
-                if(token != ""){
-                    window.location.href = "http://localhost:8080/Trello/views/search.html?token=" + token;
-                }
-            });
+            // $('form#searchForm').unbind('submit').submit(function(e){
+            //     e.preventDefault();
+            //     let token = $(this).find('input#search').val()
+            //     if(token != ""){
+            //         window.location.href = "http://localhost:8080/Trello/views/search.html?token=" + token;
+            //     }
+            // });
 
             customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
             .then(data => {
@@ -171,9 +171,14 @@
 
                 $('.modal').modal({
                     dismissible: false,
+                    ready : function(modal, trigger){
+                        let form = modal.children().children('form');
+                        form.find('div.chips').customChips({},
+                        myData, autocompleteData);
+                        form.get(0).reset();
+                    }
                 });
 
-                $('#loader').fadeOut(500, function() { $('#loader').remove(); });
 
                 $('.colorpicker-create').colorpicker({
                   container: $('div#colorpicker-create'),

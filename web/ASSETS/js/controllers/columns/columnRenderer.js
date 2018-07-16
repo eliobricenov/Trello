@@ -25,7 +25,8 @@ function renderColumn(data, container) {
 	columnDivC.className = "card-content";
 	columnDivAc.className = "card-action center-align";
 	columnLink.className = "teal-text modal-trigger";
-	columnLink.href = "#modal2"
+	// columnLink.href = "#modal2"
+	columnLink.setAttribute("data-target", "modal2");
 	boardId.className= "board_id";
 	boardId.hidden = true;
 	userId.className= "user_id";
@@ -34,7 +35,8 @@ function renderColumn(data, container) {
 	columnId.hidden = true;
 	columnDivI.className = "material-icons right";
 	columnDivA.className = "secondary-content modal-trigger";
-	columnDivA.href = "#modal_update";
+	// columnDivA.href = "#modal_update";
+	columnDivA.setAttribute("data-target", "modal_update");
 	columnDivA.setAttribute("data-column_id", data.column_id);
 	columnDivA.setAttribute("data-board_id", data.board_id);
 
