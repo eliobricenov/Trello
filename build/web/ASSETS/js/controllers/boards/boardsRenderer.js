@@ -142,7 +142,6 @@ function renderBoard(container, data){
 	collabs.hidden = true;
 	optionsLink.className = "secondary-content modal-trigger";
 	deleteLink.className = "secondary-content modal-trigger";
-	// optionsLink.href = "#";
 	deleteLink.href = "#";
 	optionsIcon.className = "material-icons";
 	deleteIcon.className = "material-icons";

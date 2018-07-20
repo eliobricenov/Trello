@@ -11,9 +11,8 @@ $('form#column_create').submit(function(e) {
 	}).then(r=>{
 		let j = form.formToJSON();
 		j.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
-		console.log(j);
 		swal.showLoading();
-		customFetch(j, "POST", "http://localhost:8080/Trello/ColumnServlet")
+		customFetch(j, "POST", `http://localhost:8080/Trello/ColumnServlet?board_id=${j.board_id}`)
 		.then(r=>{
 			if(r.status === 200){ 
 				swal({

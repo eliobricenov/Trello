@@ -84,23 +84,18 @@ public class CardServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))
-                    || db.isColumnOwner(u.getId(), data.getInt("column_id"))) {
-                int column_id = data.getInt("column_id");
-                int id = db.registerCard(data.getString("card_name"), column_id,
-                        data.getString("card_description"), (u.getId()));
-                if (id > 0) {
-                    r.put("status", 200);
-                    d.put("card_name", data.getString("card_name"));
-                    d.put("column_id", data.getInt("column_id"));
-                    d.put("card_description", data.getString("card_description"));
-                    d.put("card_id", id);
-                    r.put("data", d);
-                } else {
-                    r.put("status", 404);
-                }
+            int column_id = data.getInt("column_id");
+            int id = db.registerCard(data.getString("card_name"), column_id,
+                    data.getString("card_description"), (u.getId()));
+            if (id > 0) {
+                r.put("status", 200);
+                d.put("card_name", data.getString("card_name"));
+                d.put("column_id", data.getInt("column_id"));
+                d.put("card_description", data.getString("card_description"));
+                d.put("card_id", id);
+                r.put("data", d);
             } else {
-                r.put("status", 403);
+                r.put("status", 404);
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
@@ -131,15 +126,10 @@ public class CardServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))
-                    || db.isCardOwner(u.getId(), data.getInt("card_id"))) {
-                if (db.deleteCard(data.getInt("card_id"))) {
-                    r.put("status", 200);
-                } else {
-                    r.put("status", 404);
-                }
+            if (db.deleteCard(data.getInt("card_id"))) {
+                r.put("status", 200);
             } else {
-                r.put("status", 403);
+                r.put("status", 404);
             }
         } catch (JSONException ex) {
             Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,17 +160,12 @@ public class CardServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.isBoardMaster(u.getId(), data.getInt("board_id"))
-                    || db.isCardOwner(u.getId(), data.getInt("card_id"))) {
-                if (db.updateCard(data.getInt("card_id"), data.getString("card_name"),
-                        data.getString("card_description"))) {
-                    r.put("status", 200);
-                    r.put("data", d);
-                } else {
-                    r.put("status", 404);
-                }
+            if (db.updateCard(data.getInt("card_id"), data.getString("card_name"),
+                    data.getString("card_description"))) {
+                r.put("status", 200);
+                r.put("data", d);
             } else {
-                r.put("status", 403);
+                r.put("status", 404);
             }
         } catch (JSONException ex) {
             Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);

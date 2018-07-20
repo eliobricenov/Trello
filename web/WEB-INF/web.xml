@@ -101,10 +101,6 @@
         <servlet-class>eebv.org.servlets.UserServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ChipsData</servlet-name>
-        <servlet-class>eebv.org.tools.ChipsData</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ChipsServlet</servlet-name>
         <servlet-class>eebv.org.servlets.ChipsServlet</servlet-class>
     </servlet>
@@ -219,10 +215,6 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/UserServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChipsData</servlet-name>
-        <url-pattern>/ChipsData</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ChipsServlet</servlet-name>

@@ -296,7 +296,7 @@ public class DBManager {
                     boards.add(b);
                 }
             } else {
-                throw new Exception("No results");
+                return null;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -352,7 +352,7 @@ public class DBManager {
                     columns.add(c);
                 }
             } else {
-                throw new Exception("No results");
+                return null;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -380,7 +380,7 @@ public class DBManager {
                     cards.add(c);
                 }
             } else {
-                throw new Exception("No results");
+               return null;
             }
         } catch (Exception ex) {
             ex.printStackTrace();

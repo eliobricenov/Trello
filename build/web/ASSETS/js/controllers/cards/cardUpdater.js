@@ -15,7 +15,7 @@ function updateCard(form, data, card){
 			json.card_id = data.card_id;
 			json.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
 			swal.showLoading();
-			customFetch(json, "PUT", "http://localhost:8080/Trello/CardServlet")
+			customFetch(json, "PUT", `http://localhost:8080/Trello/CardServlet?board_id=${json.board_id}&card_id=${json.card_id}`)
 			.then(r=>{
 				if(r.status === 200){
 					swal({
@@ -68,7 +68,7 @@ function updateCard(form, data, card){
 				json.card_id = data.card_id;
 				json.board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
 				swal.showLoading();
-				customFetch(json, "DELETE", "http://localhost:8080/Trello/CardServlet")
+				customFetch(json, "DELETE", `http://localhost:8080/Trello/CardServlet?board_id=${json.board_id}&card_id=${json.card_id}`)
 				.then(r=>{
 					if(r.status === 200){
 						swal({

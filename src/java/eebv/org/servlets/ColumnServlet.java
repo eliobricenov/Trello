@@ -6,6 +6,7 @@
 package eebv.org.servlets;
 
 import eebv.org.models.*;
+import eebv.org.services.ColumnServices;
 import eebv.org.tools.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -72,37 +73,19 @@ public class ColumnServlet extends HttpServlet {
         int boardId = (request.getParameter("board_id") == null) ? 0 : Integer.parseInt(request.getParameter("board_id"));
         if (boardId != 0) {
             try {
-                System.out.println(boardId);
                 List<Column> columns = db.getColumns(boardId);
-                for (Column c : columns) {
-                    JSONObject column_json = new JSONObject();
-                    column_json.put("column_id", c.getColumn_id());
-                    column_json.put("user_id", c.getUser_id());
-                    column_json.put("board_id", c.getBoard_id());
-                    column_json.put("column_name", c.getColumn_name());
-                    List<Card> cards = db.getCards(c.getColumn_id());
-                    JSONArray cards_json = new JSONArray();
-                    for (Card card : cards) {
-                        JSONObject card_json = new JSONObject();
-                        card_json.put("card_id", card.getCard_id());
-                        card_json.put("user_id", card.getUserId());
-                        card_json.put("column_id", card.getColumnId());
-                        card_json.put("card_name", card.getCard_name());
-                        card_json.put("card_description", card.getCard_description());
-                        cards_json.put(card_json);
-                    };
-                    column_json.put("cards", cards_json);
-                    columns_json.put(column_json);
+                if (columns != null) {
+                    for (Column c : columns) {
+                        columns_json.put(ColumnServices.columndToJSON(c));
+                    }
+                    r.put("status", 200);
+                    r.put("columns", columns_json);
+                } else {
+                    r.put("status", 200);
+                    r.put("columns", new JSONArray());
                 }
-                r.put("status", 200);
-                r.put("columns", columns_json);
             } catch (JSONException ex) {
                 Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
-                try {
-                    r.put("status", 404);
-                } catch (JSONException ex1) {
-                    Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex1);
-                }
             }
         } else {
             try {
@@ -132,27 +115,22 @@ public class ColumnServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.isBoardMaster(u.getId(), data.getInt("board_id")) || 
-                    db.isCollab(u.getId(), data.getInt("board_id"))) {
-                int result = db.registerColumn(data.getInt("board_id"), u.getId(),
-                        data.getString("column_name"));
-                if (result > 0) {
-                    r.put("status", 200);
-                    d.put("column_id", result);
-                    d.put("user_id", u.getId());
-                    d.put("board_id", data.getInt("board_id"));
-                    d.put("column_name", data.getString("column_name"));
-                    r.put("data", d);
-                } else {
-                    r.put("status", 404);
-                }
+            int result = db.registerColumn(data.getInt("board_id"), u.getId(),
+                    data.getString("column_name"));
+            if (result > 0) {
+                r.put("status", 200);
+                d.put("column_id", result);
+                d.put("user_id", u.getId());
+                d.put("board_id", data.getInt("board_id"));
+                d.put("column_name", data.getString("column_name"));
+                r.put("data", d);
             } else {
-                r.put("status", 403);
+                r.put("status", 404);
             }
         } catch (JSONException ex) {
-            Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 r.put("status", 500);
+                Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (JSONException ex2) {
                 Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
             };
@@ -178,16 +156,11 @@ public class ColumnServlet extends HttpServlet {
         PrintWriter p = response.getWriter();
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.isBoardMaster(u.getId(), data.getInt("board_id")) || 
-                    db.isColumnOwner(u.getId(), data.getInt("column_id"))) {
-                if (db.updateColumn(data.getInt("column_id"), data.getString("column_name"))) {
-                    r.put("status", 200);
-                    r.put("data", d);
-                } else {
-                    r.put("status", 404);
-                }
+            if (db.updateColumn(data.getInt("column_id"), data.getString("column_name"))) {
+                r.put("status", 200);
+                r.put("data", d);
             } else {
-                r.put("status", 403);
+                r.put("status", 404);
             }
         } catch (JSONException ex) {
             Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -217,19 +190,14 @@ public class ColumnServlet extends HttpServlet {
         User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.isBoardMaster(u.getId(), data.getInt("board_id")) || 
-                    db.isColumnOwner(u.getId(), data.getInt("column_id"))) {
-                if (db.deleteColumn(data.getInt("column_id"))) {
-                    r.put("status", 200);
-                } else {
-                    r.put("status", 404);
-                }
+            if (db.deleteColumn(data.getInt("column_id"))) {
+                r.put("status", 200);
             } else {
-                r.put("status", 403);
+                r.put("status", 404);
             }
         } catch (JSONException ex) {
-            Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
             try {
+                Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
                 r.put("status", 500);
             } catch (JSONException ex2) {
                 Logger.getLogger(ColumnServlet.class.getName()).log(Level.SEVERE, null, ex);
