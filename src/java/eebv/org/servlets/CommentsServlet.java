@@ -5,11 +5,16 @@
  */
 package eebv.org.servlets;
 
-import eebv.org.models.*;
-import eebv.org.services.CardServices;
-import eebv.org.tools.*;
+import eebv.org.models.Board;
+import eebv.org.models.Comment;
+import eebv.org.models.User;
+import eebv.org.services.BoardServices;
+import eebv.org.services.CommentServices;
+import eebv.org.tools.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,9 +27,9 @@ import org.json.JSONObject;
 
 /**
  *
- * @author JoseUrdaneta
+ * @author GGsus
  */
-public class CardServlet extends HttpServlet {
+public class CommentsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +48,10 @@ public class CardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CardServelt</title>");
+            out.println("<title>Servlet CommentsServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CardServelt at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CommentsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,7 +69,26 @@ public class CardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            DBManager db = new DBManager();
+            JSONObject r = new JSONObject();
+            PrintWriter p = response.getWriter();
+            String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Timestamp(System.currentTimeMillis()));
+            User u = (User) request.getSession(false).getAttribute("user");
+            JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
+            
+            if (db.registerBoard(data.getString("board_name"), (u.getId()), time, data.getString("board_color"),
+                    data.getString("board_description"),data.getJSONArray("board_collaborators"))) {
+                r.put("status", 200);
+                Board b = db.getBoard("board_created_at", time);
+                r.put("data", BoardServices.boardToJSON(b));
+            } else {
+                r.put("status", 404);
+            }
+            p.print(r);
+        } catch (JSONException ex) {
+            Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -78,34 +102,29 @@ public class CardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DBManager db = new DBManager();
-        JSONObject r = new JSONObject();
-        JSONObject d = new JSONObject();
-        PrintWriter p = response.getWriter();
-        User u = (User) request.getSession(false).getAttribute("user");
         try {
+            DBManager db = new DBManager();
+            JSONObject r = new JSONObject();
+            PrintWriter p = response.getWriter();
+            String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Timestamp(System.currentTimeMillis()));
+            User u = (User) request.getSession(false).getAttribute("user");
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            int column_id = data.getInt("column_id");
-            int id = db.registerCard(data.getString("card_name"), column_id,
-                    data.getString("card_description"), (u.getId()));
-            if (id > 0) {
+            int res = db.registerComment(data.getInt("card_id"), u.getId(),
+                    data.getString("comment_text"), time);
+            if (res > 0) {
                 r.put("status", 200);
-                r.put("data", CardServices.cardToJSON(db.getCard(id)));
+                Comment c = db.getComment(res);
+                r.put("data", CommentServices.commentToJSON(c));
             } else {
                 r.put("status", 404);
             }
+            p.print(r);
         } catch (JSONException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-            try {
-                r.put("status", 500);
-            } catch (JSONException ex2) {
-                Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-            };
+            Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        p.print(r);
     }
-
+    
+    
     /**
      * Handles the HTTP <code>DELETE</code> method.
      *
@@ -120,56 +139,19 @@ public class CardServlet extends HttpServlet {
         DBManager db = new DBManager();
         JSONObject r = new JSONObject();
         PrintWriter p = response.getWriter();
-        User u = (User) request.getSession(false).getAttribute("user");
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.deleteCard(data.getInt("card_id"))) {
+            if (db.deleteComment((data.getInt("comment_id")))) {
                 r.put("status", 200);
             } else {
                 r.put("status", 404);
             }
         } catch (JSONException ex) {
-            Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 r.put("status", 500);
             } catch (JSONException ex2) {
-                Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-            };
-        }
-        p.print(r);
-    }
-
-    /**
-     * Handles the HTTP <code>PUT</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        DBManager db = new DBManager();
-        JSONObject r = new JSONObject();
-        JSONObject d = new JSONObject();
-        PrintWriter p = response.getWriter();
-        User u = (User) request.getSession(false).getAttribute("user");
-        try {
-            JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            if (db.updateCard(data.getInt("card_id"), data.getString("card_name"),
-                    data.getString("card_description"))) {
-                r.put("status", 200);
-                r.put("data", d);
-            } else {
-                r.put("status", 404);
-            }
-        } catch (JSONException ex) {
-            Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
-            try {
-                r.put("status", 500);
-            } catch (JSONException ex2) {
-                Logger.getLogger(CardServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex);
             };
         }
         p.print(r);

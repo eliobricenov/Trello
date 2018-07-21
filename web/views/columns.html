@@ -3,29 +3,32 @@
 <head>
     <title>Jellio Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
     <style type="text/css" media="screen">
-
-</style>
+    </style>
 </head>
 
 <body>
     <div id="page">
+
         <!-- MODALS -->
         <div class="nav-container"></div>
-        <div id="container" class="row flex-content"></div>
+        <ul id="container" class="row flex-content"></ul>
 
         <div id="modal1" class="modal">
             <div class="modal-content">
                 <h3>Colum Creation</h3>
-                <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <a href="#modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                    <i class="material-icons">close</i>
+                </a>
                 <form id="column_create" novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="column_name" name="column_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <input class="include" id="column_name" name="column_name" type="text" required="" aria-required="true" placeholder="My Table"
+                            />
                             <label for="column_name">Column Name</label>
                         </div>
                     </div>
@@ -42,17 +45,21 @@
         <div id="modal2" class="modal card-create">
             <div class="modal-content">
                 <h3>Card Creation</h3>
-                <a data-target="modal2" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
-                <form id="card_create" class="no-submit"  novalidate>
+                <a data-target="modal2" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                    <i class="material-icons">close</i>
+                </a>
+                <form id="card_create" class="no-submit" novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table"
+                            />
                             <label for="card_name">Card Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="My Table"
+                            />
                             <label for="card_description">Card Description</label>
                         </div>
                     </div>
@@ -69,17 +76,21 @@
         <div id="modal_update" class="modal column-update">
             <div class="modal-content">
                 <h3>Column Modification</h3>
-                <a data-target="modal_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <a data-target="modal_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                    <i class="material-icons">close</i>
+                </a>
                 <form class="no-submit" id="column_update" novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="column_name" name="column_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <input class="include" id="column_name" name="column_name" type="text" required="" aria-required="true" placeholder="My Table"
+                            />
                             <label for="column_name">Column Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="column_description" name="column_description" type="text" required="" aria-required="true" placeholder="TODO Table" />
+                            <input class="include" id="column_description" name="column_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                            />
                             <label for="column_name">Column Description</label>
                         </div>
                     </div>
@@ -96,17 +107,21 @@
         <div id="card_update" class="modal card-update">
             <div class="modal-content">
                 <h3>Card Modification</h3>
-                <a data-target="card_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+                <a data-target="card_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                    <i class="material-icons">close</i>
+                </a>
                 <form class="no-submit" id="card_update" novalidate>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table" />
+                            <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table"
+                            />
                             <label for="card_name">Card Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 ">
-                            <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table" />
+                            <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                            />
                             <label for="card_name">Card Description</label>
                         </div>
                     </div>
@@ -119,6 +134,72 @@
                 </form>
             </div>
         </div>
+
+        <div id="card_show" class="modal card-show">
+            <div class="modal-content">
+                <h4></h4>
+                <div class="divider"></div>
+                <br>
+                <a data-target="card_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                    <i class="material-icons">close</i>
+                </a>
+                <div class="row">
+                    <h5>Descripcion</h5>
+                    <div class="input-field col s12 ">
+                        <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table"
+                        />
+                        <label for="card_name">Card</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                        />
+                        <label for="card_name">Card Description</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s11 m11" style="margin-top: 23 !important">
+                        <div class="input-field col s12">
+                            <i class="material-icons  prefix" style="line-height: 2;">chat_bubble_outline</i>
+                            <textarea id="textarea1" class="materialize-textarea" style="padding:0.2rem !important;" maxlength="250"></textarea>
+                            <label for="textarea1">Agregar un comentario</label>
+                        </div>
+                    </div>
+                    <div class="col s1 m1">
+                        <i class="material-icons medium" style="color:teal !important; font-size: 35px !important; line-height:4 !important;">send</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Lista de comentarios -->
+                    <div class="divider"></div>
+                    <div class="row">
+                        <br>
+                        <div class="col s2 m2">
+                            <i class="material-icons circle medium">person</i>
+                        </div>
+                        <div class="col s9 m9">
+                            <p>Jesus Urdaneta</p>
+                            <br>
+                            <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">Aja veamos como se ve la verguita esta</textarea>
+                            <br>
+                        </div>
+                        <div class="col s1 m1">
+                            <a href="#!" class="secondary-content">
+                                <i class="material-icons red-text">delete</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="tiny-text right-align">21/08/18 12:30am</p>
+                    </div>
+                    <div class="divider"></div>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
     <!-- libraries -->
@@ -140,21 +221,7 @@
     <script src="../ASSETS/js/controllers/columns/columns.js"></script>
     <script src="../ASSETS/js/controllers/login/logout.js"></script>
     <script>
-        $(document).ready(function() {
-            
-            // document.getElementById("close").addEventListener("click", function(e){
-            //     document.getElementById("search").value = "";
-            //     console.log('delete');
-            // });
-
-            // let search = document.getElementById("search");
-
-            // search.addEventListener("keyup" , function(e){
-            //     e.preventDefault();
-            //     if(e.keyCode == 13 && search.value !== "") {
-            //         console.log("accion");
-            //     }
-            // });
+        $(document).ready(function () {
 
             //Modal initializers 
             $('.modal').modal({
@@ -162,7 +229,7 @@
             });
             $('.modal.card-create').modal({
                 dismissible: false,
-                ready: function(modal, trigger) {
+                ready: function (modal, trigger) {
                     let form = modal.children().children('form');
                     let data = {};
                     let container = trigger.parent().parent().find('div.card-content');
@@ -175,7 +242,7 @@
 
             $('.modal.column-update').modal({
                 dismissible: false,
-                ready: function(modal, trigger) {
+                ready: function (modal, trigger) {
                     let form = modal.children().children('form');
                     let data = {};
                     data.column_id = trigger.data('column_id');
@@ -187,7 +254,7 @@
 
             $('.modal.card-update').modal({
                 dismissible: false,
-                ready: function(modal, trigger) {
+                ready: function (modal, trigger) {
                     let form = modal.children().children('form');
                     let data = {};
                     data.card_id = parseInt(trigger.children('span.card_id').text());
@@ -196,7 +263,7 @@
                 }
             });
 
-            $('form').submit(function (e){
+            $('form').submit(function (e) {
                 e.preventDefault();
             })
         });

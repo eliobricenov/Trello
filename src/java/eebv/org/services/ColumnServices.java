@@ -30,13 +30,7 @@ public class ColumnServices {
             JSONArray cards_json = new JSONArray();
             if (cards != null) {
                 for (Card card : cards) {
-                    JSONObject card_json = new JSONObject();
-                    card_json.put("card_id", card.getCard_id());
-                    card_json.put("user_id", card.getUserId());
-                    card_json.put("column_id", card.getColumnId());
-                    card_json.put("card_name", card.getCard_name());
-                    card_json.put("card_description", card.getCard_description());
-                    cards_json.put(card_json);
+                    cards_json.put(CardServices.cardToJSON(card));
                 };
                 column_json.put("cards", cards_json);
             } else {

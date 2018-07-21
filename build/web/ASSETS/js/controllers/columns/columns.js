@@ -1,5 +1,5 @@
 let mainContainer = document.querySelector('div.nav-container');
-let container = document.querySelector('div#container');
+let container = document.querySelector('ul#container');
 let myparams = new URLSearchParams(window.location.search);
 let board_id = myparams.get("board_id");
 let nav_container = document.querySelector('div#page');
@@ -14,6 +14,8 @@ let nav_container = document.querySelector('div#page');
  			renderFloatingButton(mainContainer);
  			customFetch("", "GET", "http://localhost:8080/Trello/ColumnServlet?board_id=" + board_id)
  			.then(r => {
+				 console.log(r);
+				 
  				r.columns.forEach(column =>{
  					renderColumn(column, container);
  				})

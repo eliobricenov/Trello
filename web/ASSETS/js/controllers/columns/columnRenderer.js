@@ -17,7 +17,7 @@ function renderColumn(data, container) {
 	let columnDivI = document.createElement("i");
 
 	//attributes assigment
-	cardContainer.className = "collection with-header";
+	cardContainer.className = "collection";
 	columnH5.className = "collection-header";
 	columnDivCol.className = "col s12 m4";
 	columnDivH.className = "";
@@ -62,6 +62,8 @@ function renderColumn(data, container) {
 	columnDivC.appendChild(cardDivCo);
 	if(data.cards){
 		for (var i = 0; i < data.cards.length; i++) {
+			console.log(data.cards);
+			
 			renderCard(data.cards[i], cardContainer);
 		}	
 	};

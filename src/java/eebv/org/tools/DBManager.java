@@ -33,12 +33,14 @@ public class DBManager {
     private Properties board_p = new Properties();
     private Properties card_p = new Properties();
     private Properties column_p = new Properties();
+    private Properties comment_p = new Properties();
     public DBManager(){
         try {
             this.user_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/UserQueries.properties"));
             this.card_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/CardQueries.properties"));
             this.column_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/ColumnQueries.properties"));
             this.board_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/BoardQueries.properties"));
+            this.comment_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/CommentQueries.properties"));
         } catch (IOException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -549,6 +551,62 @@ public class DBManager {
         }
         return c;
     }
+    
+     public Comment getComment(int cardId) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Comment c = new Comment();
+        try {
+            stm = con.prepareStatement(comment_p.getProperty("getComment"));
+            stm.setInt(1, cardId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    c.setId(rs.getInt("comment_id"));
+                    c.setCardId(rs.getInt("card_id"));
+                    c.setText(rs.getString("comment_text"));
+                    c.setUserId(rs.getInt("user_id"));
+                    c.setTimestamp(rs.getString("comment_created_at"));
+                }
+            } else {
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return c;
+    }
+     
+     
+     public List<Comment> getComments(int cardId) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<Comment> comments = new ArrayList<>();
+        try {
+            stm = con.prepareStatement(comment_p.getProperty("getComments"));
+            stm.setInt(1, cardId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    Comment c = new Comment();
+                    c.setId(rs.getInt("comment_id"));
+                    c.setCardId(rs.getInt("card_id"));
+                    c.setText(rs.getString("comment_text"));
+                    c.setUserUsername(rs.getString("user_username"));
+                    c.setTimestamp(rs.getString("comment_created_at"));
+                    c.setUserId(rs.getInt("user_id"));
+                    comments.add(c);
+                }
+            } else {
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return comments;
+    }
 
     public boolean updateBoard(int boardId, String name, String color, String description,
             JSONArray collabs) {
@@ -574,7 +632,29 @@ public class DBManager {
         }
         return flag;
     }
-
+    
+    public boolean updateComment(int commentId, String text) {
+        PreparedStatement stm = null;
+        DBManager db = new DBManager();
+        int rs;
+        boolean flag = false;
+        try {
+            stm = con.prepareStatement(comment_p.getProperty("updateComment"));
+            stm.setString(1, text);
+            stm.setInt(2, commentId);
+            rs = stm.executeUpdate();
+            if (rs > 0) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+    
     public boolean deleteBoard(int boardId) {
         PreparedStatement stm = null;
         int rs;
@@ -688,6 +768,26 @@ public class DBManager {
         try {
             stm = con.prepareStatement(card_p.getProperty("deleteCard"));
             stm.setInt(1, cardId);
+            rs = stm.executeUpdate();
+            if (rs > 0) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+    
+    public boolean deleteComment(int commentId) {
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try {
+            stm = con.prepareStatement(comment_p.getProperty("deleteComment"));
+            stm.setInt(1, commentId);
             rs = stm.executeUpdate();
             if (rs > 0) {
                 flag = true;
@@ -831,6 +931,23 @@ public class DBManager {
         }
         return flag;
     }
+    public boolean isCommentOwner(int userId, int commentId) {
+        boolean flag = false;
+        try {
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("isCollumnOwner"));
+            stm.setInt(1, commentId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int cardUserId = rs.getInt("user_id");
+                flag = cardUserId == userId;
+            } else {
+                flag = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return flag;
+    }
 
     public boolean isCollab(int userId, int boardId) {
         boolean flag = false;
@@ -852,5 +969,27 @@ public class DBManager {
         return flag;
     }
     
-
+    public int registerComment(int cardId, int userId, String text, String t) {
+        PreparedStatement stm = null;
+        int rs;
+        int result = 0;
+        try {
+            stm = con.prepareStatement(comment_p.getProperty("registerComment"),
+                    Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, cardId);
+            stm.setInt(2, userId);
+            stm.setString(3, text);
+            stm.setString(4, t);
+            rs = stm.executeUpdate();
+            ResultSet keys = stm.getGeneratedKeys();
+            if (rs > 0) {
+                keys.next();
+                result = keys.getInt(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
 }

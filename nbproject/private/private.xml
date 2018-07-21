@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Elio%20Briceño/Documents/EE/URU/Trello/src/java/eebv/org/servlets/BoardSearchServlet.java</file>
-            <file>file:/C:/Users/Elio%20Briceño/Documents/EE/URU/Trello/src/java/eebv/org/properties/UserQueries.properties</file>
-            <file>file:/C:/Users/Elio%20Briceño/Documents/EE/URU/Trello/src/java/eebv/org/properties/CardQueries.properties</file>
-            <file>file:/C:/Users/Elio%20Briceño/Documents/EE/URU/Trello/src/java/eebv/org/properties/BoardQueries.properties</file>
-            <file>file:/C:/Users/Elio%20Briceño/Documents/EE/URU/Trello/src/java/eebv/org/properties/ColumnQueries.properties</file>
-            <file>file:/C:/Users/Elio%20Briceño/Documents/EE/URU/Trello/src/java/eebv/org/tools/DBManager.java</file>
+            <file>file:/C:/Users/joseu/Desktop/Trello/src/java/eebv/org/servlets/CommentsServlet.java</file>
+            <file>file:/C:/Users/joseu/Desktop/Trello/src/java/eebv/org/tools/Pruebas.java</file>
+            <file>file:/C:/Users/joseu/Desktop/Trello/src/java/eebv/org/tools/DBManager.java</file>
+            <file>file:/C:/Users/joseu/Desktop/Trello/src/java/eebv/org/servlets/BoardServlet.java</file>
         </group>
     </open-files>
 </project-private>

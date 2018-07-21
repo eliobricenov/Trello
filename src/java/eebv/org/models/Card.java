@@ -6,6 +6,7 @@
 package eebv.org.models;
 
 import eebv.org.*;
+import org.json.JSONArray;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Card {
     private int userId;
     private String card_name;
     private String card_description;
+    private JSONArray comments;
 
     /**
      * @return the card_id
@@ -86,5 +88,19 @@ public class Card {
      */
     public void setCard_description(String card_description) {
         this.card_description = card_description;
+    }
+
+    /**
+     * @return the comments
+     */
+    public JSONArray getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(JSONArray comments) {
+        this.comments = comments;
     }
 }

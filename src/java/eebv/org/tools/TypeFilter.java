@@ -79,6 +79,18 @@ public class TypeFilter implements Filter {
                                 }
                             }
                             break;
+                            
+                            //Case user tries to modify a comment
+                            case "/Trello/CommentsServlet": {
+                                int card_id = Integer.parseInt(request.getParameter("comment_id"));
+                                if (db.isCommentOwner(u.getId(), card_id)) {
+                                    chain.doFilter(req, res);
+                                } else {
+                                    r.put("status", 403);
+                                    p.print(r);
+                                }
+                            }
+                            break;
                         }
                     } else {
                         chain.doFilter(req, res);
