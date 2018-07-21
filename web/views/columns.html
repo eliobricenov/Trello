@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
     <style type="text/css" media="screen">
+        a {
+            color: #0097A7;
+            cursor: pointer !important;
+        }
     </style>
 </head>
 
@@ -143,63 +147,35 @@
                 <a data-target="card_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
                     <i class="material-icons">close</i>
                 </a>
-                <div class="row">
-                    <h5>Descripcion</h5>
-                    <div class="input-field col s12 ">
-                        <input class="include" id="card_name" name="card_name" type="text" required="" aria-required="true" placeholder="My Table"
-                        />
-                        <label for="card_name">Card</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12 ">
-                        <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table"
-                        />
-                        <label for="card_name">Card Description</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s11 m11" style="margin-top: 23 !important">
-                        <div class="input-field col s12">
-                            <i class="material-icons  prefix" style="line-height: 2;">chat_bubble_outline</i>
-                            <textarea id="textarea1" class="materialize-textarea" style="padding:0.2rem !important;" maxlength="250"></textarea>
-                            <label for="textarea1">Agregar un comentario</label>
-                        </div>
-                    </div>
-                    <div class="col s1 m1">
-                        <i class="material-icons medium" style="color:teal !important; font-size: 35px !important; line-height:4 !important;">send</i>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Lista de comentarios -->
-                    <div class="divider"></div>
-                    <div class="row">
-                        <br>
-                        <div class="col s2 m2">
-                            <i class="material-icons circle medium">person</i>
-                        </div>
-                        <div class="col s9 m9">
-                            <p>Jesus Urdaneta</p>
-                            <br>
-                            <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">Aja veamos como se ve la verguita esta</textarea>
-                            <br>
-                        </div>
-                        <div class="col s1 m1">
-                            <a href="#!" class="secondary-content">
-                                <i class="material-icons red-text">delete</i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <p class="tiny-text right-align">21/08/18 12:30am</p>
-                    </div>
-                    <div class="divider"></div>
-
+            </div>
+            <div class="row">
+                <div class="input-field col s12 ">
+                    <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                        disabled/>
+                    <label for="card_name">Card Description</label>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s11 m11" style="margin-top: 23 !important">
+                    <div class="input-field col s12">
+                        <i class="material-icons  prefix" style="line-height: 2;">chat_bubble_outline</i>
+                        <textarea placeholder="Insert your comment here" class="materialize-textarea comment" style="padding:0.2rem !important;"
+                            maxlength="250"></textarea>
+                        <label for="textarea1">Agregar un comentario</label>
+                    </div>
+                </div>
+                <div class="col s1 m1">
+                    <a class="comment-submit">
+                        <i class="material-icons small comment-submit" style="color:teal !important; font-size: 35px !important; line-height:4 !important;">send</i>
+                    </a>
+                </div>
+            </div>
+            <div class="comment-container">
+            </div>
         </div>
+    </div>
 
-
+    s
     </div>
 
     <!-- libraries -->
@@ -219,6 +195,7 @@
     <script src="../ASSETS/js/controllers/columns/columnUpdater.js"></script>
     <script src="../ASSETS/js/controllers/columns/columnRenderer.js"></script>
     <script src="../ASSETS/js/controllers/columns/columns.js"></script>
+    <script src="../ASSETS/js/controllers/comments/commentCreator.js"></script>
     <script src="../ASSETS/js/controllers/login/logout.js"></script>
     <script>
         $(document).ready(function () {
@@ -266,6 +243,21 @@
             $('form').submit(function (e) {
                 e.preventDefault();
             })
+
+            $('.modal.card-show').modal({
+                dismissible: false,
+                ready: function (modal, trigger) {
+                    let $container = trigger.parent();
+                    let data = {};
+                    data.user_id = parseInt($container.find('span.user_id').text());
+                    data.card_id = parseInt($container.find('span.card_id').text());
+                    let comments = JSON.parse($container.find('span.comments').text());
+                    console.log(comments);
+                    // renderComments();
+                    prepareComment(modal, data, $container);
+                }
+            });
+
         });
     </script>
 </body>

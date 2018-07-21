@@ -63,7 +63,6 @@ function renderColumn(data, container) {
 	if(data.cards){
 		for (var i = 0; i < data.cards.length; i++) {
 			console.log(data.cards);
-			
 			renderCard(data.cards[i], cardContainer);
 		}	
 	};

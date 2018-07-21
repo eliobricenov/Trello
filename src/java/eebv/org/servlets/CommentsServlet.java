@@ -69,26 +69,7 @@ public class CommentsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            DBManager db = new DBManager();
-            JSONObject r = new JSONObject();
-            PrintWriter p = response.getWriter();
-            String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-            User u = (User) request.getSession(false).getAttribute("user");
-            JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
-            
-            if (db.registerBoard(data.getString("board_name"), (u.getId()), time, data.getString("board_color"),
-                    data.getString("board_description"),data.getJSONArray("board_collaborators"))) {
-                r.put("status", 200);
-                Board b = db.getBoard("board_created_at", time);
-                r.put("data", BoardServices.boardToJSON(b));
-            } else {
-                r.put("status", 404);
-            }
-            p.print(r);
-        } catch (JSONException ex) {
-            Logger.getLogger(BoardServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
 
     /**

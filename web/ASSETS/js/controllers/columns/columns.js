@@ -13,9 +13,7 @@ let nav_container = document.querySelector('div#page');
  			renderNavBar(res.data.name, mainContainer);
  			renderFloatingButton(mainContainer);
  			customFetch("", "GET", "http://localhost:8080/Trello/ColumnServlet?board_id=" + board_id)
- 			.then(r => {
-				 console.log(r);
-				 
+ 			.then(r => { 
  				r.columns.forEach(column =>{
  					renderColumn(column, container);
  				})

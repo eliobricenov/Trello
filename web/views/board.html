@@ -7,21 +7,26 @@
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
     <style type="text/css" media="screen">
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
 
-    #loader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-    }
+        label[data-error],
+        label[data-success] {
+            width: 100%;
+        }
 
-    label[data-error], label[data-success] {
-        width: 100%;
-    }
-    
-</style>
+
+        a {
+            color: #0097A7;
+            cursor: pointer !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -53,17 +58,21 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
             <h3>Board Creation</h3>
-            <a data-target="modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+            <a data-target="modal1" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                <i class="material-icons">close</i>
+            </a>
             <form id="boardCreate" novalidate>
                 <div class="row">
                     <div class="input-field col s12 ">
-                        <input class="include" id="board_name" name="board_name" type="text" required="" aria-required="true" placeholder="My Table"/>
+                        <input class="include" id="board_name" name="board_name" type="text" required="" aria-required="true" placeholder="My Table"
+                        />
                         <label for="board_name">Board Name</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 ">
-                        <input class="include" id="board_description" name="board_description" type="text" required="" aria-required="true" placeholder="TODO Table"/>
+                        <input class="include" id="board_description" name="board_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                        />
                         <label for="board_name">Board Description</label>
                     </div>
                 </div>
@@ -93,17 +102,21 @@
     <div id="modal_update" class="modal update">
         <div class="modal-content">
             <h3>Board Modification</h3>
-            <a data-target="modal_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;"><i class="material-icons">close</i></a>
+            <a data-target="modal_update" class="secondary-content modal-close" style="position:absolute;top:15;right:15;">
+                <i class="material-icons">close</i>
+            </a>
             <form id="edit_modal" novalidate>
                 <div class="row">
                     <div class="input-field col s12 ">
-                        <input class="include" id="board_name" name="board_name" type="text" required="" aria-required="true" placeholder="My Table"/>
+                        <input class="include" id="board_name" name="board_name" type="text" required="" aria-required="true" placeholder="My Table"
+                        />
                         <label for="board_name">Board Name</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 ">
-                        <input class="include" id="board_description" name="board_description" type="text" required="" aria-required="true" placeholder="TODO Table"/>
+                        <input class="include" id="board_description" name="board_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                        />
                         <label for="board_name">Board Description</label>
                     </div>
                 </div>
@@ -146,8 +159,8 @@
     <script src="../ASSETS/js/controllers/boards/boards.js"></script>
     <script src="../ASSETS/js/controllers/login/logout.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#loader').fadeOut(500, function() { $('#loader').remove(); });
+        $(document).ready(function () {
+            $('#loader').fadeOut(500, function () { $('#loader').remove(); });
 
             // document.getElementById("close").addEventListener("click", function(e){
             //     document.getElementById("search").value = "";
@@ -163,76 +176,76 @@
             // });
 
             customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
-            .then(data => {
-                let myData = data.tagData;
-                console.log(myData);
-                let autocompleteData = data.autocompleteData;
-                $('.chips').unbind().customChips({}, myData, autocompleteData);
+                .then(data => {
+                    let myData = data.tagData;
+                    console.log(myData);
+                    let autocompleteData = data.autocompleteData;
+                    $('.chips').unbind().customChips({}, myData, autocompleteData);
 
-                $('.modal').modal({
-                    dismissible: false,
-                    ready : function(modal, trigger){
-                        let form = modal.children().children('form');
-                        form.find('div.chips').customChips({},
-                        myData, autocompleteData);
-                        form.get(0).reset();
-                    }
-                });
+                    $('.modal').modal({
+                        dismissible: false,
+                        ready: function (modal, trigger) {
+                            let form = modal.children().children('form');
+                            form.find('div.chips').customChips({},
+                                myData, autocompleteData);
+                            form.get(0).reset();
+                        }
+                    });
 
 
-                $('.colorpicker-create').colorpicker({
-                  container: $('div#colorpicker-create'),
-                  inline: true,
-                  format: 'hex',
-              });
+                    $('.colorpicker-create').colorpicker({
+                        container: $('div#colorpicker-create'),
+                        inline: true,
+                        format: 'hex',
+                    });
 
-                $('.colorpicker-update').colorpicker({
-                  container: $('div#colorpicker-update'),
-                  inline: true,
-                  format: 'hex',
-              });
+                    $('.colorpicker-update').colorpicker({
+                        container: $('div#colorpicker-update'),
+                        inline: true,
+                        format: 'hex',
+                    });
 
-                $('.modal.update').modal({
-                    dismissible: false,
-                    ready: function(modal, trigger) {
-                        let element = trigger.parent();
-                        let form = modal.children().children('form');
-                        let data = {};
+                    $('.modal.update').modal({
+                        dismissible: false,
+                        ready: function (modal, trigger) {
+                            let element = trigger.parent();
+                            let form = modal.children().children('form');
+                            let data = {};
 
-                    //getting data from element
-                    data.board_name = element.find('a.title').text();
-                    data.board_description = element.find('p.paragraph').text();
-                    data.board_id = parseInt(element.find('span.id').text());
-                    data.collabs = collabsToChips(JSON.parse(element.find('span.collabs').text()));
+                            //getting data from element
+                            data.board_name = element.find('a.title').text();
+                            data.board_description = element.find('p.paragraph').text();
+                            data.board_id = parseInt(element.find('span.id').text());
+                            data.collabs = collabsToChips(JSON.parse(element.find('span.collabs').text()));
 
-                    //putting data inside the modal 
-                    form.find('input[name="board_name"]').val(data.board_name);
-                    form.find('input[name="board_description"]').val(data.board_description);
-                    form.find('div.chips').customChips(data.collabs,
-                        myData, autocompleteData);
+                            //putting data inside the modal 
+                            form.find('input[name="board_name"]').val(data.board_name);
+                            form.find('input[name="board_description"]').val(data.board_description);
+                            form.find('div.chips').customChips(data.collabs,
+                                myData, autocompleteData);
 
-                    //update method from
-                    updateBoard(form, data, trigger.parent());
-                }
-            });
+                            //update method from
+                            updateBoard(form, data, trigger.parent());
+                        }
+                    });
 
-                $('form#edit_modal').submit(function (e){
-                    e.preventDefault();
+                    $('form#edit_modal').submit(function (e) {
+                        e.preventDefault();
+                    })
                 })
-            })
-            .catch(err => {
-                console.log(err);
-                swal({
-                    title: "Oops!",
-                    text: "Mistakes were made",
-                    type: "error",
-                    showConfirmButton: false,
-                    timer: 4000
+                .catch(err => {
+                    console.log(err);
+                    swal({
+                        title: "Oops!",
+                        text: "Mistakes were made",
+                        type: "error",
+                        showConfirmButton: false,
+                        timer: 4000
+                    })
+
+                    window.location.href = "http://localhost:8080/Trello/views/index.html"
+
                 })
-
-                window.location.href = "http://localhost:8080/Trello/views/index.html"
-
-            })
         });
     </script>
 </body>
