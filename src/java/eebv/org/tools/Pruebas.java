@@ -17,8 +17,9 @@ import org.json.JSONArray;
 public class Pruebas {
     public static void main(String[] args){
         DBManager db = new DBManager();
-        Card c = db.getCard(10);
-        System.out.println(CardServices.cardToJSON(c));
+//        Card c = db.getCard(10);
+        Comment cm = db.getComment(1);
+        System.out.println(CommentServices.commentToJSON(cm));
     }
     
 }

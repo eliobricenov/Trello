@@ -552,19 +552,20 @@ public class DBManager {
         return c;
     }
     
-     public Comment getComment(int cardId) {
+     public Comment getComment(int commentId) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         Comment c = new Comment();
         try {
             stm = con.prepareStatement(comment_p.getProperty("getComment"));
-            stm.setInt(1, cardId);
+            stm.setInt(1, commentId);
             rs = stm.executeQuery();
             if (rs.next()) {
                 rs.beforeFirst();
                 while (rs.next()) {
                     c.setId(rs.getInt("comment_id"));
                     c.setCardId(rs.getInt("card_id"));
+                    c.setUserUsername(rs.getString("user_username"));
                     c.setText(rs.getString("comment_text"));
                     c.setUserId(rs.getInt("user_id"));
                     c.setTimestamp(rs.getString("comment_created_at"));

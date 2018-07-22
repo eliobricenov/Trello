@@ -248,12 +248,12 @@
                 dismissible: false,
                 ready: function (modal, trigger) {
                     let $container = trigger.parent();
+                    let $commentCont = modal.find('div.comment-container');
                     let data = {};
                     data.user_id = parseInt($container.find('span.user_id').text());
                     data.card_id = parseInt($container.find('span.card_id').text());
                     let comments = JSON.parse($container.find('span.comments').text());
-                    console.log(comments);
-                    // renderComments();
+                    setComment($commentCont, comments);
                     prepareComment(modal, data, $container);
                 }
             });

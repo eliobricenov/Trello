@@ -28,7 +28,7 @@ import org.json.JSONObject;
  *
  * @author Elio Briceño
  */
-@WebFilter(servletNames = {"ColumnServlet", "CardServlet"})
+@WebFilter(servletNames = {"ColumnServlet", "CardServlet", "CommentsServlet"})
 public class TypeFilter implements Filter {
 
     @Override
@@ -82,8 +82,10 @@ public class TypeFilter implements Filter {
                             
                             //Case user tries to modify a comment
                             case "/Trello/CommentsServlet": {
-                                int card_id = Integer.parseInt(request.getParameter("comment_id"));
-                                if (db.isCommentOwner(u.getId(), card_id)) {
+                                int comment_id = Integer.parseInt(request.getParameter("comment_id"));
+                                System.out.println(comment_id);
+                                System.out.println(u.getId());
+                                if (db.isCommentOwner(u.getId(), comment_id)) {
                                     chain.doFilter(req, res);
                                 } else {
                                     r.put("status", 403);

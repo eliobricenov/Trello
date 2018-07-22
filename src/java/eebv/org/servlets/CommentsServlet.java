@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -90,12 +92,19 @@ public class CommentsServlet extends HttpServlet {
             String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Timestamp(System.currentTimeMillis()));
             User u = (User) request.getSession(false).getAttribute("user");
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
+            JSONArray comments_j = new JSONArray();
             int res = db.registerComment(data.getInt("card_id"), u.getId(),
                     data.getString("comment_text"), time);
             if (res > 0) {
                 r.put("status", 200);
-                Comment c = db.getComment(res);
-                r.put("data", CommentServices.commentToJSON(c));
+                List<Comment> comments = db.getComments(data.getInt("card_id"));
+                if(comments != null){
+                   for(Comment c : comments){
+                       comments_j.put(CommentServices.commentToJSON(c));
+                   } 
+                }
+                r.put("data", new JSONObject().put("comments", comments_j).put("created_comment", 
+                        CommentServices.commentToJSON(db.getComment(res))));
             } else {
                 r.put("status", 404);
             }
@@ -119,11 +128,19 @@ public class CommentsServlet extends HttpServlet {
             throws ServletException, IOException {
         DBManager db = new DBManager();
         JSONObject r = new JSONObject();
+        JSONArray comments_j = new JSONArray();
         PrintWriter p = response.getWriter();
         try {
             JSONObject data = new JSONObject(IOUtils.toString(request.getInputStream()));
             if (db.deleteComment((data.getInt("comment_id")))) {
                 r.put("status", 200);
+                List<Comment> comments = db.getComments(data.getInt("card_id"));
+                if(comments != null){
+                   for(Comment c : comments){
+                       comments_j.put(CommentServices.commentToJSON(c));
+                   } 
+                }
+                r.put("data", comments_j);
             } else {
                 r.put("status", 404);
             }
