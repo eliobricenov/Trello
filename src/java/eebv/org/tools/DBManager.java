@@ -34,6 +34,8 @@ public class DBManager {
     private Properties card_p = new Properties();
     private Properties column_p = new Properties();
     private Properties comment_p = new Properties();
+    private Properties file_p = new Properties();
+    
     public DBManager(){
         try {
             this.user_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/UserQueries.properties"));
@@ -41,6 +43,7 @@ public class DBManager {
             this.column_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/ColumnQueries.properties"));
             this.board_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/BoardQueries.properties"));
             this.comment_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/CommentQueries.properties"));
+            this.file_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/FileQueries.properties"));
         } catch (IOException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -578,7 +581,35 @@ public class DBManager {
         }
         return c;
     }
-     
+    
+     public MyFile getFile(int fileId) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        MyFile f = new MyFile();
+        try {
+            stm = con.prepareStatement(file_p.getProperty("getFile"));
+            stm.setInt(1, fileId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    f.setUserId(rs.getInt("user_id"));
+                    f.setId(rs.getInt("file_id"));
+                    f.setCardId(rs.getInt("card_id"));
+                    f.setUser_Username(rs.getString("user_username"));
+                    f.setTimestamp(rs.getString("file_uploaded_at"));
+                    f.setName(rs.getString("file_name"));
+                    f.setPath(rs.getString("file_path"));
+                }
+            } else {
+                throw new Exception("No results");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return f;
+    }
      
      public List<Comment> getComments(int cardId) {
         PreparedStatement stm = null;
@@ -991,6 +1022,50 @@ public class DBManager {
             ex.printStackTrace();
         }
         return result;
+    }
+    
+    public int registerFile(int cardId, int userId, String name, String url, String t) {
+        PreparedStatement stm = null;
+        int rs;
+        int result = 0;
+        try {
+            stm = con.prepareStatement(file_p.getProperty("registerFile"),
+                    Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, cardId);
+            stm.setInt(2, userId);
+            stm.setString(3, url);
+            stm.setString(4, t);
+            stm.setString(5, name);
+            rs = stm.executeUpdate();
+            ResultSet keys = stm.getGeneratedKeys();
+            if (rs > 0) {
+                keys.next();
+                result = keys.getInt(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
+    public boolean deleteFile(int fileId) {
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try {
+            stm = con.prepareStatement(file_p.getProperty("deleteFile"));
+            stm.setInt(1, fileId);
+            rs = stm.executeUpdate();
+            if (rs > 0) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+        return flag;
     }
     
 }
