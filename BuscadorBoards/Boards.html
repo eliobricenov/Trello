@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Boards</title>
+	<link rel="stylesheet" href="css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<style type="text/css">
+		
+	#form1{
+  margin-left:200px;
+}
+.side-nav li a {
+  text-decoration:none;
+}
+#searchResults2{
+  background-color:#666666;
+}
+#searchResults{
+  background-color:#666666;
+}
+.right li a{
+  padding-right:2em;
+  text-decoration:none
+}
+.brand-logo{
+	position: absolute;
+	padding-left: 30px !important;
+}
+.input-field{
+	left: 200px !important;
+}
+.boton{
+	margin-right: 20px;
+}
+	</style>
+
+
+</head>
+<body>
+
+	<!-- Nav bar -->
+
+	<div class="page">
+		
+	</div>
+
+   
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="boardsRenderer.js"></script>
+
+    <script>
+    let container = document.querySelector('div.page');
+    renderNavBar("", container);
+    
+	document.getElementById("close").addEventListener("click", function(e){
+    	document.getElementById("search").value = "";
+    	console.log('delete');
+	});
+
+	let search = document.getElementById("search");
+
+	search.addEventListener("keyup" , function(e){
+		e.preventDefault();
+		if(e.keyCode == 13 && search.value !== "") {
+			console.log("accion");
+		}
+	});
+
+    </script>
+
+</body>
+</html>
