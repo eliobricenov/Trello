@@ -276,6 +276,7 @@
                     let $container = trigger.parent();
                     let $commentCont = modal.find('div.comment-container');
                     let titulo = modal.find('a.modal-trigger').text();
+                    console.log(titulo);
                     let data = {};
                     data.user_id = parseInt($container.find('span.user_id').text());
                     data.card_id = parseInt($container.find('span.card_id').text());
