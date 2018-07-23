@@ -117,7 +117,7 @@ function renderComment(container, comments) {
            <div class="divider"></div>
            <div class="row">
                <br>
-               <div class="col s2 m2">
+               <div class="col s1 m1">
                    <i class="material-icons circle medium">person</i>
                </div>
                <div class="col s9 m9">
@@ -132,10 +132,6 @@ function renderComment(container, comments) {
                    </a>
                </div>
            </div>
-           <div class="row">
-               <p class="tiny-text right-align">21/08/18 12:30am</p>
-           </div>
-           <div class="divider"></div>
        </div>`
         }).join('')}`);
 }
@@ -145,31 +141,35 @@ function setComment(container, comments) {
     ${comments.map(comment => {
             return `
        <div class="row comment">
+        <div style="">
             <span class='user_id' hidden>${comment.user_id}</span>
             <span class='card_id' hidden>${comment.card_id}</span>
             <span class='comment_id' hidden>${comment.comment_id}</span>
            <div class="divider"></div>
            <div class="row">
                <br>
-               <div class="col s2 m2">
+               <div class="col s1 m1">
                    <i class="material-icons circle medium">person</i>
                </div>
                <div class="col s9 m9">
                    <p>${comment.user_username}</p>
                    <br>
-                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">${comment.comment_text}</textarea>
-                   <br>
-               </div>
-               <div class="col s1 m1">
+                </div>
+                <div class="col s1 m1">
                    <a class="secondary-content comment-delete">
                        <i class="material-icons red-text">delete</i>
                    </a>
                </div>
-           </div>
-           <div class="row">
-               <p class="tiny-text right-align">21/08/18 12:30am</p>
-           </div>
-           <div class="divider"></div>
+            </div>
+            <div class="row"
+                <div class="col s2 m2">
+                <p></p>
+                </div>
+                <div class="col s8 m8">
+                <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: relative;margin-left: 20%; bottom:34;" disabled maxlength="250">${comment.comment_text}</textarea>
+                </div>
+            </div>
+        </div>
        </div>`
         }).join('')}`);
 }
