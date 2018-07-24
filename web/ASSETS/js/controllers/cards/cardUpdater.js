@@ -24,12 +24,7 @@ function updateCard(form, data, card){
 						showConfirmButton: false,
 						timer: 2500
 					});
-					let cardId = document.createElement("span");
-					cardId.className= "card_id";
-					cardId.hidden = true;
-					cardId.appendChild(document.createTextNode(data.card_id));
-					card.text(json.card_name);
-					card.get(0).appendChild(cardId);
+					card.find('a#card-name').text(json.card_name);
 					form.closest('.modal.open').modal('close');
 					form[0].reset();
 				}else if(r.status === 403){

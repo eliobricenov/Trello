@@ -1,45 +1,38 @@
 <html>
     <head>
-        <title>Jellio Board</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-        <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
-        <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
-        <link rel="stylesheet" href="../ASSETS/css/navbar.css" media="screen,projection">
+        <title>
+            Jellio Board
+        </title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+            <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+            <link href="../ASSETS/css/materialize.min.css" rel="stylesheet">
+                <link href="../ASSETS/css/materialize.min.css" media="screen,projection" rel="stylesheet">
+                    <link href="../ASSETS/css/navbar.css" media="screen,projection" rel="stylesheet">
+                    </link>
+                </link>
+            </link>
+        </meta>
     </head>
     <body>
-        <div class="navbar-fixed blue-grey">
-            <nav>
-                <div class="nav-wrapper blue-grey">
-                    <a class="brand-logo hide-on-med-and-down" style="text-decoration:none">Jellio</a>
-                    <div class="searchBar">
-                        <div class="input-field">
-                            <input id="search" type="search" name="search">
-                            <label  class="label-icon" for="search"><i class="material-icons">search</i></label>
-                            <i id="close_icon" class="material-icons">close</i>
-                        </div>
-                    </div>
-                    <ul class="right">
-                        <li><a onclick="logout()" class="btn waves-effect waves-light red lighten-2">Log out</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+        <ul class="collection with-header">
+        <li class="collection-header"><h5>First Names</h5></li>
+        <li class="collection-item">Alvin</li>
+        <li class="collection-item">Alvin</li>
+        <li class="collection-item">Alvin</li>
+        <li class="collection-item">Alvin</li>
+      </ul>
         <!-- libraries -->
-        <script src="../ASSETS/js/dev/jquery.min.js"></script>
-        <script src="../ASSETS/js/dev/sweetalert2.all.min.js"></script>
-        <script src="../ASSETS/js/dev/customFetch.js"></script>
-        <script src="../ASSETS/js/dev/materialize.min.js"></script>
-        <script src="../ASSETS/js/controllers/login/logout.js"></script>
+        <script src="../ASSETS/js/dev/jquery.min.js">
+        </script>
+        <script src="../ASSETS/js/dev/sweetalert2.all.min.js">
+        </script>
+        <script src="../ASSETS/js/dev/customFetch.js">
+        </script>
+        <script src="../ASSETS/js/dev/materialize.min.js">
+        </script>
+        <script src="../ASSETS/js/controllers/login/logout.js">
+        </script>
         <script>
-            $('#search').on('keyup', function(e){
-                if(e.keyCode === 13 && $(this).val() !== ''){
-                    window.location.href = `/Trello/views/search.html?token=${$(this).val()}`
-                }
-            });
-
-            $('#close_icon').on("click", function(){
-                $('#search').val('');
-            })
         </script>
     </body>
+</html>

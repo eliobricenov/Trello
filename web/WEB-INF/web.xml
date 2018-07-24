@@ -124,6 +124,10 @@
         <servlet-name>FileServlet</servlet-name>
         <servlet-class>eebv.org.servlets.FileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DragDropServlet</servlet-name>
+        <servlet-class>eebv.org.servlets.DragDropServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -247,6 +251,10 @@
     <servlet-mapping>
         <servlet-name>FileServlet</servlet-name>
         <url-pattern>/FileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DragDropServlet</servlet-name>
+        <url-pattern>/DragDropServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

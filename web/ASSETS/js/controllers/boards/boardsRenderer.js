@@ -3,85 +3,13 @@ $.validator.addMethod("lettersonlys", function(value, element) {
 }, "Invalid format. Example: MyBoard, MyBoard 1, My_Board_1");
 
 function renderNavBar(username, container) {
-    // //tag creation (first in, first out)
-    // let nav = document.createElement("nav");
-    // let navDiv = document.createElement("div");
-    // let navLink = document.createElement("a");
-    // //attributes assignment
-    // navDiv.className = "navbar-fixed";
-    // navLink.className = "brand-logo center";
-    // //appending
-    // container.appendChild(nav);
-    // nav.appendChild(navDiv);
-    // navDiv.appendChild(navLink);
-    // navLink.appendChild(document.createTextNode(`${username}`));
-    // tag creation (first in, first out)
-    // let navDiv = document.createElement("div");
-    // let nav = document.createElement("nav"); 
-    // let div_logo = document.createElement("div"); 
-    // let a_logo = document.createElement("a");
-    // let ul = document.createElement("ul");
-    // let li = document.createElement("li");
-    // let btn_ul = document.createElement("btn");
-    // let a_ul = document.createElement("a");
-    // let form = document.createElement("form");
-    // let div_input = document.createElement("div");
-    // let input = document.createElement("input");
-    // let label = document.createElement("label");
-    // let i_input = document.createElement("i");
-    // let i_close = document.createElement("i");
-    // let div_label = document.createElement("div");
-    // //attributes assignment
-    // navDiv.className="navbar-fixed";
-    // div_logo.className="nav-wrapper blue-grey";
-    // a_logo.className="brand-logo";
-    // a_logo.href="#";
-    // a_logo.style.textDecoration = "none";
-    // ul.className="right hide-on-med-and-down";
-    // btn_ul.className= "boton";
-    // a_ul.className="btn waves-effect waves-light red lighten-2";
-    // a_ul.setAttribute("onclick", "logout()");
-    // form.className="hide-on-med-and-down";
-    // form.setAttribute("id","searchForm");
-    // div_input.className="input-field";
-    // div_input.setAttribute("id","search2");
-    // div_input.style.maxWidth = "300pt";
-    // input.setAttribute("id" , "search");
-    // input.setAttribute("type" , "search");
-    // input.setAttribute("required" , true);
-    // label.className="label-icon";
-    // label.setAttribute("for" , "search");
-    // i_input.className="material-icons";
-    // i_close.setAttribute("id" , "close");
-    // i_close.className="material-icons";
-    // div_label.setAttribute("id" , "searchResults");
-    // //appending
-    // a_logo.appendChild(document.createTextNode("Jellio"));
-    // a_ul.appendChild(document.createTextNode("Log out"));
-    // btn_ul.appendChild(a_ul);
-    // li.appendChild(btn_ul);
-    // ul.appendChild(li);
-    // i_input.appendChild(document.createTextNode("search"));
-    // label.appendChild(i_input);
-    // i_close.appendChild(document.createTextNode("close"));
-    // div_input.appendChild(input);
-    // div_input.appendChild(label);
-    // div_input.appendChild(i_close);
-    // div_input.appendChild(div_label);
-    // form.appendChild(div_input);
-    // div_logo.appendChild(a_logo);
-    // div_logo.appendChild(ul);
-    // div_logo.appendChild(form);
-    // nav.appendChild(div_logo);
-    // navDiv.appendChild(nav);
-    // container.appendChild(navDiv);
     $(container).html(`<div class="navbar-fixed blue-grey">
             <nav>
                 <div class="nav-wrapper blue-grey">
                     <a class="brand-logo hide-on-med-and-down" style="text-decoration:none">Jellio</a>
                     <div class="searchBar">
                         <div class="input-field">
-                            <input id="search" type="search" name="search">
+                            <input id="search" placeholder="search a board.." type="search" name="search">
                             <label  class="label-icon" for="search"><i class="material-icons">search</i></label>
                             <i id="close_icon" class="material-icons">close</i>
                         </div>

@@ -34,7 +34,7 @@ public class ColumnServices {
                 };
                 column_json.put("cards", cards_json);
             } else {
-                column_json.put("card", new JSONArray());
+                column_json.put("cards", new JSONArray());
             }
         } catch (Exception e) {
             Logger.getLogger(ColumnServices.class.getName()).log(Level.SEVERE, null, e);

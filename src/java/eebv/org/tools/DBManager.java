@@ -632,7 +632,7 @@ public class DBManager {
                     comments.add(c);
                 }
             } else {
-                throw new Exception("No results");
+                return null;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -854,6 +854,29 @@ public class DBManager {
         }
         return flag;
     }
+    
+    public boolean updateCardColumn(int cardId, int columnId) {
+        PreparedStatement stm = null;
+        int rs;
+        boolean flag = false;
+        try {
+            stm = con.prepareStatement(card_p.getProperty("changeColumn"));
+            stm.setInt(1, columnId);
+            stm.setInt(2, cardId);
+            rs = stm.executeUpdate();
+            if (rs > 0) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+    
+    
 
     public boolean isBoardMaster(int userId, int boardId) {
         boolean flag = false;
@@ -927,6 +950,8 @@ public class DBManager {
         }
         return flag;
     }
+    
+    
 
     public boolean isColumnOwner(int userId, int columnId) {
         boolean flag = false;
@@ -1067,5 +1092,7 @@ public class DBManager {
         }
         return flag;
     }
+    
+    
     
 }
