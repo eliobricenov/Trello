@@ -2,7 +2,7 @@
 
 <head>
     <title>Jellio Board</title>
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
@@ -161,19 +161,6 @@
     <script>
         $(document).ready(function () {
             $('#loader').fadeOut(500, function () { $('#loader').remove(); });
-
-            // document.getElementById("close").addEventListener("click", function(e){
-            //     document.getElementById("search").value = "";
-            // });
-
-
-            // $('form#searchForm').unbind('submit').submit(function(e){
-            //     e.preventDefault();
-            //     let token = $(this).find('input#search').val()
-            //     if(token != ""){
-            //         window.location.href = "http://localhost:8080/Trello/views/search.html?token=" + token;
-            //     }
-            // });
 
             customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
                 .then(data => {

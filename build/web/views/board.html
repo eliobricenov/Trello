@@ -162,19 +162,6 @@
         $(document).ready(function () {
             $('#loader').fadeOut(500, function () { $('#loader').remove(); });
 
-            // document.getElementById("close").addEventListener("click", function(e){
-            //     document.getElementById("search").value = "";
-            // });
-
-
-            // $('form#searchForm').unbind('submit').submit(function(e){
-            //     e.preventDefault();
-            //     let token = $(this).find('input#search').val()
-            //     if(token != ""){
-            //         window.location.href = "http://localhost:8080/Trello/views/search.html?token=" + token;
-            //     }
-            // });
-
             customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
                 .then(data => {
                     let myData = data.tagData;

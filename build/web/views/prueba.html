@@ -2,36 +2,40 @@
     <head>
         <title>Jellio Board</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
         <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
         <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
-        <style type="text/css" media="screen">
-        </style>
+        <link rel="stylesheet" href="../ASSETS/css/navbar.css" media="screen,projection">
     </head>
     <body>
-        <form action="FileUpload" method="post" enctype="multipart/form-data">
-            <input type="text" name="description" />
-            <input type="file" name="files" id="files">
-            <input type="submit" />
-        </form>
+        <div class="navbar-fixed blue-grey">
+            <nav>
+                <div class="nav-wrapper blue-grey">
+                    <a class="brand-logo hide-on-med-and-down" style="text-decoration:none">Jellio</a>
+                    <div class="searchBar">
+                        <div class="input-field">
+                            <input id="search" type="search" name="search">
+                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                            <i class="material-icons">close</i>
+                        </div>
+                    </div>
+                    <ul class="right">
+                        <li><a onclick="logout()" class="btn waves-effect waves-light red lighten-2">Log out</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
         <!-- libraries -->
         <script src="../ASSETS/js/dev/jquery.min.js"></script>
+        <script src="../ASSETS/js/dev/sweetalert2.all.min.js"></script>
+        <script src="../ASSETS/js/dev/customFetch.js"></script>
         <script src="../ASSETS/js/dev/materialize.min.js"></script>
+        <script src="../ASSETS/js/controllers/login/logout.js"></script>
         <script>
-            $('form').submit(function(e) {
-                e.preventDefault();
-                let data = new FormData();
-                let file = $('#files')[0].files[0];
-                data.append("file", file);
-                let json = {};
-                json.name = "elio";
-                data.append("data", json);
-                fetch("http://localhost:8080/FileUpload/FileUpload", {
-                    method : "POST",
-                    body : data
-                })
-                .then(r=> console.log(r))
-                .catch(err => console.log(err))
-                })
+            $('#search').on('keyup', function(e){
+                if(e.keyCode === 13 && $(this).val() !== ''){
+                    window.location.href = `http://localhost:8080/Trello/views/search.html?token=${$(this).val()}`
+                }
+            });
         </script>
     </body>

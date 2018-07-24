@@ -1,4 +1,4 @@
-let c_container = document.querySelector('div#container');
+let c_container = document.querySelector('ul#container');
 
 $('form#column_create').submit(function(e) {
 	e.preventDefault();
