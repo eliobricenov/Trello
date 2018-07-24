@@ -1,6 +1,6 @@
 let container = document.querySelector('div#page');
 let b_container = document.querySelector("ul#board_container");
-customFetch("", "GET", "http://localhost:8080/Trello/UserServlet")
+customFetch("", "GET", "/Trello/UserServlet")
 .then(res=>{
 	if(res.status !== 200){
 		renderNavBar("default", container);
@@ -12,7 +12,7 @@ customFetch("", "GET", "http://localhost:8080/Trello/UserServlet")
 		<h2>${res.data.name}'s Boards</h2>
 		</li>`;
 		b_container.innerHTML = title;
-		customFetch("", "GET", "http://localhost:8080/Trello/BoardServlet")
+		customFetch("", "GET", "/Trello/BoardServlet")
 		.then(r=>{
 			if(r.boards.length > 0){
 				for (var i = 0; i < r.boards.length; i++) {

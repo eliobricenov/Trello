@@ -16,7 +16,7 @@ $('form').submit(function(e){
             title: 'Processing data..'
         });
         swal.showLoading();
-        customFetch(fd, "POST", "http://localhost:8080/Trello/LoginServlet")
+        customFetch(fd, "POST", "/Trello/LoginServlet")
             .then(r => {
                 switch (r["status"]) {
                     case 200:
@@ -25,7 +25,7 @@ $('form').submit(function(e){
                             type: "success"
                         }).then((ok) => {
                             if (ok) {
-                                window.location.href = "http://localhost:8080/Trello/views/board.html";
+                                window.location.href = "/Trello/views/board.html";
                             }
                         })
                         break;
@@ -44,7 +44,7 @@ $('form').submit(function(e){
                             type: "error"
                         }).then((ok) => {
                             if (ok) {
-                                window.location.href = "http://localhost:8080/Trello/views/signup.html";
+                                window.location.href = "/Trello/views/signup.html";
                             }
                         })
                         break;

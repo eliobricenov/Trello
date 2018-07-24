@@ -23,7 +23,7 @@
     <script src="ASSETS/js/boards.js"></script>
     <script>
     $(document).ready(function() {
-        customFetch("", "POST", "http://localhost:8080/Trello/GetBoardsData")
+        customFetch("", "POST", "/Trello/GetBoardsData")
         .then(r=>{
             console.log(r);
         })

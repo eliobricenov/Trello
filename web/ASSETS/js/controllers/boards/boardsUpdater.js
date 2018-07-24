@@ -11,7 +11,7 @@ function updateBoard(form, data, board){
 			json.board_id = data.board_id;
 			json.board_collaborators = form.find('.chips').material_chip('data');
 			swal.showLoading();
-			customFetch(json, "PUT", "http://localhost:8080/Trello/BoardServlet")
+			customFetch(json, "PUT", "/Trello/BoardServlet")
 			.then(r=>{
 				switch(r.status){
 					case 200:
@@ -72,7 +72,7 @@ function updateBoard(form, data, board){
 				let json = form.formToJSON();
 				json.board_id = parseInt(board.find('span.id').text());
 				swal.showLoading();
-				customFetch(json, "DELETE", "http://localhost:8080/Trello/BoardServlet")
+				customFetch(json, "DELETE", "/Trello/BoardServlet")
 				.then(r=>{
 					if(r.status === 200){
 						swal({

@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" href="../ASSETS/css/navbar.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
     <style type="text/css" media="screen">
         a {
@@ -234,8 +235,8 @@
                 ready: function (modal, trigger) {
                     let form = modal.children().children('form');
                     let data = {};
-                    data.card_id = parseInt(trigger.children('span.card_id').text());
-                    updateCard(form, data, trigger);
+                    data.card_id = parseInt(trigger.parent().find('span.card_id').text());
+                    updateCard(form, data, trigger.parent());
                     form[0].reset();
                 }
             });

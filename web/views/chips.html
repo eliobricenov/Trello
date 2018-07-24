@@ -31,7 +31,7 @@
     <script type="text/javascript">
     $(document).ready(function() {
         
-        customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
+        customFetch("", "GET", "/Trello/ChipsServlet")
             .then(data => {
                 let myData = data.tagData;
                 let autocompleteData = data.autocompleteData;

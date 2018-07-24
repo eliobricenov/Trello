@@ -26,7 +26,7 @@ $('form').submit(function(e) {
         let fd = $(this).formToJSON();
         console.log(fd);
         swal.showLoading();
-        customFetch(fd, "POST", "http://localhost:8080/Trello/SignUpServlet")
+        customFetch(fd, "POST", "/Trello/SignUpServlet")
             .then(r => {
                 console.log(r.status);
                 switch (r["status"]) {
@@ -36,7 +36,7 @@ $('form').submit(function(e) {
                             type: "success"
                         }).then((ok) => {
                             if (ok) {
-                                window.location.href = "http://localhost:8080/Trello/index.html";
+                                window.location.href = "/Trello/index.html";
                             }
                         })
                         break;

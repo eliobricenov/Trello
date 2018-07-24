@@ -15,7 +15,7 @@ function updateColumn(form, data, column){
 			json.column_id = parseInt(data.column_id);
 			json.board_id = parseInt(data.board_id);
 			swal.showLoading();
-			customFetch(json, "PUT", `http://localhost:8080/Trello/ColumnServlet?board_id=${json.board_id}&column_id=${json.column_id}`)
+			customFetch(json, "PUT", `/Trello/ColumnServlet?board_id=${json.board_id}&column_id=${json.column_id}`)
 			.then(r=>{
 				switch(r.status){
 					case 200:
@@ -86,7 +86,7 @@ function updateColumn(form, data, column){
 				json.column_id = data.column_id;
 				json.board_id = parseInt(data.board_id);
 				swal.showLoading();
-				customFetch(json, "DELETE", `http://localhost:8080/Trello/ColumnServlet?board_id=${json.board_id}&column_id=${json.column_id}`)
+				customFetch(json, "DELETE", `/Trello/ColumnServlet?board_id=${json.board_id}&column_id=${json.column_id}`)
 				.then(r=>{
 					if(r.status === 200){
 						swal({

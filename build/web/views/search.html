@@ -1,3 +1,4 @@
+
 <html>
 
 <head>
@@ -6,47 +7,6 @@
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
-    <style type="text/css" media="screen">
-    #loader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        #form1 {
-            margin-left: 200px;
-        }
-        .side-nav li a {
-            text-decoration: none;
-        }
-        #searchResults2 {
-            background-color: #666666;
-        }
-        #searchResults {
-            background-color: #666666;
-        }
-        .right li a {
-            padding-right: 2em;
-            text-decoration: none
-        }
-        .brand-logo {
-            position: absolute;
-            padding-left: 30px !important;
-        }
-        .input-field {
-            left: 500px !important;
-        }
-        .boton {
-            margin-right: 20px;
-        }
-    }
-
-    label[data-error],
-    label[data-success] {
-        width: 100%;
-    }
-    </style>
 </head>
 
 <body>
@@ -86,21 +46,6 @@
 
     $(document).ready(function() {
         $('#loader').fadeOut(500, function() { $('#loader').remove(); });
-        // document.getElementById("close").addEventListener("click", function(e) {
-        //     document.getElementById("search").value = "";
-        // });
-
-
-        // $('form#searchForm').unbind('submit').submit(function(e) {
-        //     e.preventDefault();
-        //     let token = $(this).find('input#search').val()
-        //     if (token != "") {
-        //         window.location.href = "http://localhost:8080/Trello/views/search.html?token=" + token;
-        //     }
-        // });
-
-       
-
         let myparams = new URLSearchParams(window.location.search);
         let token = myparams.get("token");
         let container = document.querySelector('div#page');
@@ -110,7 +55,7 @@
          </li>`;
         b_container.innerHTML = title;
 
-        customFetch("", "GET", "http://localhost:8080/Trello/BoardSearchServlet?token=" + token)
+        customFetch("", "GET", "/Trello/BoardSearchServlet?token=" + token)
             .then(data => {
                 switch (data.status) {
                     case 200:
@@ -152,7 +97,7 @@
                     timer: 4000
                 })
 
-                window.location.href = "http://localhost:8080/Trello/views/index.html"
+                window.location.href = "/Trello/views/index.html"
 
             })
     });

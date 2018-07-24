@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
+    <link rel="stylesheet" href="../ASSETS/css/navbar.css" media="screen,projection">
     <style type="text/css" media="screen">
         #loader {
             position: absolute;
@@ -162,7 +163,7 @@
         $(document).ready(function () {
             $('#loader').fadeOut(500, function () { $('#loader').remove(); });
 
-            customFetch("", "GET", "http://localhost:8080/Trello/ChipsServlet")
+            customFetch("", "GET", "/Trello/ChipsServlet")
                 .then(data => {
                     let myData = data.tagData;
                     console.log(myData);
@@ -230,7 +231,7 @@
                         timer: 4000
                     })
 
-                    window.location.href = "http://localhost:8080/Trello/views/index.html"
+                    window.location.href = "/Trello/views/index.html"
 
                 })
         });

@@ -8,7 +8,7 @@ function prepareComment(modal, data, trigger) {
         if ($comment.val() !== '') {
             data.comment_text = $comment.val();
             swal.showLoading();
-            customFetch(data, "POST", `http://localhost:8080/Trello/CommentsServlet?board_id=${board_id}`)
+            customFetch(data, "POST", `/Trello/CommentsServlet?board_id=${board_id}`)
             .then(r => {
                 if (r.status === 200) {
                     swal({
@@ -61,7 +61,7 @@ function prepareComment(modal, data, trigger) {
                 data.comment_id = parseInt($comment.find('span.comment_id').text());
                 let board_id = parseInt(new URLSearchParams(window.location.search).get("board_id"));
                 swal.showLoading();
-                customFetch(data, "DELETE", `http://localhost:8080/Trello/CommentsServlet?board_id=${board_id}&comment_id=${data.comment_id}`)
+                customFetch(data, "DELETE", `/Trello/CommentsServlet?board_id=${board_id}&comment_id=${data.comment_id}`)
                 .then(r => {
                     switch (r.status) {
                         case 200:

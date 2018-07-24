@@ -4,7 +4,7 @@ let myparams = new URLSearchParams(window.location.search);
 let board_id = myparams.get("board_id");
 let nav_container = document.querySelector('div#page');
  if(board_id !== '' || board_id !== undefined){
- 	customFetch("", "GET", "http://localhost:8080/Trello/UserServlet")
+ 	customFetch("", "GET", "/Trello/UserServlet")
  	.then(res=>{
  		if(res.status !== 200){
  			renderNavBar("default", nav_container);
@@ -12,7 +12,7 @@ let nav_container = document.querySelector('div#page');
  		}else{
  			renderNavBar(res.data.name, mainContainer);
  			renderFloatingButton(mainContainer);
- 			customFetch("", "GET", "http://localhost:8080/Trello/ColumnServlet?board_id=" + board_id)
+ 			customFetch("", "GET", "/Trello/ColumnServlet?board_id=" + board_id)
  			.then(r => { 
  				r.columns.forEach(column =>{
  					renderColumn(column, container);

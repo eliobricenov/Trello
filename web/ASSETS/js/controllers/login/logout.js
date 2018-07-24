@@ -1,7 +1,7 @@
 // console.log(document.querySelector("form#searchForm"));
 
 function logout(){
-	customFetch("", "POST", "http://localhost:8080/Trello/LogoutServlet")
+	customFetch("", "POST", "/Trello/LogoutServlet")
 	.then(r=>{
 		if(r.status === 200){
 			swal({
@@ -10,7 +10,7 @@ function logout(){
 				type: "success",
 				showConfirmButton: false,
 				timer: 2000,
-				onClose: () => {window.location.href = "http://localhost:8080/Trello/views/index.html"}
+				onClose: () => {window.location.href = "/Trello/views/index.html"}
 			});
 		}else{
 			swal({

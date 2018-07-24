@@ -15,8 +15,8 @@
                     <div class="searchBar">
                         <div class="input-field">
                             <input id="search" type="search" name="search">
-                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                            <i class="material-icons">close</i>
+                            <label  class="label-icon" for="search"><i class="material-icons">search</i></label>
+                            <i id="close_icon" class="material-icons">close</i>
                         </div>
                     </div>
                     <ul class="right">
@@ -34,8 +34,12 @@
         <script>
             $('#search').on('keyup', function(e){
                 if(e.keyCode === 13 && $(this).val() !== ''){
-                    window.location.href = `http://localhost:8080/Trello/views/search.html?token=${$(this).val()}`
+                    window.location.href = `/Trello/views/search.html?token=${$(this).val()}`
                 }
             });
+
+            $('#close_icon').on("click", function(){
+                $('#search').val('');
+            })
         </script>
     </body>

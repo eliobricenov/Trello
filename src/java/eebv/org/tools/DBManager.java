@@ -315,7 +315,7 @@ public class DBManager {
         List<Board> boards = new ArrayList<>();
         try {
             stm = con.prepareStatement(board_p.getProperty("searchBoards"));
-            stm.setString(1, param + "%");
+            stm.setString(1, "%" + param + "%");
             rs = stm.executeQuery();
             if (rs.next()) {
                 rs.beforeFirst();

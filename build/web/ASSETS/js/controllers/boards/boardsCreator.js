@@ -22,7 +22,7 @@ $('form#boardCreate').submit(function(e) {
 		let j = form.formToJSON();
 		j.board_collaborators = $(this).find('.chips').material_chip('data');
 		swal.showLoading();
-		customFetch(j, "POST", "http://localhost:8080/Trello/BoardServlet")
+		customFetch(j, "POST", "/Trello/BoardServlet")
 		.then(r=>{
 			if(r.status === 200){ 
 				swal({
