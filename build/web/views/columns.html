@@ -6,16 +6,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
-    <link rel="stylesheet" href="../ASSETS/css/navbar.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
     <style type="text/css" media="screen">
         a {
             color: #0097A7;
             cursor: pointer !important;
-        }
-
-        .collection{
-            background-color: red !important;
         }
     </style>
 </head>
@@ -97,6 +92,13 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="input-field col s12 ">
+                            <input class="include" id="column_description" name="column_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                            />
+                            <label for="column_name">Column Description</label>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="input-field col s12">
                             <button class="btn waves-effect waves-light" type="submit" name="update">Submit</button>
                             <button class="btn waves-effect waves-light" type="submit" name="delete">Delete</button>
@@ -147,40 +149,51 @@
                 </a>
             </div>
             <div class="row">
-                <div class="input-field col s12 ">
-                    <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table"
-                        disabled/>
-                    <label for="card_name">Card Description</label>
-                </div>
-            </div>
-<!--             <div class="row">
-                <ul class="collection with-header">
-                    <li class="collection-header"><h5>First Names</h5></li>
-                    <li class="collection-item">Alvin</li>
-                    <li class="collection-item">Alvin</li>
-                    <li class="collection-item">Alvin</li>
-                    <li class="collection-item">Alvin</li>
-                </ul>
-            </div> -->
-            <div class="row">
-                <div class="col s11 m11" style="margin-top: 23 !important">
-                    <div class="input-field col s12">
-                        <i class="material-icons  prefix" style="line-height: 2;">chat_bubble_outline</i>
-                        <textarea placeholder="Insert your comment here" class="materialize-textarea comment" style="padding:0.2rem !important;"
-                            maxlength="250"></textarea>
-                        <label for="textarea1">Agregar un comentario</label>
+                <h5 style="margin-left: 5%"><i class="material-icons prefix">content_paste</i>Descripcion</h5><br>
+                <div class="container">
+                    <div class="input-field col s12 ">
+                        <input class="include" id="card_description" name="card_description" type="text" required="" aria-required="true" placeholder="TODO Table"
+                            disabled/>
                     </div>
                 </div>
-                <div class="col s1 m1">
-                    <a class="comment-submit">
-                        <i class="material-icons small comment-submit" style="color:teal !important; font-size: 35px !important; line-height:4 !important;">send</i>
-                    </a>
+            </div>
+            <div class="divider"></div>
+                <h5 style="margin-left: 5%"><i class="material-icons prefix">attach_file</i>Files</h5><br>
+            <div class="container">
+                <div class="row">
+                    <ul class="collection with-header" style="border: none;">
+                        <li class="collection-item" style="background-color: transparent;"><div><a href="#">ElioProxeneta.jpg</a><a href="#!" class="secondary-content"><i class="material-icons" style="color: red;">delete</i></a></div></li>
+                        <li class="collection-item" style="background-color: transparent;"><div><a href="#">ElioProxeneta.jpg</a><a href="#!" class="secondary-content"><i class="material-icons" style="color: red;">delete</i></a></div></li>
+                        <li class="collection-item" style="background-color: transparent;"><div><a href="#">ElioProxeneta.jpg</a><a href="#!" class="secondary-content"><i class="material-icons" style="color: red;">delete</i></a></div></li>
+                        <li class="collection-item" style="background-color: transparent;"><div><a href="#">ElioProxeneta.jpg</a><a href="#!" class="secondary-content"><i class="material-icons" style="color: red;">delete</i></a></div></li>
+                        <div class="divider"></div>
+                    </ul>
+                    <div class="span"><a href="#">Add Files</a></div>
                 </div>
             </div>
-            <div class="comment-container">
+            <div class="divider"></div>
+            <h5 style="margin-left: 5%"><i class="material-icons prefix">comment</i>Comments</h5><br>
+            <div class="container">
+                <div class="row">
+                    <div class="col s11 m11" style="margin-top: 23 !important">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix" style="line-height: 2;">chat_bubble_outline</i>
+                            <textarea placeholder="Insert your comment here" class="materialize-textarea comment" style="padding:0.2rem !important;"
+                                maxlength="250"></textarea>
+                        </div>
+                    </div>
+                    <div class="col s1 m1">
+                        <a class="comment-submit">
+                            <i class="material-icons small comment-submit" style="color:teal !important; font-size: 35px !important; line-height:4 !important;">send</i>
+                        </a>
+                    </div>
+                </div>
+                <div class="comment-container">
+                </div>
             </div>
         </div>
     </div>
+
     </div>
 
     <!-- libraries -->
@@ -212,12 +225,12 @@
             $('.modal.card-create').modal({
                 dismissible: false,
                 ready: function (modal, trigger) {
-                    let $form = modal.children().children('form');
+                    let form = modal.children().children('form');
                     let data = {};
                     let container = trigger.parent().parent().find('div.card-content');
                     data.cardContainer = container.find('div.collection').get(0);
                     data.column_id = parseInt(container.find('span.column_id').text());
-                    createCard($form, data, container);
+                    createCard(form, data, container);
                     form[0].reset();
                 }
             });
@@ -225,11 +238,11 @@
             $('.modal.column-update').modal({
                 dismissible: false,
                 ready: function (modal, trigger) {
-                    let $form = modal.children().children('form');
+                    let form = modal.children().children('form');
                     let data = {};
                     data.column_id = trigger.data('column_id');
                     data.board_id = trigger.data('board_id');
-                    updateColumn($form, data, trigger.parent().parent());
+                    updateColumn(form, data, trigger.parent().parent());
                     form[0].reset();
                 }
             });
@@ -237,14 +250,11 @@
             $('.modal.card-update').modal({
                 dismissible: false,
                 ready: function (modal, trigger) {
-                    let $form = modal.children().children('form');
-                    let $card = trigger.parent();
+                    let form = modal.children().children('form');
                     let data = {};
-                    console.log($form.find('input#card_name.include'));
-                    $form.find('input#card_name.include').val("lala");
-                    data.card_id = parseInt(trigger.parent().find('span.card_id').text());
-                    updateCard($form, data, $card);
-                    $form[0].reset();
+                    data.card_id = parseInt(trigger.children('span.card_id').text());
+                    updateCard(form, data, trigger);
+                    form[0].reset();
                 }
             });
 

@@ -8,7 +8,7 @@ function renderNavBar(username, container) {
                 <div class="nav-wrapper blue-grey">
                     <a class="brand-logo hide-on-med-and-down" style="text-decoration:none">Jellio</a>
                     <div class="searchBar">
-                        <div class="input-field">
+                        <div class="input-field" style="width:70% !important; margin-left:30% !important;">
                             <input id="search" placeholder="search a board.." type="search" name="search">
                             <label  class="label-icon" for="search"><i class="material-icons">search</i></label>
                             <i id="close_icon" class="material-icons">close</i>

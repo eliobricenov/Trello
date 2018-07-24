@@ -120,10 +120,10 @@ function renderComment(container, comments) {
                <div class="col s2 m2">
                    <i class="material-icons circle medium">person</i>
                </div>
-               <div class="col s9 m9">
-                   <p>${comment.user_username}</p>
+               <div class="col s9 m9" style="margin-top:-30px; margin-bottom:-90px;">
+                   <p style="margin-top:20px;">${comment.user_username}</p>
                    <br>
-                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">${comment.comment_text}</textarea>
+                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: relative; relative; bottom:30px;" disabled maxlength="250">${comment.comment_text}</textarea>
                    <br>
                </div>
                <div class="col s1 m1">
@@ -133,7 +133,6 @@ function renderComment(container, comments) {
                </div>
            </div>
            <div class="row">
-               <p class="tiny-text right-align">21/08/18 12:30am</p>
            </div>
            <div class="divider"></div>
        </div>`
@@ -154,10 +153,10 @@ function setComment(container, comments) {
                <div class="col s2 m2">
                    <i class="material-icons circle medium">person</i>
                </div>
-               <div class="col s9 m9">
-                   <p>${comment.user_username}</p>
+               <div class="col s9 m9" style="margin-top:-30px; margin-bottom:-90px;">
+                   <p style="margin-top:20px;">${comment.user_username}</p>
                    <br>
-                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">${comment.comment_text}</textarea>
+                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: relative; bottom:30px;" disabled maxlength="250">${comment.comment_text}</textarea>
                    <br>
                </div>
                <div class="col s1 m1">
@@ -167,7 +166,6 @@ function setComment(container, comments) {
                </div>
            </div>
            <div class="row">
-               <p class="tiny-text right-align">21/08/18 12:30am</p>
            </div>
            <div class="divider"></div>
        </div>`
