@@ -14,22 +14,16 @@ customFetch("", "GET", "/Trello/UserServlet")
 		b_container.innerHTML = title;
 		customFetch("", "GET", "/Trello/BoardServlet")
 		.then(r=>{
-			if(r.boards.length > 0){
-				for (var i = 0; i < r.boards.length; i++) {
-					renderBoard(b_container, r.boards[i]);
+			console.log(r);
+			switch(r.status){
+				case 200:{
+					if(r.boards.length > 0){
+						for (var i = 0; i < r.boards.length; i++) {
+							renderBoard(b_container, r.boards[i]);
+						}
+					}
 				}
-			}else{
-
-				// let message = document.createElement('h5');
-				// message.appendChild(document.createTextNode("You don't have any boards yet, create a new one!"))
-				// // container.innerHTML = "<h5> You don't have any boards yet, create a new one!<h5>"
-				// container.appendChild(message);
-				// let title = `<li class="collection-header">
-				// <h2>You don't have any boards yet, create a new one!</h2>
-				// </li>`;
-				// b_container.innerHTML = title;
-				// alert("You don't have any boards yet, create a new one!");
-			}	
+			}
 		}).catch(err=>{console.log(err);});
 	}
 }).catch(err=>{console.log(err)});

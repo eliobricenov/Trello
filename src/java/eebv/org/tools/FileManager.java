@@ -6,6 +6,7 @@
 package eebv.org.tools;
 
 import eebv.org.models.MyFile;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,15 +21,17 @@ import javax.servlet.http.Part;
  * @author Elio Briceño
  */
 public class FileManager {
+
     private Properties file_p = new Properties();
-    
-    public FileManager(){
+
+    public FileManager() {
         try {
             this.file_p.load(DBManager.class.getResourceAsStream("/eebv/org/properties/FileQueries.properties"));
         } catch (IOException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public MyFile createFile(Part p, int userId, int cardId, String t) {
         InputStream filecontent = null;
         OutputStream os = null;
@@ -41,7 +44,6 @@ public class FileManager {
                 String path = this.file_p.getProperty("rootPath") + fileName;
                 int file_id = db.registerFile(cardId, userId, fileName, path, t);
                 f = db.getFile(file_id);
-                f.setUrl(this.file_p.getProperty("rootUrl") + String.valueOf(file_id));
                 os = new FileOutputStream(path);
                 int read = 0;
                 byte[] bytes = new byte[1024];
@@ -51,7 +53,7 @@ public class FileManager {
                 filecontent.close();
                 os.close();
                 return f;
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception e) {
@@ -59,7 +61,7 @@ public class FileManager {
             return null;
         }
     }
-    
+
     private String getFileName(Part part) {
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {
@@ -67,5 +69,22 @@ public class FileManager {
             }
         }
         return null;
+    }
+
+    public boolean deleteFile(MyFile f) {
+        DBManager db = new DBManager();
+        boolean flag = false;
+        try {
+            File file = new File(f.getPath());
+            if (db.deleteFile(f.getId())) {
+                flag = true;
+            } else {
+                flag =  false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return flag;
     }
 }

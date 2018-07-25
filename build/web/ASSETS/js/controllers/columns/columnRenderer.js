@@ -16,7 +16,7 @@ function renderColumn(data, container) {
 		            </div>
 		        </div>
 		        <div class="card-action center-align">
-		            <a class="teal-text modal-trigger" data-target="modal2">Agregar tarjeta</a>
+		            <a class="teal-text modal-trigger" data-target="modal2">Add Card</a>
 		        </div>
 		    </div>
 		</div>

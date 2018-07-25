@@ -24,3 +24,8 @@ nav .right{
     display: none;
 }
 
+.inline-icon {
+   vertical-align: bottom;
+}
+
+

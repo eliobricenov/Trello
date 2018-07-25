@@ -119,11 +119,7 @@ public class ColumnServlet extends HttpServlet {
                     data.getString("column_name"));
             if (result > 0) {
                 r.put("status", 200);
-                d.put("column_id", result);
-                d.put("user_id", u.getId());
-                d.put("board_id", data.getInt("board_id"));
-                d.put("column_name", data.getString("column_name"));
-                r.put("data", d);
+                r.put("data", ColumnServices.columndToJSON(db.getColumn(result)));
             } else {
                 r.put("status", 404);
             }

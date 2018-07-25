@@ -138,9 +138,12 @@ public class CommentsServlet extends HttpServlet {
                 if(comments != null){
                    for(Comment c : comments){
                        comments_j.put(CommentServices.commentToJSON(c));
-                   } 
+                   }
+                   r.put("data", comments_j);
+                }else{
+                    r.put("data", new JSONArray());
                 }
-                r.put("data", comments_j);
+                
             } else {
                 r.put("status", 404);
             }

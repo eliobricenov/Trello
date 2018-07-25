@@ -7,10 +7,7 @@ function customFetch(data, method, url) {
                 let datajson = {
                     method: 'GET',
                     withCredentials: true,
-                    credentials: 'same-origin',
-                    headers: {
-                        "Content-Type" : "application/json"
-                    }
+                    credentials: 'same-origin'
                 }; 
                 fetch(url, datajson)
                 .then((res) => res.json())
@@ -30,10 +27,7 @@ function customFetch(data, method, url) {
                     method: 'POST',
                     body: JSON.stringify(data),
                     withCredentials: true,
-                    credentials: 'same-origin',
-                    headers: {
-                        "Content-Type" : "application/json"
-                    }
+                    credentials: 'same-origin'
                 };  
                 fetch(url, datajson)
                 .then((res) => res.json())
@@ -53,10 +47,7 @@ function customFetch(data, method, url) {
                     method: 'DELETE',
                     body: JSON.stringify(data),
                     withCredentials: true,
-                    credentials: 'same-origin',
-                    headers: {
-                        "Content-Type" : "application/json"
-                    }
+                    credentials: 'same-origin'
                 };  
                 fetch(url, datajson)
                 .then((res) => res.json())
@@ -76,10 +67,7 @@ function customFetch(data, method, url) {
                     method: 'PUT',
                     body: JSON.stringify(data),
                     withCredentials: true,
-                    credentials: 'same-origin',
-                    headers: {
-                        "Content-Type" : "application/json"
-                    }
+                    credentials: 'same-origin'
                 };  
                 fetch(url, datajson)
                 .then((res) => res.json())

@@ -1,4 +1,4 @@
-function prepareComment(modal, data, trigger) {
+function prepareComments(modal, data, trigger) {
     let $button = modal.find('a.comment-submit');
     let $comment = modal.find('textarea.comment');
     let $commentContainer = modal.find('div.comment-container');
@@ -43,7 +43,7 @@ function prepareComment(modal, data, trigger) {
         }
     })
     //borrar comentario
-    $(document).unbind("click").on("click", "a.comment-delete", function() {
+    $(document).on("click", "a.comment-delete", function() {
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -114,16 +114,16 @@ function renderComment(container, comments) {
             <span class='user_id' hidden>${comment.user_id}</span>
             <span class='card_id' hidden>${comment.card_id}</span>
             <span class='comment_id' hidden>${comment.comment_id}</span>
-           <div class="divider"></div>
+            <div class="divider"></div>
            <div class="row">
                <br>
                <div class="col s2 m2">
                    <i class="material-icons circle medium">person</i>
                </div>
-               <div class="col s9 m9" style="margin-top:-30px; margin-bottom:-90px;">
-                   <p style="margin-top:20px;">${comment.user_username}</p>
+               <div class="col s9 m9">
+                   <p>${comment.user_username}</p>
                    <br>
-                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: relative; relative; bottom:30px;" disabled maxlength="250">${comment.comment_text}</textarea>
+                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">${comment.comment_text}</textarea>
                    <br>
                </div>
                <div class="col s1 m1">
@@ -133,8 +133,8 @@ function renderComment(container, comments) {
                </div>
            </div>
            <div class="row">
+               <p class="tiny-text right-align">${comment.comment_created_at}</p>
            </div>
-           <div class="divider"></div>
        </div>`
         }).join('')}`);
 }
@@ -147,16 +147,16 @@ function setComment(container, comments) {
             <span class='user_id' hidden>${comment.user_id}</span>
             <span class='card_id' hidden>${comment.card_id}</span>
             <span class='comment_id' hidden>${comment.comment_id}</span>
-           <div class="divider"></div>
+            <div class="divider"></div>
            <div class="row">
                <br>
                <div class="col s2 m2">
                    <i class="material-icons circle medium">person</i>
                </div>
-               <div class="col s9 m9" style="margin-top:-30px; margin-bottom:-90px;">
-                   <p style="margin-top:20px;">${comment.user_username}</p>
+               <div class="col s9 m9">
+                   <p>${comment.user_username}</p>
                    <br>
-                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: relative; bottom:30px;" disabled maxlength="250">${comment.comment_text}</textarea>
+                   <textarea id="textarea1" class="materialize-textarea" style="border-bottom: none; position: fixed;" disabled maxlength="250">${comment.comment_text}</textarea>
                    <br>
                </div>
                <div class="col s1 m1">
@@ -166,8 +166,8 @@ function setComment(container, comments) {
                </div>
            </div>
            <div class="row">
+               <p class="tiny-text right-align">${comment.comment_created_at}</p>
            </div>
-           <div class="divider"></div>
        </div>`
         }).join('')}`);
 }

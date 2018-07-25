@@ -7,28 +7,15 @@
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css">
     <link rel="stylesheet" href="../ASSETS/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="../ASSETS/css/bootstrap-colorpicker.min.css" media="screen,projection">
+    <link rel="stylesheet" href="../ASSETS/css/navbar.css" media="screen,projection">
 </head>
 
 <body>
     <div id="page">
-        <!-- SPINNER -->
-        <div class="preloader-wrapper big active loader" id="loader">
-            <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="container">
-        <ul id="board_container" class="collection with-header"></ul>
-    </div>
+            <ul id="board_container" class="collection with-header"></ul>
+        </div>
     <!-- libraries -->
     <script src="../ASSETS/js/dev/jquery.min.js"></script>
     <script src="../ASSETS/js/dev/materialize.min.js"></script>
@@ -45,7 +32,6 @@
     renderNavBar("", nav_container);
 
     $(document).ready(function() {
-        $('#loader').fadeOut(500, function() { $('#loader').remove(); });
         let myparams = new URLSearchParams(window.location.search);
         let token = myparams.get("token");
         let container = document.querySelector('div#page');
@@ -55,7 +41,7 @@
          </li>`;
         b_container.innerHTML = title;
 
-        customFetch("", "GET", "/Trello/BoardSearchServlet?token=" + token)
+        customFetch({}, "GET", "/Trello/BoardSearchServlet?token=" + token)
             .then(data => {
                 switch (data.status) {
                     case 200:

@@ -1,4 +1,4 @@
-function prepareComment(modal, data, trigger) {
+function prepareComments(modal, data, trigger) {
     let $button = modal.find('a.comment-submit');
     let $comment = modal.find('textarea.comment');
     let $commentContainer = modal.find('div.comment-container');
@@ -43,7 +43,7 @@ function prepareComment(modal, data, trigger) {
         }
     })
     //borrar comentario
-    $(document).unbind("click").on("click", "a.comment-delete", function() {
+    $(document).on("click", "a.comment-delete", function() {
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -114,7 +114,7 @@ function renderComment(container, comments) {
             <span class='user_id' hidden>${comment.user_id}</span>
             <span class='card_id' hidden>${comment.card_id}</span>
             <span class='comment_id' hidden>${comment.comment_id}</span>
-           <div class="divider"></div>
+            <div class="divider"></div>
            <div class="row">
                <br>
                <div class="col s2 m2">
@@ -133,9 +133,8 @@ function renderComment(container, comments) {
                </div>
            </div>
            <div class="row">
-               <p class="tiny-text right-align">21/08/18 12:30am</p>
+               <p class="tiny-text right-align">${comment.comment_created_at}</p>
            </div>
-           <div class="divider"></div>
        </div>`
         }).join('')}`);
 }
@@ -148,7 +147,7 @@ function setComment(container, comments) {
             <span class='user_id' hidden>${comment.user_id}</span>
             <span class='card_id' hidden>${comment.card_id}</span>
             <span class='comment_id' hidden>${comment.comment_id}</span>
-           <div class="divider"></div>
+            <div class="divider"></div>
            <div class="row">
                <br>
                <div class="col s2 m2">
@@ -167,9 +166,8 @@ function setComment(container, comments) {
                </div>
            </div>
            <div class="row">
-               <p class="tiny-text right-align">21/08/18 12:30am</p>
+               <p class="tiny-text right-align">${comment.comment_created_at}</p>
            </div>
-           <div class="divider"></div>
        </div>`
         }).join('')}`);
 }

@@ -25,6 +25,7 @@ function updateCard(form, data, card){
 						timer: 2500
 					});
 					card.find('a#card-name').text(json.card_name);
+					card.find('span.card_description').text(json.card_description);
 					form.closest('.modal.open').modal('close');
 					form[0].reset();
 				}else if(r.status === 403){

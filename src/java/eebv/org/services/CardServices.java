@@ -30,23 +30,25 @@ public class CardServices {
             result.put("column_id", c.getColumnId());
             DBManager db = new DBManager();
             List<Comment> comments = db.getComments(c.getCard_id());
+            List<MyFile> files = db.getFiles(c.getCard_id());
             JSONArray comments_j = new JSONArray();
+            JSONArray files_j = new JSONArray();
             if (comments != null) {
                 for (Comment cm : comments) {
-                    JSONObject cmj = new JSONObject();
-                    cmj.put("comment_id", cm.getId());
-                    cmj.put("card_id", cm.getCardId());
-                    cmj.put("comment_text", cm.getText());
-                    cmj.put("comment_created_at", cm.getTimestamp());
-                    cmj.put("user_id", cm.getUserId());
-                    cmj.put("user_username", cm.getUserUsername());
-                    comments_j.put(cmj);
+                    comments_j.put(CommentServices.commentToJSON(cm));
                 }
                 result.put("comments", comments_j);
             }else{
                result.put("comments", new JSONArray());
             }
-            
+            if (files != null) {
+                for (MyFile f : files) {
+                    files_j.put(FileServices.fileToJSON(f));
+                }
+                result.put("files", files_j);
+            }else{
+               result.put("files", new JSONArray());
+            }
         } catch (JSONException ex) {
             Logger.getLogger(CardServices.class.getName()).log(Level.SEVERE, null, ex);
         }

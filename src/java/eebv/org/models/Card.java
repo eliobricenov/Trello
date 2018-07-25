@@ -19,6 +19,7 @@ public class Card {
     private String card_name;
     private String card_description;
     private JSONArray comments;
+    private JSONArray files;
 
     /**
      * @return the card_id
@@ -102,5 +103,19 @@ public class Card {
      */
     public void setComments(JSONArray comments) {
         this.comments = comments;
+    }
+
+    /**
+     * @return the files
+     */
+    public JSONArray getFiles() {
+        return files;
+    }
+
+    /**
+     * @param files the files to set
+     */
+    public void setFiles(JSONArray files) {
+        this.files = files;
     }
 }

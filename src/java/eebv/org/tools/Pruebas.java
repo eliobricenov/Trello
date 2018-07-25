@@ -9,17 +9,24 @@ import java.util.List;
 import eebv.org.models.*;
 import eebv.org.services.CardServices;
 import eebv.org.services.CommentServices;
+import eebv.org.services.FileServices;
 import org.json.JSONArray;
+
 /**
  *
  * @author GGsus
  */
 public class Pruebas {
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         DBManager db = new DBManager();
-//        Card c = db.getCard(10);
-        Comment cm = db.getComment(1);
-        System.out.println(CommentServices.commentToJSON(cm));
+        FileManager fm = new FileManager();
+//        List<MyFile> fs = db.getFiles(18);
+//        JSONArray files = new JSONArray();
+//        for(MyFile f : fs){
+//            files.put(FileServices.fileToJSON(f));
+//        }
+//        System.out.println(files);
+        System.out.println(fm.deleteFile(db.getFile(31)));
     }
-    
 }

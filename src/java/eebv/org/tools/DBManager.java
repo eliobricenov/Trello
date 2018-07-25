@@ -531,7 +531,7 @@ public class DBManager {
         return b;
     }
 
-    public Column getColumn(String column_id, int value) {
+    public Column getColumn(int value) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         Column c = new Column();
@@ -545,6 +545,7 @@ public class DBManager {
                     c.setBoard_id(rs.getInt("board_id"));
                     c.setColumn_id(rs.getInt("column_id"));
                     c.setColumn_name(rs.getString("column_name"));
+                    c.setUser_id(rs.getInt("user_id"));
                 }
             } else {
                 throw new Exception("No results");
@@ -600,6 +601,7 @@ public class DBManager {
                     f.setTimestamp(rs.getString("file_uploaded_at"));
                     f.setName(rs.getString("file_name"));
                     f.setPath(rs.getString("file_path"));
+                    f.setUrl(rs.getString("file_url"));
                 }
             } else {
                 throw new Exception("No results");
@@ -609,6 +611,38 @@ public class DBManager {
             return null;
         }
         return f;
+    }
+    
+     public List<MyFile> getFiles(int cardId) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<MyFile> files = new ArrayList<>();
+        try {
+            stm = con.prepareStatement(file_p.getProperty("getFiles"));
+            stm.setInt(1, cardId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    MyFile f = new MyFile();
+                    f.setUserId(rs.getInt("user_id"));
+                    f.setId(rs.getInt("file_id"));
+                    f.setCardId(rs.getInt("card_id"));
+                    f.setUser_Username(rs.getString("user_username"));
+                    f.setTimestamp(rs.getString("file_uploaded_at"));
+                    f.setName(rs.getString("file_name"));
+                    f.setPath(rs.getString("file_path"));
+                    f.setUrl(rs.getString("file_url"));
+                    files.add(f);
+                }
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return files;
     }
      
      public List<Comment> getComments(int cardId) {
@@ -1006,6 +1040,24 @@ public class DBManager {
         return flag;
     }
 
+    public boolean isFileOwner(int userId, int fileId) {
+        boolean flag = false;
+        try {
+            PreparedStatement stm = con.prepareStatement(user_p.getProperty("isFileOwner"));
+            stm.setInt(1, fileId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int cardUserId = rs.getInt("user_id");
+                flag = cardUserId == userId;
+            } else {
+                flag = false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return flag;
+    }
+    
     public boolean isCollab(int userId, int boardId) {
         boolean flag = false;
         try {
@@ -1049,23 +1101,37 @@ public class DBManager {
         return result;
     }
     
-    public int registerFile(int cardId, int userId, String name, String url, String t) {
+    public int registerFile(int cardId, int userId, String name, String path, String t) {
         PreparedStatement stm = null;
         int rs;
+        boolean r = false;
         int result = 0;
         try {
             stm = con.prepareStatement(file_p.getProperty("registerFile"),
                     Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, cardId);
             stm.setInt(2, userId);
-            stm.setString(3, url);
+            stm.setString(3, path);
             stm.setString(4, t);
             stm.setString(5, name);
+            stm.setString(6, "");
             rs = stm.executeUpdate();
             ResultSet keys = stm.getGeneratedKeys();
             if (rs > 0) {
                 keys.next();
                 result = keys.getInt(1);
+                String url = file_p.getProperty("rootUrl") + String.valueOf(result);
+                stm = con.prepareStatement(file_p.getProperty("setUrl"));
+                stm.setString(1, url);
+                stm.setInt(2, result);
+                rs = stm.executeUpdate();
+                if(rs > 0){
+                    return result;
+                }else{
+                    throw new Exception();
+                }
+            }else {
+                throw new Exception();
             }
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -6,6 +6,7 @@ function renderCard(data, container){
 		        <i class="material-icons right">more_vert</i>
 		    </a>
 		    <span hidden="" class="comments">${JSON.stringify(data.comments)}</span>
+		    <span hidden="" class="files">${JSON.stringify(data.files)}</span>
 		    <span class="user_id" hidden="">${data.user_id}</span>
 		    <span class="card_description" hidden="">${data.card_description}</span>
 		    <a id="card-name" data-target="card_show" class="modal-trigger">${data.card_name}</a>

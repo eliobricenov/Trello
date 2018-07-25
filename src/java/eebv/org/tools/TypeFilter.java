@@ -28,7 +28,7 @@ import org.json.JSONObject;
  *
  * @author Elio Briceño
  */
-@WebFilter(servletNames = {"ColumnServlet", "CardServlet", "CommentsServlet"})
+@WebFilter(servletNames = {"ColumnServlet", "CardServlet", "CommentsServlet", "FileServlet"})
 public class TypeFilter implements Filter {
 
     @Override
@@ -55,6 +55,7 @@ public class TypeFilter implements Filter {
                     chain.doFilter(req, res);
                 } else if (db.isCollab(u.getId(), board_id)) {
                     if (!request.getMethod().equalsIgnoreCase("POST")) {
+                        System.out.println(u.getId());
                         switch (requestURI) {
                             //Case user tries to modify a column
                             case "/Trello/ColumnServlet": {
@@ -86,6 +87,17 @@ public class TypeFilter implements Filter {
                                 System.out.println(comment_id);
                                 System.out.println(u.getId());
                                 if (db.isCommentOwner(u.getId(), comment_id)) {
+                                    chain.doFilter(req, res);
+                                } else {
+                                    r.put("status", 403);
+                                    p.print(r);
+                                }
+                            }
+                            break;
+                            
+                            case "/Trello/FileServlet": {
+                                int file_id = Integer.parseInt(request.getParameter("file_id"));
+                                if (db.isFileOwner(u.getId(), file_id)) {
                                     chain.doFilter(req, res);
                                 } else {
                                     r.put("status", 403);
